@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\BidangModel;
+use Faker\Provider\ar_JO\Address;
 use Illuminate\Http\Request;
 
 class UnitModel extends Model
@@ -34,9 +35,18 @@ class UnitModel extends Model
     public function getUnit($kode_bidang)
     {
         $unit = UnitModel::with('bidang')->where('kode_bidang', $kode_bidang)->get();
+        $unitResponse = [];
+        foreach ($unit as $value) {
+            array_push($unitResponse, [
+                'kode_unit' => $value->kode_unit,
+                'nama_bidang' => $value->bidang->nama_bidang,
+                'nama_unit' => $value->nama_unit,
+            ]);
+        }
         return response()->json([
             'success' => true,
-            'data' => $unit,
+            'data' => $unitResponse
+            // 'data'=>$unit[0]
         ], 200);
 
         // $bidang = BidangModel::where('kode_bidang', $request->kode_bidang)->firstOrFail();

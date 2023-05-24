@@ -12,6 +12,7 @@ use App\Models\UPBModel;
 use App\Models\PengusulanPenghapusanAsetModel;
 use App\Models\KIBBModel;
 use App\Models\KIBEModel;
+use App\Models\PemilikModel;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 
@@ -59,6 +60,13 @@ Route::get('/grup', [GrupModel::class, 'getGrup']);
 // User
 Route::get('/user', [UserModel::class, 'getAllUser']);
 Route::get('/user/{id}', [UserModel::class, 'getUser']);
+
+// KIB B
+Route::get('/kib-b', [KIBBModel::class, 'getAllKibB']);
+Route::get('/kib-b/{id}', [KIBBModel::class, 'getKibB']);
+
+// Pemilik
+Route::get('/pemilik', [PemilikModel::class, 'getPemilik']);
 
 
 // Route::middleware('auth:api')->group(function () {
