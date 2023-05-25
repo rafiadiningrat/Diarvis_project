@@ -36,7 +36,7 @@ class KIBBModel extends Model
                 'nama_sub_unit' => $value->subUnit->nama_sub_unit,
                 'nama_upb' => $value->upb->nama_upb,
                 'id_aset_b' => $value->id_aset_b,
-                'kode_pemilik' => $value->kode_pemili,
+                'kode_pemilik' => $value->kode_pemilik,
                 'merk' => $value->merk,
                 'cc' => $value->cc,
                 'bahan' => $value->bahan,
