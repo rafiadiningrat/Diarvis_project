@@ -16,7 +16,9 @@ use App\Models\KIBEModel;
 use App\Models\PemilikModel;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PengusulanPenghapusanAsetBController;
+use App\Http\Controllers\VerifikasiPenghapusanAsetBController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -69,11 +71,18 @@ Route::get('/kib-b/{id}', [KIBBModel::class, 'getKibB']);
 
 // Usulan B
 Route::get('/', [PengusulanPenghapusanAsetBModel::class, 'getAllUsulanB']);
-Route::get('/{id}', [PengusulanPenghapusanAsetBModel::class, 'getListUsulanB']);
-Route::post('/usulan', [PengusulanPenghapusanAsetBController::class, 'store']);
+Route::get('/dashboard', [PengusulanPenghapusanAsetBModel::class, 'dashboard']);
+Route::get('/verifikasi', [PengusulanPenghapusanAsetBModel::class, 'verifikasi']);
+Route::get('/usulanB/{id}', [PengusulanPenghapusanAsetBModel::class, 'getListUsulanB']);
+Route::post('/usulan', [PengusulanPenghapusanAsetBModel::class, 'store']);
 Route::put('/usulan/{id}', [PengusulanPenghapusanAsetBController::class, 'update']);
 Route::delete('/usulan/{id}', [PengusulanPenghapusanAsetBController::class, 'destroy']);
 
+// verifikator B
+Route::put('/verifikasi/{id}', [VerifikasiPenghapusanAsetBController::class, 'update']);
+
+// Dashboard
+//Route::get('/dashboard', [PengusulanPenghapusanAsetBModel::class, 'dashboard']);
 // Pemilik
 Route::get('/pemilik', [PemilikModel::class, 'getPemilik']);
 

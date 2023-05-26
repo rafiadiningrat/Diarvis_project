@@ -16,7 +16,8 @@
         "laravel/passport": "10.3.0",
         "laravel/sanctum": "^2.15",
         "laravel/tinker": "^2.0",
-        "laravel/ui": "^3.4"
+        "laravel/ui": "^3.4",
+        "spatie/laravel-medialibrary": "^9.12"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

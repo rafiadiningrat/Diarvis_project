@@ -17,12 +17,48 @@ class PengusulanPenghapusanAsetBController extends Controller
         $validatedData = $request->validate([
             'id_user' => 'required|exists:USER,id_user',
             'id_aset_b' => 'required|exists:kib_b,id_aset_b',
-            'foto_barang1' => 'required|string',
-            'foto_barang2' => 'required|string',
-            'foto_barang3' => 'required|string',
-            'foto_barang4' => 'required|string',
+            'foto_barang1' => 'required|image',
+            'foto_barang2' => 'required|image',
+            'foto_barang3' => 'required|image',
+            'foto_barang4' => 'required|image',
             'alasan_penghapusan' => 'required|string',
         ]);
+    
+        $fotoBarang1 = $request->file('foto_barang1')->storeAs('foto', 'foto1.jpg', 'public');
+        $fotoBarang2 = $request->file('foto_barang2')->storeAs('foto', 'foto2.jpg', 'public');
+        $fotoBarang3 = $request->file('foto_barang3')->storeAs('foto', 'foto3.jpg', 'public');
+        $fotoBarang4 = $request->file('foto_barang4')->storeAs('foto', 'foto4.jpg', 'public');
+    
+        $usulanB = PengusulanPenghapusanAsetBModel::create([
+            'id_user' => $validatedData['id_user'],
+            'id_aset_b' => $validatedData['id_aset_b'],
+            'foto_barang1' => $fotoBarang1,
+            'foto_barang2' => $fotoBarang2,
+            'foto_barang3' => $fotoBarang3,
+            'foto_barang4' => $fotoBarang4,
+            'alasan_penghapusan' => $validatedData['alasan_penghapusan'],
+            'status_penghapusan' => false,
+            'status_penilaian' => false,
+            'status_verifikasi' => false,
+            'created_at' => Carbon::now(),
+            //'created_by' => $user->id_user,
+            'updated_at' => Carbon::now(),
+            //'updated_by' => $user->id_user,
+        ]);
+    
+        return response()->json([
+            'message' => 'Usulan created successfully',
+            'usulan' => $usulanB
+        ], 201);
+        // $validatedData = $request->validate([
+        //     'id_user' => 'required|exists:USER,id_user',
+        //     'id_aset_b' => 'required|exists:kib_b,id_aset_b',
+        //     'foto_barang1' => 'required|string',
+        //     'foto_barang2' => 'required|string',
+        //     'foto_barang3' => 'required|string',
+        //     'foto_barang4' => 'required|string',
+        //     'alasan_penghapusan' => 'required|string',
+        // ]);
 
         // if (!Auth::check()) {
         //     return response()->json(['message' => 'Unauthorized'], 401);
@@ -36,27 +72,27 @@ class PengusulanPenghapusanAsetBController extends Controller
         //     return response()->json(['message' => 'Invalid user'], 400);
         // }
 
-        $usulanB = PengusulanPenghapusanAsetBModel::create([
-            'id_user' => $validatedData['id_user'],
-            'id_aset_b' => $validatedData['id_aset_b'],
-            'foto_barang1' => $validatedData['foto_barang1'],
-            'foto_barang2' => $validatedData['foto_barang2'],
-            'foto_barang3' => $validatedData['foto_barang3'],
-            'foto_barang4' => $validatedData['foto_barang4'],
-            'alasan_penghapusan' => $validatedData['alasan_penghapusan'],
-            'status_penghapusan' => false,
-            'status_penilaian' => false,
-            'status_verifikasi' => false,
-            'created_at' => Carbon::now(),
-            //'created_by' => $user->id_user,
-            'updated_at' => Carbon::now(),
-            //'updated_by' => $user->id_user,
-        ]);
+        // $usulanB = PengusulanPenghapusanAsetBModel::create([
+        //     'id_user' => $validatedData['id_user'],
+        //     'id_aset_b' => $validatedData['id_aset_b'],
+        //     'foto_barang1' => $validatedData['foto_barang1'],
+        //     'foto_barang2' => $validatedData['foto_barang2'],
+        //     'foto_barang3' => $validatedData['foto_barang3'],
+        //     'foto_barang4' => $validatedData['foto_barang4'],
+        //     'alasan_penghapusan' => $validatedData['alasan_penghapusan'],
+        //     'status_penghapusan' => false,
+        //     'status_penilaian' => false,
+        //     'status_verifikasi' => false,
+        //     'created_at' => Carbon::now(),
+        //     //'created_by' => $user->id_user,
+        //     'updated_at' => Carbon::now(),
+        //     //'updated_by' => $user->id_user,
+        // ]);
 
-        return response()->json([
-            'message' => 'Usulan created successfully',
-            'usulan' => $usulanB
-        ], 201);
+        // return response()->json([
+        //     'message' => 'Usulan created successfully',
+        //     'usulan' => $usulanB
+        // ], 201);
 
         // $id_usulan_b = $request->id_usulan_b;
         // $id_user = $request->id_user;
