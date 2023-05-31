@@ -14,20 +14,19 @@ class UserModel extends Model
     protected $guarded = ['id'];
     public $timestamps = false;
 
-    public function getAllUser()
-    {
-        $user = UserModel::all();
-        return $user;
-    }
-
-    public function getUser($kode_grup)
-    {
-        $user = UserModel::where('kode_grup', $kode_grup)->get();
-        return $user;
-    }
 
     public function grups()
     {
         return $this->belongsTo(GrupModel::class, 'kode_grup', 'kode_grup');
+    }
+
+    public function pengusulanB()
+    {
+        return $this->hasMany(PengusulanPenghapusanAsetBModel::class, 'id_usulan_b');
+    }
+
+    public function pengusulanE()
+    {
+        return $this->hasMany(PengusulanPenghapusanAsetEModel::class, 'id_usulan_e');
     }
 }

@@ -3,10 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\UserModel;
-use App\Models\KIBBModel;
+use App\Models\KIBEModel;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -14,13 +13,13 @@ use App\Http\Resources\PengusulanPenghapusanAsetBResource;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
-class PengusulanPenghapusanAsetBModel extends Model implements HasMedia
+class PengusulanPenghapusanAsetEModel extends Model implements HasMedia
 {
     use HasFactory, HasTimestamps, InteractsWithMedia;
 
-    protected $table = 'pengusulan_penghapusan_aset_b';
+    protected $table = 'pengusulan_penghapusan_aset_e';
     protected $guarded = ['id'];
-    protected $primaryKey = 'id_usulan_b';
+    protected $primaryKey = 'id_usulan_e';
     public $timestamps = true;
     protected $appends = ['foto'];
     protected $casts = [
@@ -28,7 +27,7 @@ class PengusulanPenghapusanAsetBModel extends Model implements HasMedia
     ];
     // protected $fillable = [
     //     'dokumen_penilaian',
-        
+    //     // Kolom lain yang diizinkan untuk diisi secara massal
     // ];
 
     const IMAGE_COLLECTION = 'product_images';
@@ -170,8 +169,8 @@ class PengusulanPenghapusanAsetBModel extends Model implements HasMedia
         }
     }
 
-    // Hapus media lama jika ada
-   // $this->clearMediaCollectionExcept(self::IMAGE_COLLECTION, false);
+    //Hapus media lama jika ada
+   $this->clearMediaCollectionExcept(self::IMAGE_COLLECTION, false);
 
     // Simpan perubahan ke dalam database
     $this->save();
@@ -396,18 +395,8 @@ class PengusulanPenghapusanAsetBModel extends Model implements HasMedia
         return $this->belongsTo(UserModel::class, 'id_user', 'id_user');
     }
 
-    public function kibB()
+    public function kibE()
     {
-        return $this->belongsTo(KIBBModel::class, 'id_aset_b', 'id_aset_b');
+        return $this->belongsTo(KIBEModel::class, 'id_aset_e', 'id_aset_e');
     }
-
-    // public function createdBy()
-    // {
-    //     return $this->belongsTo(UserModel::class, 'created_by');
-    // }
-
-    // public function updatedBy()
-    // {
-    //     return $this->belongsTo(UserModel::class, 'update_by');
-    // }
 }

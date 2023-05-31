@@ -10,6 +10,17 @@ use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 
 class VerifikasiPenghapusanAsetBController extends Controller
 {
+    public function index()
+    {
+        $penilaian = PengusulanPenghapusanAsetBModel::where('status_verifikasi', false)
+                                ->where('status_penilaian', true)
+                                ->where('status_penghapusan', false)
+                                ->with('kibB')
+                                ->get();
+
+        return response()->json($penilaian);
+    }
+
     public function update(Request $request, $id_usulan_b)
     {
         // $id_user = $request->id_user;

@@ -61,4 +61,9 @@ class UPBModel extends Model
     {
         return $this->hasMany(KIBBModel::class);
     }
+
+    public function kibE()
+    {
+        return $this->hasMany(KIBEModel::class);
+    }
 }

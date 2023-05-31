@@ -16,6 +16,19 @@ use Exception;
 class UserController extends Controller
 {
     
+    public function getAllUser()
+    {
+        $user = UserModel::all();
+        return $user;
+    }
+
+    public function getUser($kode_grup)
+    {
+        $user = UserModel::where('kode_grup', $kode_grup)->get();
+        return $user;
+    }
+
+
     public function login(Request $request)
     {
 
