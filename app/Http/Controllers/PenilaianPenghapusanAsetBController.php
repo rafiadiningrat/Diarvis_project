@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\PengusulanPenghapusanAsetBModel;
+use App\Http\Resources\PengusulanPenghapusanAsetBResource;
 use Illuminate\Support\Facades\Storage;
 
 class PenilaianPenghapusanAsetBController extends Controller
@@ -92,38 +93,32 @@ class PenilaianPenghapusanAsetBController extends Controller
         
     }
 
-    public function updatePenilaian(Request $request, $id)
-    {
+    public function updatePenilaianB(Request $request, $id_usulan_b)
+{
+    $validatedData = $request->validate([
+        'id_user' => 'required|exists:USER,id_user',
+        'id_aset_b' => 'required|exists:kib_b,id_aset_b',
+        'dokumen_penilaian' => 'mimetypes:application/pdf|max:2048',
+    ]);
 
-        $request->validate([
-            'dokumen_penilaian' => 'mimetypes:application/pdf|max:2048',
-        ]);
-    
-        $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id);
-    
-        // if ($request->hasFile('dokumen_penilaian')) {
-        //     if ($usulanB->dokumen_penilaian) {
-        //         Storage::disk('public')->delete($usulanB->dokumen_penilaian);
-        //     }
-    
-        //     $media = $usulanB->addMediaFromRequest('dokumen_penilaian')
-        //         ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
-    
-        //     $usulanB->dokumen_penilaian = $media->getUrl();
-        // } elseif ($request->filled('dokumen_penilaian')) {
-        //     $usulanB->dokumen_penilaian = $request->dokumen_penilaian;
-        // }
-    
-        // Memanggil fungsi updateFoto untuk memperbarui foto
-        $usulanB->updateFoto($request->file('dokumen_penilaian'));
-    
-        // Menyimpan perubahan data ke dalam database
-        $usulanB->save();
-    
-        return response()->json([
-            'message' => 'Dokumen penilaian berhasil ditambahkan dan status penilaian diubah menjadi true.',
-            'data' => $usulanB
-        ]);
-        }
+    $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
+
+    $usulanB->id_user = $request->input('id_user');
+    $usulanB->id_aset_b = $request->input('id_aset_b');
+
+    if ($request->hasFile('dokumen_penilaian')) {
+        //$usulanB->clearMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+        $file1 = $request->file('dokumen_penilaian');
+        $media1 = $usulanB->addMedia($file1)->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+        $usulanB->dokumen_penilaian = $media1->getUrl();
+    }
+
+    $usulanB->save();
+
+    return response()->json([
+        'message' => 'Penilaian updated successfully',
+        'usulan' => new PengusulanPenghapusanAsetBResource($usulanB)
+    ], 200);
+}
 }
 

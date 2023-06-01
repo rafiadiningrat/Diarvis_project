@@ -102,6 +102,8 @@ public function update(Request $request, $id_usulan_b)
     $usulanB->id_aset_e = $request->input('id_aset_e');
     $usulanB->alasan_penghapusan = $request->input('alasan_penghapusan');
 
+    $usulanB->clearMediaCollection(PengusulanPenghapusanAsetEModel::IMAGE_COLLECTION);
+
     if ($request->hasFile('foto_barang1')) {
         $file1 = $request->file('foto_barang1');
         $media1 = $usulanB->addMedia($file1)->toMediaCollection(PengusulanPenghapusanAsetEModel::IMAGE_COLLECTION);

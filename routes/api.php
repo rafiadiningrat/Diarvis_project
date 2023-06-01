@@ -89,9 +89,9 @@ Route::put('/kibb/usulan/update/{id}', [PengusulanPenghapusanAsetBController::cl
 Route::delete('/kibb/usulan/{id}', [PengusulanPenghapusanAsetBController::class, 'destroy']); // melakukan penghapusan terhadap penghapusan barang
 
 //Penilaian B
-// Route::get('/kibb/penilaian', [PenilaianPenghapusanAsetBController::class, 'index']);
-// Route::put('/kibb/usulanb/{id}/update-penilaian', [PenilaianPenghapusanAsetBController::class, 'updatePenilaian']);
-// Route::post('/kibb/upload-pdf/{id}', [PenilaianPenghapusanAsetBController::class, 'prosesPenilaian']);
+Route::get('/kibb/penilaian', [PenilaianPenghapusanAsetBController::class, 'index']);
+Route::put('/kibb/usulanb/update-penilaian/{id}', [PenilaianPenghapusanAsetBController::class, 'updatePenilaianB']);
+Route::post('/kibb/upload-pdf/{id}', [PenilaianPenghapusanAsetBController::class, 'prosesPenilaian']);
 
 // verifikator B
 Route::get('/kibb/verifikasi', [VerifikasiPenghapusanAsetBController::class, 'index']);
@@ -107,13 +107,13 @@ Route::put('/usulan/update/{id}', [PengusulanPenghapusanAsetEController::class, 
 Route::delete('/usulan/{id}', [PengusulanPenghapusanAsetEController::class, 'destroy']); // melakukan penghapusan terhadap penghapusan barang
 
 //Penilaian E
-// Route::get('/penilaian', [PenilaianPenghapusanAsetBController::class, 'index']);
-// Route::put('/usulanb/{id}/update-penilaian', [PenilaianPenghapusanAsetBController::class, 'updatePenilaian']);
-// Route::post('/upload-pdf/{id}', [PenilaianPenghapusanAsetBController::class, 'prosesPenilaian']);
+Route::get('/kibe/penilaian', [PenilaianPenghapusanAsetEController::class, 'index']);
+Route::put('/kibe/update-penilaian/{id}', [PenilaianPenghapusanAsetEController::class, 'updatePenilaianE']);
+Route::post('/kibe/upload-pdf/{id}', [PenilaianPenghapusanAsetEController::class, 'prosesPenilaianE']);
 
 // verifikator E
-// Route::get('/verifikasi', [VerifikasiPenghapusanAsetBController::class, 'index']);
-// Route::put('/verifikasi/{id}', [VerifikasiPenghapusanAsetBController::class, 'update']); // proses verifikasi
+Route::get('/kibe/verifikasi', [VerifikasiPenghapusanAsetEController::class, 'index']);
+Route::put('/verifikasi/{id}', [VerifikasiPenghapusanAsetEController::class, 'update']); // proses verifikasi
 
 // Dashboard
 Route::get('/total-pengusulan', [DashboardController::class, 'dashboard']);

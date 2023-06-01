@@ -52,6 +52,16 @@ public function index()
 
     public function store(Request $request)
 {
+
+    $idAsetB = $request->input('id_aset_b');
+    $isAsetEUsed = PengusulanPenghapusanAsetBModel::where('id_aset_b', $idAsetB)->exists();
+
+    if ($isAsetEUsed) {
+        return response()->json([
+            'message' => 'Aset Sudah diusulkan'
+        ], 422);
+    }
+
     $validatedData = $request->validate([
         'id_user' => 'required|exists:USER,id_user',
         'id_aset_b' => 'required|exists:kib_b,id_aset_b',
@@ -201,6 +211,8 @@ public function update(Request $request, $id_usulan_b)
     $usulanB->id_user = $request->input('id_user');
     $usulanB->id_aset_b = $request->input('id_aset_b');
     $usulanB->alasan_penghapusan = $request->input('alasan_penghapusan');
+
+    $usulanB->clearMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
 
     if ($request->hasFile('foto_barang1')) {
         $file1 = $request->file('foto_barang1');
