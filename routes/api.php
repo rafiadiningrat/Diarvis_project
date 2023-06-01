@@ -116,10 +116,18 @@ Route::get('/kibe/verifikasi', [VerifikasiPenghapusanAsetEController::class, 'in
 Route::put('/verifikasi/{id}', [VerifikasiPenghapusanAsetEController::class, 'update']); // proses verifikasi
 
 // Dashboard
-Route::get('/total-pengusulan', [DashboardController::class, 'dashboard']);
-Route::get('/total-verifikasi', [DashboardController::class, 'verifikasi']);
-Route::get('/total-penilaian', [DashboardController::class, 'penilaian']);
-Route::get('/total-penghapusan', [DashboardController::class, 'penghapusan']);
+Route::get('/total-pengusulan', [DashboardController::class, 'dashboardBE']);
+Route::get('/total-verifikasi', [DashboardController::class, 'verifikasiBE']);
+Route::get('/total-penilaian', [DashboardController::class, 'penilaianBE']);
+Route::get('/total-penghapusan', [DashboardController::class, 'penghapusanBE']);
+Route::get('/kibb/total-pengusulan', [DashboardController::class, 'dashboardB']);
+Route::get('/kibb/total-verifikasi', [DashboardController::class, 'verifikasiB']);
+Route::get('/kibb/total-penilaian', [DashboardController::class, 'penilaianB']);
+Route::get('/kibb/total-penghapusan', [DashboardController::class, 'penghapusanB']);
+Route::get('/kibe/total-pengusulan', [DashboardController::class, 'dashboardE']);
+Route::get('/kibe/total-verifikasi', [DashboardController::class, 'verifikasiE']);
+Route::get('/kibe/total-penilaian', [DashboardController::class, 'penilaianE']);
+Route::get('/kibe/total-penghapusan', [DashboardController::class, 'penghapusanE']);
 
 // Generate
 Route::get('/kibb/export', [KIBBController::class, 'exportToExcel']);
@@ -133,3 +141,6 @@ Route::get('/pemilik', [PemilikModel::class, 'getPemilik']);
 // Route::middleware('auth:api')->group(function () {
 //     Route::resource('posts', AuthController::class);
 // });
+
+// Route::post('/login', [AuthController::class, 'login']);
+// Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
