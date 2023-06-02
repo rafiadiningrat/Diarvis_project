@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Exports\KIBBExport;
+use App\Models\PengusulanPenghapusanAsetBModel;
 use App\Exports\KIBBCustomExport;
 use App\Models\KIBBModel;
 use Illuminate\Support\Facades\Storage;
@@ -59,7 +60,34 @@ class KIBBController extends Controller
 
 public function exportData()
 {
-    return Excel::download(new KIBBCustomExport(), 'data_pengusulan_aset_b.xlsx');
+    $data = PengusulanPenghapusanAsetBModel::where('status_verifikasi', true)
+    ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
+    ->select(
+        'kib_b.id_aset_b',
+        'kib_b.no_reg8',
+        'kib_b.merk',
+        'kib_b.type',
+        'kib_b.cc',
+        'kib_b.bahan',
+        'kib_b.tgl_perolehan',
+        'kib_b.nomor_pabrik',
+        'kib_b.nomor_rangka',
+        'kib_b.nomor_mesin',
+        'kib_b.nomor_polisi',
+        'kib_b.nomor_bpkb',
+        'kib_b.asal_usul',
+        'kib_b.kondisi',
+        'kib_b.harga',
+        'kib_b.keterangan',
+        'kib_b.sisa_umur',
+        'pengusulan_penghapusan_aset_b.status_verifikasi',
+        'pengusulan_penghapusan_aset_b.alasan_penghapusan',
+    )
+    ->get();
+
+        $export = new KIBBCustomExport($data);
+
+        return Excel::download($export, 'penghapusan_aset_b_report.xlsx');;
 }
 
 public function getAllKibB()

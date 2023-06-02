@@ -100,11 +100,11 @@ Route::put('/kibb/verifikasi/{id}', [VerifikasiPenghapusanAsetBController::class
 // Usulan E
 //Route::get('/', [PengusulanPenghapusanAsetBModel::class, 'getAllUsulanB']);
 //Route::post('/', [PengusulanPenghapusanAsetBController::class, 'store']);
-Route::get('/semua', [PengusulanPenghapusanAsetEController::class, 'index']); // get seluruh data pengusulan
-Route::get('/usulanE/{id}', [PengusulanPenghapusanAsetEController::class, 'getListUsulanE']); // get seluruh data pengusulan berdasarkan user yang mengusulkan
-Route::post('/usulan', [PengusulanPenghapusanAsetEController::class, 'store']); // membuat pengusulan penghapusan barang
-Route::put('/usulan/update/{id}', [PengusulanPenghapusanAsetEController::class, 'update']); // melakukan update terhadap penghapusan barang
-Route::delete('/usulan/{id}', [PengusulanPenghapusanAsetEController::class, 'destroy']); // melakukan penghapusan terhadap penghapusan barang
+Route::get('/kibe/semua', [PengusulanPenghapusanAsetEController::class, 'index']); // get seluruh data pengusulan
+Route::get('/kibe/usulanE/{id}', [PengusulanPenghapusanAsetEController::class, 'getListUsulanE']); // get seluruh data pengusulan berdasarkan user yang mengusulkan
+Route::post('/kibe/usulan', [PengusulanPenghapusanAsetEController::class, 'store']); // membuat pengusulan penghapusan barang
+Route::put('/kibe/usulan/update/{id}', [PengusulanPenghapusanAsetEController::class, 'update']); // melakukan update terhadap penghapusan barang
+Route::delete('/kibe/usulan/{id}', [PengusulanPenghapusanAsetEController::class, 'destroy']); // melakukan penghapusan terhadap penghapusan barang
 
 //Penilaian E
 Route::get('/kibe/penilaian', [PenilaianPenghapusanAsetEController::class, 'index']);

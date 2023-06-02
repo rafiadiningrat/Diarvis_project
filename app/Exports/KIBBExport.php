@@ -72,7 +72,6 @@ class KIBBExport implements FromCollection, WithHeadings, ShouldAutoSize
             'kd_aset', 
             'kd_aset0',
 	
-            // Tambahkan kolom-kolom lainnya sesuai dengan struktur tabel KIB B
         ];
     }
 }
