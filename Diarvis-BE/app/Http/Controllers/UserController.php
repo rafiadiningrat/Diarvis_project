@@ -82,8 +82,7 @@ class UserController extends Controller
             ], 422);
         }
     
-        $user = UserModel::with('grups')->where('email', $request->email)->first();
-    
+        $user = UserModel::with('grups', 'upb')->where('email', $request->email)->first();
         if (!$user) {
             return response()->json([
                 'success' => false,
@@ -99,7 +98,9 @@ class UserController extends Controller
             'data' => [
                 'id_user' => $user->id_user,
                 'nama' => $user->nama_lengkap,
-                'grups' => $user->grups->nama_grup, // Mengakses atribut "nama_grup" dari relasi "grup"
+                'kode_group' => $user->grups->kode_grup,
+                'grups' => $user->grups->nama_grup,
+                'Upb' => $user->upb->nama_upb // Mengakses atribut "nama_grup" dari relasi "grup"
             ],
         ]);
 

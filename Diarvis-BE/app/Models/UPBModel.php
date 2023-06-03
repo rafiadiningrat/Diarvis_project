@@ -57,6 +57,11 @@ class UPBModel extends Model
         return $this->belongsTo(SubUnitModel::class, 'kode_sub_unit', 'kode_sub_unit');
     }
 
+    public function user()
+    {
+        return $this->hasMany(UserModel::class);
+    }
+
     public function kibB()
     {
         return $this->hasMany(KIBBModel::class);

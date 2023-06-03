@@ -20,6 +20,11 @@ class UserModel extends Model
         return $this->belongsTo(GrupModel::class, 'kode_grup', 'kode_grup');
     }
 
+    public function upb()
+    {
+        return $this->belongsTo(UPBModel::class, 'kode_upb', 'kode_upb');
+    }
+
     public function pengusulanB()
     {
         return $this->hasMany(PengusulanPenghapusanAsetBModel::class, 'id_usulan_b');
