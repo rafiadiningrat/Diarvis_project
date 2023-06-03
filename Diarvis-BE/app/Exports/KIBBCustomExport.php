@@ -155,7 +155,10 @@ class KIBBCustomExport implements FromCollection, WithHeadings
             'cc',
             'bahan',
             'tgl_perolehan',
+<<<<<<< HEAD
             // 'Nomor',
+=======
+>>>>>>> a6ac91ffd5b9b54c98938e51332453a8c2af1f26
             'nomor_pabrik',
             'nomor_rangka',
             'nomor_mesin',
