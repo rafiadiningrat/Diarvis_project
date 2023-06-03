@@ -7,8 +7,9 @@ export const COLUMNS_B = [
   },
   {
     Header: "id Pemda",
-    accessor: "id_pemda",
+    // accessor: "id_pemda",
     width: 140,
+    Cell: ({row}) => <p>{row.original.no_register} . {row.original.nama_aset}</p>,
   },
   {
     Header: "Nama Aset",
@@ -219,8 +220,16 @@ export const COLUMNS_B_API = [
   },
   {
     Header: "Kode Aset",
-    accessor: "id_aset_b",
+    // accessor: "id_aset_b",
     width: 140,
+    Cell: ({ row }) => (
+      <p>
+        {row.original.kd_aset8}.{row.original.kd_aset80}.
+        {row.original.kd_aset81}.{row.original.kd_aset82}.
+        {row.original.kd_aset83}.{row.original.kd_aset84}.
+        {row.original.kd_aset85}
+      </p>
+    ),
   },
   {
     Header: "No register",

@@ -45,14 +45,9 @@ const DataMasterB = () => {
   const columns = useMemo(() => COLUMNS_B_API, []);
   const data = useMemo(() => [...DataTable], [DataTable]);
 
-  const openDetails = (rowIndex) => {
-    navigate(`/datamaster/kib-b/details/${rowIndex}`);
+  const openDetails = (id) => {
+    navigate(`/datamaster/kib-b/details/${id}`, { state: id });
   };
-
-  const openEdit = (rowIndex) => {
-    navigate(`/datamaster/kib-b/edit/${rowIndex}`);
-  };
-
   
   const tableHooks = (hooks) => {
     hooks.visibleColumns.push((columns) => [
@@ -61,20 +56,13 @@ const DataMasterB = () => {
         id: "Aksi",
         Header: "Aksi",
         sticky: "right",
-        width: 100,
+        width: 80,
         Cell: ({ row }) => (
-          <div className="flex justify-center">
+          <div className="flex justify-center ml-2">
             <button
               title="Detail"
               className="px-3 py-2 text-xs mr-2 font-medium text-center rounded-md text-white bg-yellow-300 hover:bg-yellow-400"
-              onClick={() => openDetails(row.original.id)}
-            >
-              <AiOutlineEdit />
-            </button>
-            <button
-              title="Edit"
-              className="px-3 py-2 text-xs font-medium text-center rounded-md text-white bg-blue-500 hover:bg-blue-600"
-              onClick={() => openEdit(row.original.id)}
+              onClick={() => openDetails(row.original.id_aset_b)}
             >
               <AiFillFileText />
             </button>

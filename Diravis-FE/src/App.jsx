@@ -17,8 +17,6 @@ import TestPage from "./pages/TestPage";
 import Filter from "./pages/DataMaster/Filter";
 import DataMasterB from "./pages/DataMaster/DataMasterB";
 import DataMasterE from "./pages/DataMaster/DataMasterE";
-import EditDataMasterB from "./pages/DataMaster/EditDataMasterB";
-import EditDataMasterE from "./pages/DataMaster/EditDataMasterE";
 import DetailsDataMasterB from "./pages/DataMaster/DetailsDataMasterB";
 import DetailsDataMasterE from "./pages/DataMaster/DetailsDataMasterE";
 import PengusulanB from "./pages/Pengusulan/PengusulanB";
@@ -38,19 +36,11 @@ const App = () => {
         <Route path="/datamaster/kib-e/filter" element={<Filter />} />
         <Route path="/dataMaster/kib-b" element={<DataMasterB />} />
         <Route
-          path="/dataMaster/kib-b/edit/:barangId"
-          element={<EditDataMasterB />}
-        />
-        <Route
-          path="/dataMaster/kib-e/edit/:barangId"
-          element={<EditDataMasterE />}
-        />
-        <Route
-          path="/dataMaster/kib-b/details/:barangId"
+          path="/dataMaster/kib-b/detail/:barangId"
           element={<DetailsDataMasterB />}
         />
         <Route
-          path="/dataMaster/kib-e/details/:barangId"
+          path="/dataMaster/kib-e/detail/:barangId"
           element={<DetailsDataMasterE />}
         />
         <Route path="/dataMaster/kib-e" element={<DataMasterE />} />
