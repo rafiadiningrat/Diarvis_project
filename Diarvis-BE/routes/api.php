@@ -74,10 +74,12 @@ Route::get('/user/{id}', [UserController::class, 'getUser']); // get seluruh dat
 // KIB B
 Route::get('/kib-b', [KIBBController::class, 'getAllKibB']); // get seluruh data kib b
 Route::get('/kib-b/{id}', [KIBBController::class, 'getKibB']); // get seluruh data kib b berdasarkan upb yang dipilih
+Route::get('/kib-b/detail/{id}', [KIBBController::class, 'detail']);
 
 // KIB E
 Route::get('/kib-e', [KIBEController::class, 'getAllKibE']); // get seluruh data kib b
 Route::get('/kib-e/{id}', [KIBEController::class, 'getKibE']); // get seluruh data kib b berdasarkan upb yang dipilih
+Route::get('/kib-e/detail/{id}', [KIBEController::class, 'detail']);
 
 // Usulan B
 //Route::get('/', [PengusulanPenghapusanAsetBModel::class, 'getAllUsulanB']);
@@ -91,11 +93,13 @@ Route::delete('/kibb/usulan/{id}', [PengusulanPenghapusanAsetBController::class,
 //Penilaian B
 Route::get('/kibb/penilaian', [PenilaianPenghapusanAsetBController::class, 'index']);
 Route::put('/kibb/usulanb/update-penilaian/{id}', [PenilaianPenghapusanAsetBController::class, 'updatePenilaianB']);
-Route::post('/kibb/upload-pdf/{id}', [PenilaianPenghapusanAsetBController::class, 'prosesPenilaian']);
+Route::post('/kibb/penilaian/diterima/{id}', [PenilaianPenghapusanAsetBController::class, 'prosesPenilaian1']);
+Route::post('/kibb/penilaian/ditolak/{id}', [PenilaianPenghapusanAsetBController::class, 'prosesPenilaian2']);
 
 // verifikator B
 Route::get('/kibb/verifikasi', [VerifikasiPenghapusanAsetBController::class, 'index']);
-Route::put('/kibb/verifikasi/{id}', [VerifikasiPenghapusanAsetBController::class, 'update']); // proses verifikasi
+Route::put('/kibb/verifikasi/diterima/{id}', [VerifikasiPenghapusanAsetBController::class, 'diterima']); // proses verifikasi
+Route::put('/kibb/verifikasi/ditolak/{id}', [VerifikasiPenghapusanAsetBController::class, 'ditolak']); // proses verifikasi
 
 // Usulan E
 //Route::get('/', [PengusulanPenghapusanAsetBModel::class, 'getAllUsulanB']);
