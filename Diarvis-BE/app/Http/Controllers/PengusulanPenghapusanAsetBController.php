@@ -76,15 +76,9 @@ public function index()
         'id_user' => $validatedData['id_user'],
         'id_aset_b' => $validatedData['id_aset_b'],
         'alasan_penghapusan' => $validatedData['alasan_penghapusan'],
-<<<<<<< HEAD
         // 'status_penghapusan' => false,
         // 'status_penilaian' => false,
         // 'status_verifikasi' => false,
-=======
-        'status_penghapusan' => false,
-        'status_penilaian' => false,
-        'status_verifikasi' => false,
->>>>>>> a6ac91ffd5b9b54c98938e51332453a8c2af1f26
         'dokumen_penilaian' => '',
     ]);
 

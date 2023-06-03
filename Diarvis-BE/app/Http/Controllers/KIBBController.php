@@ -85,14 +85,11 @@ public function exportData()
     )
     ->get();
 
-<<<<<<< HEAD
     // $dataWithCustomColumn = $data->map(function ($item) {
     //     $item['Nomor'] = $item->nomor_pabrik . ' - ' . $item->nomor_rangka . ' - ' . $item->nomor_mesin . ' - ' . $item->nomor_polisi . ' - ' . $item->nomor_bpkb;
     //     return $item;
     // });
 
-=======
->>>>>>> a6ac91ffd5b9b54c98938e51332453a8c2af1f26
         $export = new KIBBCustomExport($data);
 
         return Excel::download($export, 'penghapusan_aset_b_report.xlsx');;
@@ -126,7 +123,6 @@ public function getKibB($kode_upb)
             'asal-usul' => $value->asal_usul,
             'kondisi' => $value->kondisi,
             'harga' => $value->harga,
-<<<<<<< HEAD
             'masa_manfaat' =>$value->masa_manfaat, 
             'nilai_sisa' =>$value->nilai_sisa,
             'keterangan'=>$value->keterangan, 
@@ -160,8 +156,6 @@ public function getKibB($kode_upb)
             'kd_aset' =>$value->kd_aset, 
             'kd_aset0' =>$value->kd_aset0,
 	
-=======
->>>>>>> a6ac91ffd5b9b54c98938e51332453a8c2af1f26
         ]);
     }
     return response()->json([
