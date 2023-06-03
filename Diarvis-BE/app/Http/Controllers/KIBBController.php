@@ -97,8 +97,25 @@ public function exportData()
 
 public function getAllKibB()
 {
-    $upb = KIBBModel::get();
-    return $upb;
+    $kibB = KIBBModel::get();
+    return $kibB;
+}
+
+public function detail($id_aset_b)
+{
+    $kibB = KIBBModel::where('id_aset_b', $id_aset_b)->first();
+
+    if (!$kibB) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Data tidak ditemukan'
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $kibB
+    ], 200);
 }
 
 public function getKibB($kode_upb)

@@ -16,6 +16,23 @@ class KIBEController extends Controller
     return $kib;
 }
 
+public function detail($id_aset_e)
+{
+    $kibE = KIBEModel::where('id_aset_e', $id_aset_e)->first();
+
+    if (!$kibE) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Data tidak ditemukan'
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $kibE
+    ], 200);
+}
+
 public function getKibE($kode_upb)
 {
     $kib = KIBEModel::with('bidang', 'unit', 'subUnit', 'upb')->where('kode_upb', $kode_upb)->get();

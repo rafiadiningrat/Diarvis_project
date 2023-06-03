@@ -31,7 +31,7 @@ class PenilaianPenghapusanAsetBController extends Controller
         return response()->json($penilaian);
     }
 
-    public function prosesPenilaian(Request $request, $id)
+    public function prosesPenilaian1(Request $request, $id)
     {
 
         $request->validate([
@@ -53,7 +53,36 @@ class PenilaianPenghapusanAsetBController extends Controller
              $usulanB->save();
     
              return response()->json([
-                 'message' => 'Dokumen penilaian berhasil ditambahkan dan status penilaian diubah menjadi true.',
+                 'message' => 'Dokumen penilaian berhasil ditambahkan dan status penilaian diterima',
+                 'data' => $usulanB
+             ]);
+        
+    }
+
+    public function prosesPenilaian2(Request $request, $id)
+    {
+
+        $request->validate([
+            'dokumen_penilaian' => 'mimetypes:application/pdf|max:2048',
+        ]);
+
+        $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id);
+
+        $usulanB->status_penilaian = false;
+        $usulanB->status_penghapusan = false;
+
+        if ($request->hasFile('dokumen_penilaian')) {
+                 $media = $usulanB->addMedia($request->file('dokumen_penilaian'))
+                     ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+        
+                 $usulanB->dokumen_penilaian = $media->getUrl();
+             }
+    
+             // Menyimpan perubahan data ke dalam database
+             $usulanB->save();
+    
+             return response()->json([
+                 'message' => 'Dokumen penilaian berhasil ditambahkan dan status penilaian ditolak.',
                  'data' => $usulanB
              ]);
         
