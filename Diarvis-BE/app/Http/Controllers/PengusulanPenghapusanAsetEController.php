@@ -147,6 +147,23 @@ public function destroy($id_usulan_e)
     ], 200);
 }
 
+public function detail($id_usulan_e)
+{
+    $usulanE = PengusulanPenghapusanAsetEModel::where('id_usulan_e', $id_usulan_e)->first();
+
+    if (!$usulanE) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Data tidak ditemukan'
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $usulanE
+    ], 200);
+}
+
 public function getAllUsulanE()
     {
         $usulanE = PengusulanPenghapusanAsetEModel::get();

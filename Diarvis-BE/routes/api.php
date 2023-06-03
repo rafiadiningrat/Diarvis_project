@@ -89,6 +89,7 @@ Route::get('/kibb/usulanB/{id}', [PengusulanPenghapusanAsetBController::class, '
 Route::post('/kibb/usulan', [PengusulanPenghapusanAsetBController::class, 'store']); // membuat pengusulan penghapusan barang
 Route::put('/kibb/usulan/update/{id}', [PengusulanPenghapusanAsetBController::class, 'update']); // melakukan update terhadap penghapusan barang
 Route::delete('/kibb/usulan/{id}', [PengusulanPenghapusanAsetBController::class, 'destroy']); // melakukan penghapusan terhadap penghapusan barang
+Route::get('/kibb/detail/{id}', [PengusulanPenghapusanAsetBController::class, 'detail']);
 
 //Penilaian B
 Route::get('/kibb/penilaian', [PenilaianPenghapusanAsetBController::class, 'index']);
@@ -109,6 +110,7 @@ Route::get('/kibe/usulanE/{id}', [PengusulanPenghapusanAsetEController::class, '
 Route::post('/kibe/usulan', [PengusulanPenghapusanAsetEController::class, 'store']); // membuat pengusulan penghapusan barang
 Route::put('/kibe/usulan/update/{id}', [PengusulanPenghapusanAsetEController::class, 'update']); // melakukan update terhadap penghapusan barang
 Route::delete('/kibe/usulan/{id}', [PengusulanPenghapusanAsetEController::class, 'destroy']); // melakukan penghapusan terhadap penghapusan barang
+Route::get('/kibe/detail/{id}', [PengusulanPenghapusanAsetEController::class, 'detail']);
 
 //Penilaian E
 Route::get('/kibe/penilaian', [PenilaianPenghapusanAsetEController::class, 'index']);

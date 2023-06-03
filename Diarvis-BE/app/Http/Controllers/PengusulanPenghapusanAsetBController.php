@@ -353,6 +353,23 @@ public function destroy($id_usulan_b)
     ], 200);
 }
 
+public function detail($id_usulan_b)
+{
+    $usulanB = PengusulanPenghapusanAsetBModel::where('id_usulan_b', $id_usulan_b)->first();
+
+    if (!$usulanB) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Data tidak ditemukan'
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $usulanB
+    ], 200);
+}
+
 public function getAllUsulanB()
     {
         $usulanB = PengusulanPenghapusanAsetBModel::get();
