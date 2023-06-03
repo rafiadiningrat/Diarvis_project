@@ -11,19 +11,39 @@ import {
 } from "react-icons/ai";
 import Layout from "../../layout/layout";
 import MOCK_DATA from "../../components/Table/DataMaster_KIB-B/MOCK_DATA.json";
-import { COLUMNS_B } from "../../components/Table/DataMaster_KIB-B/columns";
+import { COLUMNS_B, COLUMNS_B_API } from "../../components/Table/DataMaster_KIB-B/columns";
 import Modal_Edit_Data_KIB_B from "../../components/Table/DataMaster_KIB-B/ModalEdit";
 import Modal_Detail_Data_KIB_B from "../../components/Table/DataMaster_KIB-B/ModalDetail";
 import { UserContext } from "../../App";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const DataMasterB = () => {
   const isLoggedIn = useContext(UserContext);
+  const [DataTable, setDataTable] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location.state);
 
-  // Table Property
-  const columns = useMemo(() => COLUMNS_B, []);
-  const data = useMemo(() => MOCK_DATA, []);
+  const fetchData = async () => {
+    const response = await axios
+    .get(`http://localhost:8000/api/kib-b/${location.state}`)
+    .catch((err) => console.log(err));
+
+    if (response) {
+      const DataTable = response.data.data;
+      console.log("data: ", DataTable);
+      setDataTable(DataTable);
+    }
+  };
+
+  // Table Property (using dummy)
+  // const columns = useMemo(() => COLUMNS_B, []);
+  // const data = useMemo(() => MOCK_DATA, []);
+
+  // Table Property (using API)
+  const columns = useMemo(() => COLUMNS_B_API, []);
+  const data = useMemo(() => [...DataTable], [DataTable]);
 
   const openDetails = (rowIndex) => {
     navigate(`/datamaster/kib-b/details/${rowIndex}`);
@@ -33,7 +53,7 @@ const DataMasterB = () => {
     navigate(`/datamaster/kib-b/edit/${rowIndex}`);
   };
 
-
+  
   const tableHooks = (hooks) => {
     hooks.visibleColumns.push((columns) => [
       ...columns,
@@ -63,7 +83,7 @@ const DataMasterB = () => {
       },
     ]);
   };
-
+  
   const {
     getTableProps,
     getTableBodyProps,
@@ -88,34 +108,15 @@ const DataMasterB = () => {
     tableHooks,
     useBlockLayout,
     useSticky
-  );
-
-  // Modal Property
-  const [isModalEditOpen, setModalEditOpen] = useState(false);
-  const [isModalDetailOpen, setModalDetailOpen] = useState(false);
-  const [dataModal, setDataModal] = useState(null);
-
-  const handleModalEditOpen = (data) => {
-    setModalEditOpen(true);
-    setDataModal(data);
-  };
-
-  const handleModalEditClose = () => {
-    setModalEditOpen(false);
-    setDataModal(null);
-  };
-
-  const handleModalDetailOpen = (data) => {
-    setModalDetailOpen(true);
-    setDataModal(data);
-  };
-
-  const handleModalDetailClose = () => {
-    setModalDetailOpen(false);
-    setDataModal(null);
-  };
-
-  const { pageIndex, pageSize } = state;
+    );
+    
+    // Modal Property
+    
+    const { pageIndex, pageSize } = state;
+    
+    useEffect(() => {
+      fetchData();
+    }, []);
 
   return (
     <>
@@ -152,7 +153,7 @@ const DataMasterB = () => {
                 {page.map((row) => {
                   prepareRow(row);
                   return (
-                    <tr className="" {...row.getRowProps()}>
+                    <tr className="" {...row.getRowProps()} >
                       {row.cells.map((cell) => {
                         return (
                           <td
@@ -246,17 +247,6 @@ const DataMasterB = () => {
           </nav>
         </div>
       </div>
-
-      <Modal_Edit_Data_KIB_B
-        isOpen={isModalEditOpen}
-        onClose={handleModalEditClose}
-        data={dataModal}
-      />
-      <Modal_Detail_Data_KIB_B
-        isOpen={isModalDetailOpen}
-        onClose={handleModalDetailClose}
-        data={dataModal}
-      />
     </>
   );
 };
