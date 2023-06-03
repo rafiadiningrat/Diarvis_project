@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 import Layout from "../../layout/layout";
 import { FaRegCheckCircle, FaBookOpen, FaChartBar } from "react-icons/fa";
 import { BsCashStack } from "react-icons/bs";
@@ -9,15 +10,51 @@ const Filter = (props) => {
   const isLoggedIn = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname);
-  
+  const [Bidang, setBidang] = useState([]);
+  const [Unit, setUnit] = useState([]);
+  const [SubUnit, setSubUnit] = useState([]);
+  const [UPB, setUPB] = useState([]);
+  const [takenUPB, setTakenUPB] = useState();
+
   const navigateToDataMaster = () => {
     if (location.pathname === "/datamaster/kib-b/filter") {
-      navigate("/datamaster/kib-b");
+      navigate("/datamaster/kib-b", {state: takenUPB});
     }
     if (location.pathname === "/datamaster/kib-e/filter") {
-      navigate("/datamaster/kib-e");
+      navigate("/datamaster/kib-e", { state: takenUPB});
     }
+  };
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/api/bidang").then((res) => {
+      setBidang(res.data);
+    });
+  }, []);
+
+  const handleBidang = (e) => {
+    axios
+      .get(`http://localhost:8000/api/unit/${e.target.value}`)
+      .then((res) => {
+        setUnit(res.data.data);
+      });
+  };
+
+  const handleUnit = (e) => {
+    axios
+      .get(`http://localhost:8000/api/sub-unit/${e.target.value}`)
+      .then((res) => {
+        setSubUnit(res.data.data);  
+      });
+  };
+
+  const handleSubUnit = (e) => {
+    axios.get(`http://localhost:8000/api/upb/${e.target.value}`).then((res) => {
+      setUPB(res.data.data);
+    });
+  };
+
+  const handleUPB = (e) => {
+    setTakenUPB(e.target.value);
   };
   return (
     <>
@@ -30,27 +67,23 @@ const Filter = (props) => {
           <div className="grid grid-cols-2 gap-10">
             <div className="flex flex-row items-center justify-between">
               <label
-                htmlFor="KIB"
+                htmlFor="Bidang"
                 className="text-sm font-medium text-gray-900 dark:text-white"
               >
-                KIB
+                Bidang
               </label>
               <select
-                id="KIB"
-                name="KIB"
+                id="Bidang"
+                name="Bidang"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
-                placeholder="pilih KIB"
+                placeholder="pilih Bidang"
                 required
-                // value={KIB}
-                // onChange={(e) => setKIB(e.target.value)}
+                onChange={(e) => handleBidang(e)}
               >
-                <option defaultValue>Pilih KIB</option>
-                <option value="US">
-                  B <span>&#40;</span>Peralatan dan Mesin<span>&#41;</span>
-                </option>
-                <option value="CA">
-                  E <span>&#40;</span>Aset tetap lainnya<span>&#41;</span>
-                </option>
+                <option defaultValue>Pilih Bidang</option>
+                {Bidang.map((item) => (
+                  <option value={item.kode_bidang}>{item.nama_bidang}</option>
+                ))}
               </select>
             </div>
             <div className="flex flex-row items-center justify-between">
@@ -67,65 +100,14 @@ const Filter = (props) => {
                 placeholder="pilih Sub Unit"
                 required
                 // value={SubUnit}
-                // onChange={(e) => setSubUnit(e.target.value)}
+                 onChange={(e) => handleSubUnit(e)}
               >
                 <option defaultValue>Pilih Sub Unit</option>
-                <option value="US">
-                  B <span>&#40;</span>Peralatan dan Mesin<span>&#41;</span>
-                </option>
-                <option value="CA">
-                  E <span>&#40;</span>Aset tetap lainnya<span>&#41;</span>
-                </option>
-              </select>
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <label
-                htmlFor="Bidang"
-                className="text-sm font-medium text-gray-900 dark:text-white"
-              >
-                Bidang
-              </label>
-              <select
-                id="Bidang"
-                name="Bidang"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
-                placeholder="pilih Bidang"
-                required
-                // value={Bidang}
-                // onChange={(e) => setBidang(e.target.value)}
-              >
-                <option defaultValue>Pilih Bidang</option>
-                <option value="US">
-                  B <span>&#40;</span>Peralatan dan Mesin<span>&#41;</span>
-                </option>
-                <option value="CA">
-                  E <span>&#40;</span>Aset tetap lainnya<span>&#41;</span>
-                </option>
-              </select>
-            </div>
-            <div className="flex flex-row items-center justify-between">
-              <label
-                htmlFor="UPB"
-                className="text-sm font-medium text-gray-900 dark:text-white"
-              >
-                UPB
-              </label>
-              <select
-                id="UPB"
-                name="UPB"
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
-                placeholder="pilih UPB"
-                required
-                // value={UPB}
-                // onChange={(e) => setUPB(e.target.value)}
-              >
-                <option defaultValue>Pilih UPB</option>
-                <option value="US">
-                  B <span>&#40;</span>Peralatan dan Mesin<span>&#41;</span>
-                </option>
-                <option value="CA">
-                  E <span>&#40;</span>Aset tetap lainnya<span>&#41;</span>
-                </option>
+                {SubUnit.map((item) => (
+                  <option value={item.kode_sub_unit}>
+                    {item.nama_sub_unit}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="flex flex-row items-center justify-between">
@@ -142,15 +124,33 @@ const Filter = (props) => {
                 placeholder="pilih Unit"
                 required
                 // value={Unit}
-                // onChange={(e) => setUnit(e.target.value)}
+                onChange={(e) => handleUnit(e)}
               >
                 <option defaultValue>Pilih Unit</option>
-                <option value="US">
-                  B <span>&#40;</span>Peralatan dan Mesin<span>&#41;</span>
-                </option>
-                <option value="CA">
-                  E <span>&#40;</span>Aset tetap lainnya<span>&#41;</span>
-                </option>
+                {Unit.map((item) => (
+                  <option value={item.kode_unit}>{item.nama_unit}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-row items-center justify-between">
+              <label
+                htmlFor="UPB"
+                className="text-sm font-medium text-gray-900 dark:text-white"
+              >
+                UPB
+              </label>
+              <select
+                id="UPB"
+                name="UPB"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
+                placeholder="pilih UPB"
+                required
+                onChange={(e) => handleUPB(e)}
+              >
+                <option defaultValue>Pilih UPB</option>
+                {UPB.map((item) => (
+                  <option value={item.kode_upb}>{item.nama_upb}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -158,7 +158,7 @@ const Filter = (props) => {
             <button
               type="submit"
               className="w-1/6 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-              onClick={() => navigateToDataMaster(  )}
+              onClick={() => navigateToDataMaster()}
             >
               Submit
             </button>
