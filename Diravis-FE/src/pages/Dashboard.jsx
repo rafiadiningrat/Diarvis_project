@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import Layout from "../layout/layout";
 import { FaRegCheckCircle, FaBookOpen, FaChartBar } from "react-icons/fa";
 import { BsCashStack } from "react-icons/bs";
@@ -6,6 +7,60 @@ import { UserContext } from "../App";
 
 const Dashboard = () => {
   const isLoggedIn = useContext(UserContext);
+  const [dataPengusulan, setDataPengusulan] = useState();
+  const [dataPenilaian, setDataPenilaian] = useState();
+  const [dataVerifikasi, setDataVerifikasi] = useState();
+  const [dataPenghapusan, setDataPenghapusan] = useState();
+
+  useEffect(() => {
+    const getDataDashboard = async () => {
+      try {
+        const resPengusulan = await axios.get(
+          "http://localhost:8000/api/total-pengusulan"
+        );
+        setDataPengusulan(resPengusulan.data);
+        const resPenilaian = await axios.get(
+          "http://localhost:8000/api/total-penilaian"
+        );
+        setDataPenilaian(resPenilaian.data);
+        const resVerifikasi = await axios.get(
+          "http://localhost:8000/api/total-verifikasi"
+        );
+        setDataVerifikasi(resVerifikasi.data);
+        const resPenghapusan = await axios.get(
+          "http://localhost:8000/api/total-penghapusan"
+        );
+        setDataPenghapusan(resPenghapusan.data);
+        console
+      } catch (error) {
+        console.log(error);
+      }
+    }
+
+    // const getDataDashboard = () => {
+    //   axios
+    //     .get("http://localhost:8000/api/total-pengusulan")
+    //     .then((resPengusulan) => {
+    //       setDataPengusulan(resPengusulan.data);
+    //     });
+    //     axios
+    //       .get("http://localhost:8000/api/total-penilaian")
+    //       .then((resPenilaian) => {
+    //         setDataPenilaian(resPenilaian.data);
+    //       });
+    //       axios
+    //         .get("http://localhost:8000/api/total-verifikasi")
+    //         .then((resVerifikasi) => {
+    //           setDataVerifikasi(resVerifikasi.data);
+    //         });
+    //         axios
+    //           .get("http://localhost:8000/api/total-penghapusan")
+    //           .then((resPenghapusan) => {
+    //             setDataPenghapusan(resPenghapusan.data);
+    //           });
+    // };
+    getDataDashboard();
+  }, []);
   return (
     <>
       <Layout />
@@ -16,9 +71,9 @@ const Dashboard = () => {
               <div className="card-body">
                 <div className="flex align-middle">
                   <FaRegCheckCircle size={25} />
-                  <h2 className="card-title ml-5">Proses Pengajuan</h2>
+                  <h2 className="card-title ml-5">Proses Pengusulan</h2>
                 </div>
-                <p>0</p>
+                <p>{dataPengusulan}</p>
               </div>
             </div>
             <div className="card w-auto bg-[#FFC764] text-primary-content">
@@ -27,7 +82,7 @@ const Dashboard = () => {
                   <FaBookOpen size={25} />
                   <h2 className="card-title ml-5">Proses Penilaian</h2>
                 </div>
-                <p>0</p>
+                <p>{dataPenilaian}</p>
               </div>
             </div>
             <div className="card w-auto bg-[#7868E6] text-primary-content">
@@ -36,16 +91,16 @@ const Dashboard = () => {
                   <BsCashStack size={25} />
                   <h2 className="card-title ml-5">Proses Verifikasi</h2>
                 </div>
-                <p>0</p>
+                <p>{dataVerifikasi}</p>
               </div>
             </div>
             <div className="card w-auto bg-[#BC658D] text-primary-content">
               <div className="card-body">
                 <div className="flex">
                   <FaChartBar size={25} />
-                  <h2 className="card-title ml-5">Selesai</h2>
+                  <h2 className="card-title ml-5">Total Penghapusan</h2>
                 </div>
-                <p>0</p>
+                <p>{dataPenghapusan}</p>
               </div>
             </div>
           </div>
