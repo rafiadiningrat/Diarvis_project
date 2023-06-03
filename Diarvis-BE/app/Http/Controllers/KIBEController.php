@@ -43,7 +43,7 @@ public function getKibE($kode_upb)
             'nama_unit' => $value->unit->nama_unit,
             'nama_sub_unit' => $value->subUnit->nama_sub_unit,
             'nama_upb' => $value->upb->nama_upb,
-            'id_aset_b' => $value->id_aset_b,
+            'id_aset_e' => $value->id_aset_b,
             'kode_pemilik' => $value->kode_pemilik,
             'tgl_perolehan' => $value->tgl_perolehan,
             'judul' => $value->judul,
