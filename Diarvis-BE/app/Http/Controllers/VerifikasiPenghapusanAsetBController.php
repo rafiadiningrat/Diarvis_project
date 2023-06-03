@@ -21,7 +21,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
         return response()->json($penilaian);
     }
 
-    public function diterima(Request $request, $id_usulan_b)
+    public function approve(Request $request, $id_usulan_b)
     {
 
         $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
@@ -41,7 +41,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
         }
     } 
 
-    public function ditolak(Request $request, $id_usulan_b)
+    public function decline(Request $request, $id_usulan_b)
     {
 
         $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);

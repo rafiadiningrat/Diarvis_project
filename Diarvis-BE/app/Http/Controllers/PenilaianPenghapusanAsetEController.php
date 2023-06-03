@@ -12,16 +12,16 @@ class PenilaianPenghapusanAsetEController extends Controller
 
     public function index()
     {
-        $penilaian = PengusulanPenghapusanAsetEModel::where('status_verifikasi', false)
-                                ->where('status_penilaian', false)
-                                ->where('status_penghapusan', false)
+        $penilaian = PengusulanPenghapusanAsetEModel::whereNull('status_verifikasi')
+                                ->whereNull('status_penilaian')
+                                ->whereNull('status_penghapusan')
                                 ->with('kibE')
                                 ->get();
 
         return response()->json($penilaian);
     }
 
-    public function prosesPenilaianE(Request $request, $id_usulan_e)
+    public function approve(Request $request, $id_usulan_e)
     {
 
         $request->validate([
@@ -43,7 +43,35 @@ class PenilaianPenghapusanAsetEController extends Controller
              $usulanB->save();
     
              return response()->json([
-                 'message' => 'Dokumen penilaian berhasil ditambahkan dan status penilaian diubah menjadi true.',
+                 'message' => 'Dokumen penilaian berhasil ditambahkan dan status penilaian diterima',
+                 'data' => $usulanB
+             ]);
+}
+
+public function decline(Request $request, $id_usulan_e)
+    {
+
+        $request->validate([
+            'dokumen_penilaian' => 'mimetypes:application/pdf|max:2048',
+        ]);
+
+        $usulanB = PengusulanPenghapusanAsetEModel::findOrFail($id_usulan_e);
+
+        $usulanB->status_penilaian = false;
+        $usulanB->status_penghapusan = false;
+
+        if ($request->hasFile('dokumen_penilaian')) {
+                 $media = $usulanB->addMedia($request->file('dokumen_penilaian'))
+                     ->toMediaCollection(PengusulanPenghapusanAsetEModel::IMAGE_COLLECTION);
+        
+                 $usulanB->dokumen_penilaian = $media->getUrl();
+             }
+    
+             // Menyimpan perubahan data ke dalam database
+             $usulanB->save();
+    
+             return response()->json([
+                 'message' => 'Dokumen penilaian berhasil ditambahkan dan status penilaian ditolak.',
                  'data' => $usulanB
              ]);
 }

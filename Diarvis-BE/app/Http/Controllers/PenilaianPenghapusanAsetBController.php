@@ -31,7 +31,7 @@ class PenilaianPenghapusanAsetBController extends Controller
         return response()->json($penilaian);
     }
 
-    public function prosesPenilaian1(Request $request, $id)
+    public function approve(Request $request, $id)
     {
 
         $request->validate([
@@ -59,7 +59,7 @@ class PenilaianPenghapusanAsetBController extends Controller
         
     }
 
-    public function prosesPenilaian2(Request $request, $id)
+    public function decline(Request $request, $id)
     {
 
         $request->validate([
