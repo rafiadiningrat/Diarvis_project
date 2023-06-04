@@ -124,18 +124,9 @@ Route::put('/kibe/verifikasi/diterima/{id}', [VerifikasiPenghapusanAsetEControll
 Route::put('/kibe/verifikasi/ditolak/{id}', [VerifikasiPenghapusanAsetEController::class, 'decline']); // proses verifikasi
 
 // Dashboard
-Route::get('/total-pengusulan', [DashboardController::class, 'dashboardBE']);
-Route::get('/total-verifikasi', [DashboardController::class, 'verifikasiBE']);
-Route::get('/total-penilaian', [DashboardController::class, 'penilaianBE']);
-Route::get('/total-penghapusan', [DashboardController::class, 'penghapusanBE']);
-Route::get('/kibb/total-pengusulan', [DashboardController::class, 'dashboardB']);
-Route::get('/kibb/total-verifikasi', [DashboardController::class, 'verifikasiB']);
-Route::get('/kibb/total-penilaian', [DashboardController::class, 'penilaianB']);
-Route::get('/kibb/total-penghapusan', [DashboardController::class, 'penghapusanB']);
-Route::get('/kibe/total-pengusulan', [DashboardController::class, 'dashboardE']);
-Route::get('/kibe/total-verifikasi', [DashboardController::class, 'verifikasiE']);
-Route::get('/kibe/total-penilaian', [DashboardController::class, 'penilaianE']);
-Route::get('/kibe/total-penghapusan', [DashboardController::class, 'penghapusanE']);
+Route::get('/dashboard', [DashboardController::class, 'dashboardBE']);
+Route::get('/kibb/dashboard', [DashboardController::class, 'dashboardB']);
+Route::get('/kibe/dashboard', [DashboardController::class, 'dashboardE']);
 
 // Generate
 Route::get('/kibb/export', [KIBBController::class, 'exportToExcel']);
