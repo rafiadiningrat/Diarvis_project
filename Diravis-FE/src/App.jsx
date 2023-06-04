@@ -14,7 +14,9 @@ import Profile from "./pages/Profile";
 import Tugas from "./pages/Tugas";
 import TugasMahasiswa from "./pages/TugasMahasiswa";
 import TestPage from "./pages/TestPage";
+import TestPage2 from "./pages/TestPage2";
 import Filter from "./pages/DataMaster/Filter";
+import FilterKIB from "./pages/Pengusulan/FilterKIB";
 import DataMasterB from "./pages/DataMaster/DataMasterB";
 import DataMasterE from "./pages/DataMaster/DataMasterE";
 import DetailsDataMasterB from "./pages/DataMaster/DetailsDataMasterB";
@@ -45,6 +47,7 @@ const App = () => {
         />
         <Route path="/dataMaster/kib-e" element={<DataMasterE />} />
         {/* Pengusulan Routes */}
+        <Route path="/pengusulan/filter" element={<FilterKIB />} />
         <Route path="/pengusulan/kib-b" element={<PengusulanB />} />
         <Route path="/pengusulan/kib-e" element={<PengusulanE />} />
 
@@ -57,6 +60,7 @@ const App = () => {
         <Route path="/details/:mhsId" element={<DetailsTugas />} />
         <Route path="/help" element={<Help />} />
         <Route path="/test" element={<TestPage />} />
+        <Route path="/test2" element={<TestPage2 />} />
         {/* </Route> */}
 
         <Route path="/login" element={<Login />} />

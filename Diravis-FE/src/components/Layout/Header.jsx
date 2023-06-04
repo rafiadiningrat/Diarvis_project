@@ -49,7 +49,7 @@ const Header = (props) => {
                       aria-expanded="false"
                       data-dropdown-toggle="dropdown-user"
                     >
-                      <div className="text-black">Akbar | Admin adsf</div>
+                      <div className="text-black">Akbar | Admin</div>
                     </button>
                   </div>
                   <div
@@ -116,7 +116,7 @@ const Header = (props) => {
         </div>
         <div className="flex items-center h-7 bg-amber-400">
           <marquee width="100%">
-            <div className="text-black">Running Text</div>
+            <div className="text-black">Diarvis BMD</div>
           </marquee>
         </div>
       </div>

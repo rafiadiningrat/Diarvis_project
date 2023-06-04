@@ -10,10 +10,8 @@ import {
   AiFillFileText,
 } from "react-icons/ai";
 import Layout from "../../layout/layout";
-import MOCK_DATA from "../../components/Table/DataMaster_KIB-B/MOCK_DATA.json";
-import { COLUMNS_E } from "../../components/Table/DataMaster_KIB-B/columns";
-import Modal_Edit_Data_KIB_B from "../../components/Table/DataMaster_KIB-B/ModalEdit";
-import Modal_Detail_Data_KIB_B from "../../components/Table/DataMaster_KIB-B/ModalDetail";
+import MOCK_DATA from "../../components/Table/DataMaster/MOCK_DATA.json";
+import { COLUMNS_E } from "../../components/Table/DataMaster/columns";
 import { UserContext } from "../../App";
 
 const PengusulanE = () => {
@@ -235,17 +233,6 @@ const PengusulanE = () => {
           </nav>
         </div>
       </div>
-
-      <Modal_Edit_Data_KIB_B
-        isOpen={isModalEditOpen}
-        onClose={handleModalEditClose}
-        data={dataModal}
-      />
-      <Modal_Detail_Data_KIB_B
-        isOpen={isModalDetailOpen}
-        onClose={handleModalDetailClose}
-        data={dataModal}
-      />
     </>
   );
 };

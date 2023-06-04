@@ -10,27 +10,41 @@ import {
   AiFillFileText,
 } from "react-icons/ai";
 import Layout from "../../layout/layout";
-import MOCK_DATA from "../../components/Table/DataMaster_KIB-B/MOCK_DATA.json";
-import { COLUMNS_E } from "../../components/Table/DataMaster_KIB-B/columns";
-import Modal_Edit_Data_KIB_B from "../../components/Table/DataMaster_KIB-B/ModalEdit";
-import Modal_Detail_Data_KIB_B from "../../components/Table/DataMaster_KIB-B/ModalDetail";
+import MOCK_DATA from "../../components/Table/DataMaster/MOCK_DATA.json";
+import { COLUMNS_E, COLUMNS_E_API } from "../../components/Table/DataMaster/columns";
 import { UserContext } from "../../App";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const DataMasterE = () => {
   const isLoggedIn = useContext(UserContext);
+  const [Datatable, setDataTable] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
+  // console.log(location.state);
 
-  // Table Property
-  const columns = useMemo(() => COLUMNS_E, []);
-  const data = useMemo(() => MOCK_DATA, []);
+  const fetchData = async () => {
+    const response = await axios
+      .get(`http://localhost:8000/api/kib-e/${location.state}`)
+      .catch((err) => console.log(err));
 
-  const openDetails = (rowIndex) => {
-    navigate(`/datamaster/kib-e/details/${rowIndex}`);
+    if (response) {
+      const DataTable = response.data.data;
+      // console.log("data: ", DataTable);
+      setDataTable(DataTable);
+    }
   };
 
-  const openEdit = (rowIndex) => {
-    navigate(`/datamaster/kib-e/edit/${rowIndex}`);
+  // Table Property
+  // const columns = useMemo(() => COLUMNS_E, []);
+  // const data = useMemo(() => MOCK_DATA, []);
+
+  // Table property (using API)
+  const columns = useMemo(() => COLUMNS_E_API, []);
+  const data = useMemo(() => [...Datatable], [Datatable]);
+
+  const openDetails = (id) => {
+    navigate(`/datamaster/kib-e/detail/${id}`, { state: id });
   };
 
   const tableHooks = (hooks) => {
@@ -42,18 +56,11 @@ const DataMasterE = () => {
         sticky: "right",
         width: 100,
         Cell: ({ row }) => (
-          <div className="flex justify-center">
-            <button
+          <div className="flex justify-center ml-2">
+           <button
               title="Detail"
               className="px-3 py-2 text-xs mr-2 font-medium text-center rounded-md text-white bg-yellow-300 hover:bg-yellow-400"
-              onClick={() => openDetails(row.original.id)}
-            >
-              <AiOutlineEdit />
-            </button>
-            <button
-              title="Edit"
-              className="px-3 py-2 text-xs font-medium text-center rounded-md text-white bg-blue-500 hover:bg-blue-600"
-              onClick={() => openEdit(row.original.id)}
+              onClick={() => openDetails(row.original.id_aset_e)}
             >
               <AiFillFileText />
             </button>
@@ -89,32 +96,11 @@ const DataMasterE = () => {
     useSticky
   );
 
-  // Modal Property
-  const [isModalEditOpen, setModalEditOpen] = useState(false);
-  const [isModalDetailOpen, setModalDetailOpen] = useState(false);
-  const [dataModal, setDataModal] = useState(null);
-
-  const handleModalEditOpen = (data) => {
-    setModalEditOpen(true);
-    setDataModal(data);
-  };
-
-  const handleModalEditClose = () => {
-    setModalEditOpen(false);
-    setDataModal(null);
-  };
-
-  const handleModalDetailOpen = (data) => {
-    setModalDetailOpen(true);
-    setDataModal(data);
-  };
-
-  const handleModalDetailClose = () => {
-    setModalDetailOpen(false);
-    setDataModal(null);
-  };
-
   const { pageIndex, pageSize } = state;
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -245,17 +231,6 @@ const DataMasterE = () => {
           </nav>
         </div>
       </div>
-
-      <Modal_Edit_Data_KIB_B
-        isOpen={isModalEditOpen}
-        onClose={handleModalEditClose}
-        data={dataModal}
-      />
-      <Modal_Detail_Data_KIB_B
-        isOpen={isModalDetailOpen}
-        onClose={handleModalDetailClose}
-        data={dataModal}
-      />
     </>
   );
 };

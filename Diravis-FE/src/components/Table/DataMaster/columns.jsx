@@ -322,3 +322,100 @@ export const COLUMNS_B_API = [
     width: 300,
   },
 ];
+
+export const COLUMNS_E_API = [
+  {
+    Header: "No",
+    accessor: (row, i) => i + 1,
+    width: 40,
+    Cell: ({ value }) => <div>{value}</div>,
+  },
+  {
+    Header: "id Pemda",
+    accessor: "id_pemda",
+    width: 140,
+  },
+  {
+    Header: "Nama Aset",
+    accessor: "nama_aset",
+    width: 200,
+  },
+  {
+    Header: "Kode Aset",
+    // accessor: "kode_aset",
+    width: 140,
+    Cell: ({ row }) => (
+      <p>
+        {row.original.kd_aset8}.{row.original.kd_aset80}.
+        {row.original.kd_aset81}.{row.original.kd_aset82}.
+        {row.original.kd_aset83}.{row.original.kd_aset84}.
+        {row.original.kd_aset85}
+      </p>
+    ),
+  },
+  {
+    Header: "No register",
+    accessor: "no_register",
+    width: 95,
+  },
+  {
+    Header: "Tanggal Pembelian",
+    accessor: "tgl_perolehan",
+    width: 160,
+  },
+  {
+    Header: "Tanggal Pembukuan",
+    accessor: "tgl_pembukuan",
+    width: 160,
+  },
+  {
+    Header: "Judul",
+    accessor: "judul",
+    width: 160,
+  },
+  {
+    Header: "Pencipta",
+    accessor: "pencipta",
+    width: 150,
+  },
+  {
+    Header: "Bahan",
+    accessor: "bahan",
+    width: 100,
+  },
+  {
+    Header: "Ukuran",
+    accessor: "ukuran",
+    width: 100,
+  },
+  {
+    Header: "Asal Usul",
+    accessor: "asal_usul",
+    width: 100,
+  },
+  {
+    Header: "Kondisi",
+    accessor: "kondisi",
+    width: 100,
+  },
+  {
+    Header: "Harga",
+    accessor: "harga",
+    width: 150,
+  },
+  {
+    Header: "masa Manfaat",
+    accessor: "masa_manfaat",
+    width: 150,
+  },
+  {
+    Header: "Nilai Sisa",
+    accessor: "nilai_sisa",
+    width: 140,
+  },
+  {
+    Header: "Keterangan",
+    accessor: "keterangan",
+    width: 300,
+  },
+];

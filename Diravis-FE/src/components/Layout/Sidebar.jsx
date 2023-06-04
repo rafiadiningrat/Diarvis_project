@@ -111,27 +111,36 @@ const Sidebar = () => {
       ],
       to: "#",
     },
+    //(pengusulan with sub unit)
+    // {
+    //   title: "Pengusulan",
+    //   to: "#",
+    //    subItems: [
+    //     {
+    //       title: "KIB B",
+    //       icon: RiContactsLine,
+    //       subItems: [],
+    //       to: "/pengusulan/kib-b",
+    //       state: "KIB B",
+    //     },
+    //     {
+    //       title: "KIB E",
+    //       icon: BiMessageSquareDetail,
+    //       subItems: [],
+    //       to: "/pengusulan/kib-e",
+    //       state: "KIB E",
+    //     },
+    //   ],
+    //   icon: MdDriveFileMoveOutline,
+    //   state: "",
+    // },
+    // (pengusulan without sub unit)
     {
       title: "Pengusulan",
-      to: "#",
-       subItems: [
-        {
-          title: "KIB B",
-          icon: RiContactsLine,
-          subItems: [],
-          to: "/pengusulan/kib-b",
-          state: "KIB B",
-        },
-        {
-          title: "KIB E",
-          icon: BiMessageSquareDetail,
-          subItems: [],
-          to: "/pengusulan/kib-e",
-          state: "KIB E",
-        },
-      ],
+      to: "/pengusulan/filter",
+      subItems: [],
       icon: MdDriveFileMoveOutline,
-      state: "",
+      state: "Pengusulan",
     },
     {
       title: "Penilaian",

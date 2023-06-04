@@ -6,14 +6,11 @@ import {
   AiOutlineDoubleRight,
   AiOutlineRight,
   AiOutlineLeft,
-  AiOutlineEdit,
   AiFillFileText,
 } from "react-icons/ai";
 import Layout from "../../layout/layout";
-import MOCK_DATA from "../../components/Table/DataMaster_KIB-B/MOCK_DATA.json";
-import { COLUMNS_B, COLUMNS_B_API } from "../../components/Table/DataMaster_KIB-B/columns";
-import Modal_Edit_Data_KIB_B from "../../components/Table/DataMaster_KIB-B/ModalEdit";
-import Modal_Detail_Data_KIB_B from "../../components/Table/DataMaster_KIB-B/ModalDetail";
+import MOCK_DATA from "../../components/Table/DataMaster/MOCK_DATA.json";
+import { COLUMNS_B, COLUMNS_B_API } from "../../components/Table/DataMaster/columns";
 import { UserContext } from "../../App";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -38,15 +35,15 @@ const DataMasterB = () => {
   };
 
   // Table Property (using dummy)
-  // const columns = useMemo(() => COLUMNS_B, []);
-  // const data = useMemo(() => MOCK_DATA, []);
+  const columns = useMemo(() => COLUMNS_B, []);
+  const data = useMemo(() => MOCK_DATA, []);
 
   // Table Property (using API)
-  const columns = useMemo(() => COLUMNS_B_API, []);
-  const data = useMemo(() => [...DataTable], [DataTable]);
+  // const columns = useMemo(() => COLUMNS_B_API, []);
+  // const data = useMemo(() => [...DataTable], [DataTable]);
 
   const openDetails = (id) => {
-    navigate(`/datamaster/kib-b/details/${id}`, { state: id });
+    navigate(`/datamaster/kib-b/detail/${id}`, { state: id });
   };
   
   const tableHooks = (hooks) => {
@@ -97,9 +94,7 @@ const DataMasterB = () => {
     useBlockLayout,
     useSticky
     );
-    
-    // Modal Property
-    
+        
     const { pageIndex, pageSize } = state;
     
     useEffect(() => {

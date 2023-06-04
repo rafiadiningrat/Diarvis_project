@@ -16,6 +16,9 @@ const Filter = (props) => {
   const [UPB, setUPB] = useState([]);
   const [takenUPB, setTakenUPB] = useState();
 
+  console.log(location.pathname);
+  console.log(takenUPB);
+
   const navigateToDataMaster = () => {
     if (location.pathname === "/datamaster/kib-b/filter") {
       navigate("/datamaster/kib-b", {state: takenUPB});
