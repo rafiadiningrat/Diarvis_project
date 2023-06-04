@@ -100,7 +100,7 @@ class UserController extends Controller
                 'nama' => $user->nama_lengkap,
                 'kode_group' => $user->grups->kode_grup,
                 'grups' => $user->grups->nama_grup,
-                'kode_upb' => $user->upb->kdoe_upb,
+                'kode_upb' => $user->upb->kode_upb,
                 'Upb' => $user->upb->nama_upb // Mengakses atribut "nama_grup" dari relasi "grup"
             ],
         ]);
