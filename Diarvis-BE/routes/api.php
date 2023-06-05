@@ -70,6 +70,8 @@ Route::get('/grup', [GrupModel::class, 'getGrup']); // get seluruh data grup
 // User
 Route::get('/user', [UserController::class, 'getAllUser']); // get seluruh data user
 Route::get('/user/{id}', [UserController::class, 'getUser']); // get seluruh data user berdasarkan grup yang dipilih 
+Route::post('/create/user', [UserController::class, 'addUser']);
+Route::get('/detail/user/{id}', [UserController::class, 'detail']);
 
 // KIB B
 Route::get('/kib-b', [KIBBController::class, 'getAllKibB']); // get seluruh data kib b

@@ -5,14 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\GrupModel;
+use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 
 class UserModel extends Model
 {
-    use HasFactory;
+    use HasFactory, HasTimestamps;
 
     protected $table = 'USER';
-    protected $guarded = ['id'];
-    public $timestamps = false;
+    protected $primaryKey = 'id_user'; // Add the custom primary key column name
+    protected $guarded = ['id_user'];
+    public $timestamps = true;
+    protected $casts = [
+        'updated_at' => 'datetime',
+    ];
 
 
     public function grups()
@@ -23,6 +28,21 @@ class UserModel extends Model
     public function upb()
     {
         return $this->belongsTo(UPBModel::class, 'kode_upb', 'kode_upb');
+    }
+
+    public function subUnit()
+    {
+        return $this->belongsTo(SubUnitModel::class, 'kode_sub_unit', 'kode_sub_unit');
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(UnitModel::class, 'kode_unit', 'kode_unit');
+    }
+
+    public function bidang()
+    {
+        return $this->belongsTo(BidangModel::class, 'kode_bidang', 'kode_bidang');
     }
 
     public function pengusulanB()
