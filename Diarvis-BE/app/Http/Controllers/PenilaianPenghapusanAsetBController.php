@@ -122,7 +122,24 @@ class PenilaianPenghapusanAsetBController extends Controller
 //         ], 400);
 //     }
 // }
+public function detailPenilaian($id_usulan_b)
+{
+    $penilaian = PengusulanPenghapusanAsetBModel::where('id_usulan_b', $id_usulan_b)
+                        ->with('kibB')
+                        ->first();
 
+    if (!$penilaian) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Data tidak ditemukan'
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $penilaian
+    ], 200);
+}
 
     public function updatePenilaianB(Request $request, $id_usulan_b)
 {

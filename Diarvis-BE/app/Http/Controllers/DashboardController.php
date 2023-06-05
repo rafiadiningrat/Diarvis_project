@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\UserModel;
 use App\Models\KIBBModel;
+use Illuminate\Support\Facades\DB;
 use App\Models\PengusulanPenghapusanAsetBModel;
 use App\Models\PengusulanPenghapusanAsetEModel;
 
@@ -15,11 +16,21 @@ class DashboardController extends Controller
     {
         $status = true;
         $usulanBCount = [
-            'Total Pengusulan' => PengusulanPenghapusanAsetBModel::query("SELECT * from pengusulan_penghapusan_aset_b")->count(),
-            'Total Penilaian' => PengusulanPenghapusanAsetBModel::where('status_penilaian', true)->count(),
-            'Total Verifikasi' => PengusulanPenghapusanAsetBModel::where('status_verifikasi', true)->count(),
-            'Total Penghapusan' => PengusulanPenghapusanAsetBModel::where('status_penghapusan', true)->count()
+        'Total Pengusulan' => PengusulanPenghapusanAsetBModel::query("SELECT * from pengusulan_penghapusan_aset_b")->count(),
+        'Total Penilaian' => PengusulanPenghapusanAsetBModel::where('status_penilaian', true)->count(),
+        'Total Verifikasi' => PengusulanPenghapusanAsetBModel::where('status_verifikasi', true)->count(),
+        'Total Penghapusan' => PengusulanPenghapusanAsetBModel::where('status_penghapusan', true)->count()
     ];
+
+    // Mengambil jumlah berdasarkan kode_upb
+    $kodeUpbCounts = PengusulanPenghapusanAsetBModel::select('kib_b.kode_upb', DB::raw('count(*) as count'))
+                        ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
+                        ->groupBy('kib_b.kode_upb')
+                        ->get();
+
+    foreach ($kodeUpbCounts as $kodeUpbCount) {
+        $usulanBCount['Total ' . $kodeUpbCount->kode_upb] = $kodeUpbCount->count;
+    }
 
     return $usulanBCount;
     }

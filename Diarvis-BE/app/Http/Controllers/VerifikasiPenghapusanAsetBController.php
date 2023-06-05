@@ -12,13 +12,13 @@ class VerifikasiPenghapusanAsetBController extends Controller
 {
     public function index()
     {
-        $penilaian = PengusulanPenghapusanAsetBModel::where('status_penilaian', true)
+        $verifikasi = PengusulanPenghapusanAsetBModel::where('status_penilaian', true)
                                  ->whereNull('status_verifikasi')
                                  ->whereNull('status_penghapusan')
                                 ->with('kibB')
                                 ->get();
 
-        return response()->json($penilaian);
+        return response()->json($verifikasi);
     }
 
     public function approve(Request $request, $id_usulan_b)
@@ -61,6 +61,25 @@ class VerifikasiPenghapusanAsetBController extends Controller
             ], 400);
         }
     } 
+
+    public function detailVerifikasi($id_usulan_b)
+{
+    $penilaian = PengusulanPenghapusanAsetBModel::where('id_usulan_b', $id_usulan_b)
+                        ->with('kibB')
+                        ->first();
+
+    if (!$penilaian) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Data tidak ditemukan'
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $penilaian
+    ], 200);
+}
 
 //     public function update(Request $request, $id_usulan_b)
 // {

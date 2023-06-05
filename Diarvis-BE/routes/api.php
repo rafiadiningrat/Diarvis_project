@@ -89,18 +89,21 @@ Route::get('/kibb/usulanB/{id}', [PengusulanPenghapusanAsetBController::class, '
 Route::post('/kibb/usulan', [PengusulanPenghapusanAsetBController::class, 'store']); // membuat pengusulan penghapusan barang
 Route::put('/kibb/usulan/update/{id}', [PengusulanPenghapusanAsetBController::class, 'update']); // melakukan update terhadap penghapusan barang
 Route::delete('/kibb/usulan/{id}', [PengusulanPenghapusanAsetBController::class, 'destroy']); // melakukan penghapusan terhadap penghapusan barang
-Route::get('/kibb/detail/{id}', [PengusulanPenghapusanAsetBController::class, 'detail']);
+Route::get('/kibb/usulan/detail/{id}', [PengusulanPenghapusanAsetBController::class, 'detail']);
+
 
 //Penilaian B
 Route::get('/kibb/penilaian', [PenilaianPenghapusanAsetBController::class, 'index']);
 Route::put('/kibb/usulanb/update-penilaian/{id}', [PenilaianPenghapusanAsetBController::class, 'updatePenilaianB']);
 Route::post('/kibb/penilaian/diterima/{id}', [PenilaianPenghapusanAsetBController::class, 'approve']);
 Route::post('/kibb/penilaian/ditolak/{id}', [PenilaianPenghapusanAsetBController::class, 'decline']);
+Route::get('/kibb/penilaian/detail/{id}', [PenilaianPenghapusanAsetBController::class, 'detailPenilaian']);
 
 // verifikator B
 Route::get('/kibb/verifikasi', [VerifikasiPenghapusanAsetBController::class, 'index']);
 Route::put('/kibb/verifikasi/diterima/{id}', [VerifikasiPenghapusanAsetBController::class, 'approve']); // proses verifikasi
 Route::put('/kibb/verifikasi/ditolak/{id}', [VerifikasiPenghapusanAsetBController::class, 'decline']); // proses verifikasi
+Route::get('/kibb/verifikasi/detail/{id}', [VerifikasiPenghapusanAsetBController::class, 'detailVerifikasi']);
 
 // Usulan E
 //Route::get('/', [PengusulanPenghapusanAsetBModel::class, 'getAllUsulanB']);
