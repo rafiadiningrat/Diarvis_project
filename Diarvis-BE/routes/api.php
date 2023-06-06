@@ -119,6 +119,7 @@ Route::post('/kibe/usulan', [PengusulanPenghapusanAsetEController::class, 'store
 Route::put('/kibe/usulan/update/{id}', [PengusulanPenghapusanAsetEController::class, 'update']); // melakukan update terhadap penghapusan barang
 Route::delete('/kibe/usulan/{id}', [PengusulanPenghapusanAsetEController::class, 'destroy']); // melakukan penghapusan terhadap penghapusan barang
 Route::get('/kibe/detail/{id}', [PengusulanPenghapusanAsetEController::class, 'detail']);
+Route::get('/kibe/belumUsulan', [PengusulanPenghapusanAsetEController::class, 'getBarangBelumUsulan']);
 
 //Penilaian E
 Route::get('/kibe/penilaian', [PenilaianPenghapusanAsetEController::class, 'index']);

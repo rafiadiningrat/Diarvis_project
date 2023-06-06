@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\PengusulanPenghapusanAsetEModel;
+use App\Models\KIBEModel;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
@@ -162,6 +163,20 @@ public function detail($id_usulan_e)
         'success' => true,
         'data' => $usulanE
     ], 200);
+}
+
+public function getBarangBelumUsulan()
+{
+    $barangBelumUsulan = KIBEModel::whereNotExists(function ($query) {
+        $query->select(DB::raw(1))
+            ->from('pengusulan_penghapusan_aset_e')
+            ->whereRaw('pengusulan_penghapusan_aset_e.id_aset_e = kib_e.id_aset_e');
+    })->get();
+
+    return response()->json([
+        'success' => true,
+        'data' => $barangBelumUsulan
+    ]);
 }
 
 public function getAllUsulanE()
