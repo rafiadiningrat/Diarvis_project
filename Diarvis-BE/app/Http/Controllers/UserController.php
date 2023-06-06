@@ -23,10 +23,15 @@ class UserController extends Controller
         $UserResponse = [];
         foreach ($user as $user) {
             array_push($UserResponse, [
+                'kode_grup' => $user->grups->kode_grup,
                 'nama_grup' => $user->grups->nama_grup,
+                'kode_upb' => $user->upb->kode_upb,
                 'nama_upb'=> $user->upb->nama_upb,
+                'kode_sub_unit'=> $user->subUnit->kode_sub_unit,
                 'nama_sub_unit'=> $user->subUnit->nama_sub_unit,
+                'kode_unit'=> $user->unit->kode_unit,
                 'nama_unit'=> $user->unit->nama_unit,
+                'kode_bidang'=> $user->bidang->kode_bidang,
                 'nama_bidang'=> $user->bidang->nama_bidang,
                 'id_user' => $user->id_user,
                 'no_pegawai'=> $user->no_pegawai,
@@ -51,10 +56,15 @@ class UserController extends Controller
         $UserResponse = [];
         foreach ($user as $user) {
             array_push($UserResponse, [
+                'kode_grup' => $user->grups->kode_grup,
                 'nama_grup' => $user->grups->nama_grup,
+                'kode_upb' => $user->upb->kode_upb,
                 'nama_upb'=> $user->upb->nama_upb,
+                'kode_sub_unit'=> $user->subUnit->kode_sub_unit,
                 'nama_sub_unit'=> $user->subUnit->nama_sub_unit,
+                'kode_unit'=> $user->unit->kode_unit,
                 'nama_unit'=> $user->unit->nama_unit,
+                'kode_bidang'=> $user->bidang->kode_bidang,
                 'nama_bidang'=> $user->bidang->nama_bidang,
                 'id_user' => $user->id_user,
                 'no_pegawai'=> $user->no_pegawai,
