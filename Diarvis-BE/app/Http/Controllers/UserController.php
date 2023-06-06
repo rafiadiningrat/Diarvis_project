@@ -122,6 +122,56 @@ class UserController extends Controller
     ], 201);
 }
 
+public function updateUser(Request $request, $id_user)
+{
+    $user = UserModel::find($id_user);
+
+    if (!$user) {
+        return response()->json([
+            'success' => false,
+            'message' => 'User tidak ditemukan'
+        ], 404);
+    }
+
+    $user->kode_grup = $request->input('kode_grup');
+    $user->kode_upb = $request->input('kode_upb');
+    $user->kode_sub_unit = $request->input('kode_sub_unit');
+    $user->kode_unit = $request->input('kode_unit');
+    $user->kode_bidang = $request->input('kode_bidang');
+    $user->no_pegawai = $request->input('no_pegawai');
+    $user->nama_lengkap = $request->input('nama_lengkap');
+    $user->email = $request->input('email');
+    $user->password = $request->input('password');
+    $user->no_hp = $request->input('no_hp');
+    $user->updated_at = now();
+    $user->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'User berhasil diperbarui',
+        'data' => $user
+    ], 200);
+}
+
+public function deleteUser($id_user)
+{
+    $user = UserModel::find($id_user);
+
+    if (!$user) {
+        return response()->json([
+            'success' => false,
+            'message' => 'User tidak ditemukan'
+        ], 404);
+    }
+
+    $user->delete();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'User berhasil dihapus'
+    ], 200);
+}
+
 
     public function login(Request $request)
     {
