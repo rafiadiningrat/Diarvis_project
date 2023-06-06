@@ -31,30 +31,32 @@ class PenilaianPenghapusanAsetBController extends Controller
         return response()->json($penilaian);
     }
 
-    public function approve(Request $request, $id)
+    public function approve(Request $request, $id_usulan_b)
     {
 
         $request->validate([
             'dokumen_penilaian' => 'mimetypes:application/pdf|max:2048',
+            'keterangan_penilaian' => 'required|string',
         ]);
 
-        $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id);
+        $penilaianB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
 
-        $usulanB->status_penilaian = true;
+        $penilaianB->status_penilaian = true;
+        $penilaianB->keterangan_penilaian = $request->input('keterangan_penilaian');
 
         if ($request->hasFile('dokumen_penilaian')) {
-                 $media = $usulanB->addMedia($request->file('dokumen_penilaian'))
+                 $media = $penilaianB->addMedia($request->file('dokumen_penilaian'))
                      ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
         
-                 $usulanB->dokumen_penilaian = $media->getUrl();
+                 $penilaianB->dokumen_penilaian = $media->getUrl();
              }
     
              // Menyimpan perubahan data ke dalam database
-             $usulanB->save();
+             $penilaianB->save();
     
              return response()->json([
                  'message' => 'Dokumen penilaian berhasil ditambahkan dan status penilaian diterima',
-                 'data' => $usulanB
+                 'data' => $penilaianB
              ]);
         
     }
@@ -64,26 +66,27 @@ class PenilaianPenghapusanAsetBController extends Controller
 
         $request->validate([
             'dokumen_penilaian' => 'mimetypes:application/pdf|max:2048',
+            'keterangan_penilaian' => 'required|string',
         ]);
 
-        $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id);
+        $penilaianB = PengusulanPenghapusanAsetBModel::findOrFail($id);
 
-        $usulanB->status_penilaian = false;
-        $usulanB->status_penghapusan = false;
+        $penilaianB->status_penilaian = false;
+        $penilaianB->keterangan_penilaian = $request->input('keterangan_penilaian');
 
         if ($request->hasFile('dokumen_penilaian')) {
-                 $media = $usulanB->addMedia($request->file('dokumen_penilaian'))
+                 $media = $penilaianB->addMedia($request->file('dokumen_penilaian'))
                      ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
         
-                 $usulanB->dokumen_penilaian = $media->getUrl();
+                 $penilaianB->dokumen_penilaian = $media->getUrl();
              }
     
              // Menyimpan perubahan data ke dalam database
-             $usulanB->save();
+             $penilaianB->save();
     
              return response()->json([
                  'message' => 'Dokumen penilaian berhasil ditambahkan dan status penilaian ditolak.',
-                 'data' => $usulanB
+                 'data' => $penilaianB
              ]);
         
     }

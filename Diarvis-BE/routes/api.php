@@ -105,8 +105,8 @@ Route::get('/kibb/penilaian/detail/{id}', [PenilaianPenghapusanAsetBController::
 
 // verifikator B
 Route::get('/kibb/verifikasi', [VerifikasiPenghapusanAsetBController::class, 'index']);
-Route::put('/kibb/verifikasi/diterima/{id}', [VerifikasiPenghapusanAsetBController::class, 'approve']); // proses verifikasi
-Route::put('/kibb/verifikasi/ditolak/{id}', [VerifikasiPenghapusanAsetBController::class, 'decline']); // proses verifikasi
+Route::post('/kibb/verifikasi/diterima/{id}', [VerifikasiPenghapusanAsetBController::class, 'approve']); // proses verifikasi
+Route::post('/kibb/verifikasi/ditolak/{id}', [VerifikasiPenghapusanAsetBController::class, 'decline']); // proses verifikasi
 Route::get('/kibb/verifikasi/detail/{id}', [VerifikasiPenghapusanAsetBController::class, 'detailVerifikasi']);
 
 // Usulan E

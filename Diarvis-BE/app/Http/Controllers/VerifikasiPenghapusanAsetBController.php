@@ -12,7 +12,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
 {
     public function index()
     {
-        $verifikasi = PengusulanPenghapusanAsetBModel::where('status_penilaian', true)
+        $verifikasi = PengusulanPenghapusanAsetBModel::whereNotNull('status_penilaian')
                                  ->whereNull('status_verifikasi')
                                  ->whereNull('status_penghapusan')
                                 ->with('kibB')
@@ -24,42 +24,59 @@ class VerifikasiPenghapusanAsetBController extends Controller
     public function approve(Request $request, $id_usulan_b)
     {
 
-        $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
+        $request->validate([
+            'keterangan_verifikasi' => 'required|string',
+        ]);
 
-        if ($usulanB->status_penilaian) {
-            $usulanB->status_verifikasi = true;
-            $usulanB->save();
+        $verifikasiB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
+
+        $verifikasiB->status_verifikasi = true;
+        $verifikasiB->status_penghapusan = true;
+        $verifikasiB->keterangan_verifikasi = $request->input('keterangan_verifikasi');
+
+        $verifikasiB->save();
     
             return response()->json([
-                'message' => 'Usulan created successfully',
-                'usulan' => $usulanB
+                'message' => 'verifikasi diterima',
+                'usulan' => $verifikasiB
             ], 201);
-        } else {
-            return response()->json([
-                'message' => 'Masih dalam Penilaian',
-            ], 400);
-        }
     } 
 
     public function decline(Request $request, $id_usulan_b)
     {
 
-        $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
+        $request->validate([
+            'keterangan_verifikasi' => 'required|string',
+        ]);
 
-        if ($usulanB->status_penilaian) {
-            $usulanB->status_verifikasi = false;
-            $usulanB->status_penghapusan = false;
-            $usulanB->save();
+        $verifikasiB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
+
+        $verifikasiB->status_verifikasi = false;
+        $verifikasiB->status_penghapusan = false;
+        $verifikasiB->keterangan_verifikasi = $request->input('keterangan_verifikasi');
+
+        $verifikasiB->save();
     
             return response()->json([
-                'message' => 'verifikasi ditolak',
-                'usulan' => $usulanB
+                'message' => 'Verifikasi ditolak',
+                'usulan' => $verifikasiB
             ], 201);
-        } else {
-            return response()->json([
-                'message' => 'Masih dalam Penilaian',
-            ], 400);
-        }
+        // $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
+
+        // if ($usulanB->status_penilaian) {
+        //     $usulanB->status_verifikasi = false;
+        //     $usulanB->status_penghapusan = false;
+        //     $usulanB->save();
+    
+        //     return response()->json([
+        //         'message' => 'verifikasi ditolak',
+        //         'usulan' => $usulanB
+        //     ], 201);
+        // } else {
+        //     return response()->json([
+        //         'message' => 'Masih dalam Penilaian',
+        //     ], 400);
+        // }
     } 
 
     public function detailVerifikasi($id_usulan_b)
