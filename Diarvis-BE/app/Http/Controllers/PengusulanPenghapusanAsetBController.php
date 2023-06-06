@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\PengusulanPenghapusanAsetBModel;
+use App\Models\KIBBModel;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
@@ -247,71 +248,7 @@ public function update(Request $request, $id_usulan_b)
 }
 
 
-//     public function update(Request $request, $id_usulan_b)
-//     {
 
-//         // $validatedData = $request->validate([
-//         //     'id_user' => 'required|exists:users,id_user',
-//         //     'id_aset_b' => 'required|exists:kib_b,id_aset_b',
-//         //     'foto_barang1' => 'image|mimes:jpeg,jpg,png|max:2048',
-//         //     'foto_barang2' => 'image|mimes:jpeg,jpg,png|max:2048',
-//         //     'foto_barang3' => 'image|mimes:jpeg,jpg,png|max:2048',
-//         //     'foto_barang4' => 'image|mimes:jpeg,jpg,png|max:2048',
-//         //     'alasan_penghapusan' => 'required|string',
-//         // ]);
-        
-//         $id_user = $request->id_user;
-//         $id_aset_b = $request->id_aset_b;
-//         $foto_barang1 = $request->foto_barang1;
-//         $foto_barang2 = $request->foto_barang2;
-//         $foto_barang3 = $request->foto_barang3;
-//         $foto_barang4 = $request->foto_barang4;
-//         $alasan_penghapusan = $request->alasan_penghapusan;
-
-//         $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
-
-//         $usulanB->id_user = $id_user;
-//         $usulanB->id_aset_b = $id_aset_b;
-//         $usulanB->alasan_penghapusan = $alasan_penghapusan;
-
-//         $this->updateFotoBarang($request, $usulanB, 'foto_barang1');
-//         $this->updateFotoBarang($request, $usulanB, 'foto_barang2');
-//         $this->updateFotoBarang($request, $usulanB, 'foto_barang3');
-//         $this->updateFotoBarang($request, $usulanB, 'foto_barang4');
-
-//         $usulanB->save();
-
-//         return response()->json([
-//             'message' => 'Usulan updated successfully',
-//             'usulan' => new PengusulanPenghapusanAsetBResource($usulanB)
-//         ], 200);
-//     }
-
-//     private function updateFotoBarang(Request $request, $usulanB, $fieldName)
-// {
-//     if ($request->hasFile($fieldName)) {
-//         $fotoBarang = $request->file($fieldName);
-//         $oldFotoBarang = $usulanB->$fieldName;
-
-//         if ($oldFotoBarang) {
-//             Storage::disk('public')->delete($oldFotoBarang);
-//         }
-
-//         $media = $usulanB->addMedia($fotoBarang)
-//             ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
-
-//         $usulanB->$fieldName = $media->getUrl();
-//     }
-
-//     // Tambahkan pernyataan log debug
-//     Log::debug('Update foto_barang: fieldName=' . $fieldName . ', usulanB=' . $usulanB);
-
-//     // Alternatif: Log pesan dengan menggunakan variabel dan data
-//     Log::debug('Update foto_barang', [
-//         'fieldName' => $fieldName,
-//         'usulanB' => $usulanB,
-//     ]);
-// }
 
 
     // public function update(Request $request, $id_usulan_b)
@@ -368,6 +305,20 @@ public function detail($id_usulan_b)
         'success' => true,
         'data' => $usulanB
     ], 200);
+}
+
+public function getBarangBelumUsulan()
+{
+    $barangBelumUsulan = KIBBModel::whereNotExists(function ($query) {
+        $query->select(DB::raw(1))
+            ->from('pengusulan_penghapusan_aset_b')
+            ->whereRaw('pengusulan_penghapusan_aset_b.id_aset_b = kib_b.id_aset_b');
+    })->get();
+
+    return response()->json([
+        'success' => true,
+        'data' => $barangBelumUsulan
+    ]);
 }
 
 public function getAllUsulanB()

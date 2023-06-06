@@ -94,6 +94,7 @@ Route::post('/kibb/usulan', [PengusulanPenghapusanAsetBController::class, 'store
 Route::put('/kibb/usulan/update/{id}', [PengusulanPenghapusanAsetBController::class, 'update']); // melakukan update terhadap penghapusan barang
 Route::delete('/kibb/usulan/{id}', [PengusulanPenghapusanAsetBController::class, 'destroy']); // melakukan penghapusan terhadap penghapusan barang
 Route::get('/kibb/usulan/detail/{id}', [PengusulanPenghapusanAsetBController::class, 'detail']);
+Route::get('/kibb/belumUsulan', [PengusulanPenghapusanAsetBController::class, 'getBarangBelumUsulan']);
 
 
 //Penilaian B
