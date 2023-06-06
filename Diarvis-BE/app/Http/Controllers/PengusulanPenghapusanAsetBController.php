@@ -79,7 +79,7 @@ public function index()
         // 'status_penghapusan' => false,
         // 'status_penilaian' => false,
         // 'status_verifikasi' => false,
-        'dokumen_penilaian' => '',
+        // 'dokumen_penilaian' => '',
     ]);
 
 

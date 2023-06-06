@@ -16,19 +16,19 @@ class DashboardController extends Controller
     {
         $status = true;
         $usulanBCount = [
-        'Total Pengusulan' => PengusulanPenghapusanAsetBModel::query("SELECT * from pengusulan_penghapusan_aset_b")->select('kib_b.kode_upb', DB::raw('count(*) as count'))
+        'total_pengusulan' => PengusulanPenghapusanAsetBModel::query("SELECT * from pengusulan_penghapusan_aset_b")->select('kib_b.kode_upb', DB::raw('count(*) as count'))
                                                             ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
                                                             ->groupBy('kib_b.kode_upb')
                                                             ->get(),
-        'Total Penilaian' => PengusulanPenghapusanAsetBModel::where('status_penilaian', true)->select('kib_b.kode_upb', DB::raw('count(*) as count'))
+        'total_penilaian' => PengusulanPenghapusanAsetBModel::where('status_penilaian', true)->select('kib_b.kode_upb', DB::raw('count(*) as count'))
                                                             ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
                                                             ->groupBy('kib_b.kode_upb')
                                                             ->get(),
-        'Total Verifikasi' => PengusulanPenghapusanAsetBModel::where('status_verifikasi', true)->select('kib_b.kode_upb', DB::raw('count(*) as count'))
+        'total_verifikasi' => PengusulanPenghapusanAsetBModel::where('status_verifikasi', true)->select('kib_b.kode_upb', DB::raw('count(*) as count'))
                                                             ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
                                                             ->groupBy('kib_b.kode_upb')
                                                             ->get(),
-        'Total Penghapusan' => PengusulanPenghapusanAsetBModel::where('status_penghapusan', true)->select('kib_b.kode_upb', DB::raw('count(*) as count'))
+        'total_penghapusan' => PengusulanPenghapusanAsetBModel::where('status_penghapusan', true)->select('kib_b.kode_upb', DB::raw('count(*) as count'))
                                                             ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
                                                             ->groupBy('kib_b.kode_upb')
                                                             ->get()
@@ -51,10 +51,22 @@ class DashboardController extends Controller
     {
         $status = true;
         $usulanECount = [
-            'Total Pengusulan' => PengusulanPenghapusanAsetEModel::query("SELECT * from pengusulan_penghapusan_aset_e")->count(),
-            'Total Penilaian' => PengusulanPenghapusanAsetEModel::where('status_penilaian', true)->count(),
-            'Total Verifikasi' => PengusulanPenghapusanAsetEModel::where('status_verifikasi', true)->count(),
-            'Total Penghapusan' => PengusulanPenghapusanAsetEModel::where('status_penghapusan', true)->count()
+            'total_pengusulan' => PengusulanPenghapusanAsetEModel::query("SELECT * from pengusulan_penghapusan_aset_e")->select('kib_e.kode_upb', DB::raw('count(*) as count'))
+                                                            ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+                                                            ->groupBy('kib_e.kode_upb')
+                                                            ->get(),
+            'total_penilaian' => PengusulanPenghapusanAsetEModel::where('status_penilaian', true)->select('kib_e.kode_upb', DB::raw('count(*) as count'))
+                                                            ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+                                                            ->groupBy('kib_e.kode_upb')
+                                                            ->get(),
+            'total_verifikasi' => PengusulanPenghapusanAsetEModel::where('status_verifikasi', true)->select('kib_e.kode_upb', DB::raw('count(*) as count'))
+                                                            ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+                                                            ->groupBy('kib_e.kode_upb')
+                                                            ->get(),
+            'total_penghapusan' => PengusulanPenghapusanAsetEModel::where('status_penghapusan', true)->select('kib_e.kode_upb', DB::raw('count(*) as count'))
+                                                            ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+                                                            ->groupBy('kib_e.kode_upb')
+                                                            ->get()
         ];
     
         return $usulanECount;
