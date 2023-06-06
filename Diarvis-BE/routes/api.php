@@ -124,11 +124,14 @@ Route::get('/kibe/penilaian', [PenilaianPenghapusanAsetEController::class, 'inde
 Route::put('/kibe/update-penilaian/{id}', [PenilaianPenghapusanAsetEController::class, 'updatePenilaianE']);
 Route::post('/kibe/penilaian/diterima/{id}', [PenilaianPenghapusanAsetEController::class, 'approve']);
 Route::post('/kibe/penilaian/ditolak/{id}', [PenilaianPenghapusanAsetEController::class, 'decline']);
+Route::get('/kibe/penilaian/detail/{id}', [PenilaianPenghapusanAsetEController::class, 'detailPenilaian']);
 
 // verifikator E
 Route::get('/kibe/verifikasi', [VerifikasiPenghapusanAsetEController::class, 'index']);
-Route::put('/kibe/verifikasi/diterima/{id}', [VerifikasiPenghapusanAsetEController::class, 'approve']); // proses verifikasi
-Route::put('/kibe/verifikasi/ditolak/{id}', [VerifikasiPenghapusanAsetEController::class, 'decline']); // proses verifikasi
+Route::post('/kibe/verifikasi/diterima/{id}', [VerifikasiPenghapusanAsetEController::class, 'approve']); // proses verifikasi
+Route::post('/kibe/verifikasi/ditolak/{id}', [VerifikasiPenghapusanAsetEController::class, 'decline']); // proses verifikasi
+Route::get('/kibe/verifikasi/detail/{id}', [VerifikasiPenghapusanAsetBController::class, 'detailVerifikasi']);
+
 
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'dashboardBE']);
