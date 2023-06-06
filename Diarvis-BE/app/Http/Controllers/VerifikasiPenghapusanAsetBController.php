@@ -81,11 +81,11 @@ class VerifikasiPenghapusanAsetBController extends Controller
 
     public function detailVerifikasi($id_usulan_b)
 {
-    $penilaian = PengusulanPenghapusanAsetBModel::where('id_usulan_b', $id_usulan_b)
+    $verifikasi = PengusulanPenghapusanAsetBModel::where('id_usulan_b', $id_usulan_b)
                         ->with('kibB')
                         ->first();
 
-    if (!$penilaian) {
+    if (!$verifikasi) {
         return response()->json([
             'success' => false,
             'message' => 'Data tidak ditemukan'
@@ -94,7 +94,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
 
     return response()->json([
         'success' => true,
-        'data' => $penilaian
+        'data' => $verifikasi
     ], 200);
 }
 

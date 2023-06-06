@@ -22,41 +22,61 @@ class VerifikasiPenghapusanAsetEController extends Controller
     public function approve(Request $request, $id_usulan_e)
     {
 
-        $usulanB = PengusulanPenghapusanAsetEModel::findOrFail($id_usulan_e);
+        $request->validate([
+            'keterangan_verifikasi' => 'required|string',
+        ]);
 
-        if ($usulanB->status_penilaian) {
-            $usulanB->status_verifikasi = true;
-            $usulanB->save();
+        $verifikasiE = PengusulanPenghapusanAsetEModel::findOrFail($id_usulan_e);
+
+        $verifikasiE->status_verifikasi = true;
+        $verifikasiE->status_penghapusan = true;
+        $verifikasiE->keterangan_verifikasi = $request->input('keterangan_verifikasi');
+
+        $verifikasiE->save();
     
             return response()->json([
-                'message' => 'Usulan created successfully',
-                'usulan' => $usulanB
+                'message' => 'verifikasi diterima',
+                'usulan' => $verifikasiE
             ], 201);
-        } else {
-            return response()->json([
-                'message' => 'Masih dalam Penilaian',
-            ], 400);
-        }
     } 
 
     public function decline(Request $request, $id_usulan_e)
     {
 
-        $usulanB = PengusulanPenghapusanAsetEModel::findOrFail($id_usulan_e);
+        $request->validate([
+            'keterangan_verifikasi' => 'required|string',
+        ]);
 
-        if ($usulanB->status_penilaian) {
-            $usulanB->status_verifikasi = false;
-            $usulanB->status_penghapusan = false;
-            $usulanB->save();
+        $verifikasiE = PengusulanPenghapusanAsetEModel::findOrFail($id_usulan_e);
+
+        $verifikasiE->status_verifikasi = false;
+        $verifikasiE->status_penghapusan = false;
+        $verifikasiE->keterangan_verifikasi = $request->input('keterangan_verifikasi');
+
+        $verifikasiE->save();
     
             return response()->json([
-                'message' => 'verifikasi ditolak',
-                'usulan' => $usulanB
+                'message' => 'Verifikasi ditolak',
+                'usulan' => $verifikasiE
             ], 201);
-        } else {
-            return response()->json([
-                'message' => 'Masih dalam Penilaian',
-            ], 400);
-        }
     } 
+
+    public function detailVerifikasi($id_usulan_e)
+{
+    $verifikasi = PengusulanPenghapusanAsetEModel::where('id_usulan_e', $id_usulan_e)
+                        ->with('kibE')
+                        ->first();
+
+    if (!$verifikasi) {
+        return response()->json([
+            'success' => false,
+            'message' => 'Data tidak ditemukan'
+        ], 404);
+    }
+
+    return response()->json([
+        'success' => true,
+        'data' => $verifikasi
+    ], 200);
+}
 }
