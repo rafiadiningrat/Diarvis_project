@@ -419,3 +419,57 @@ export const COLUMNS_E_API = [
     width: 300,
   },
 ];
+
+export const COLUMNS_USER = [
+  {
+    Header: "No",
+    accessor: (row, i) => i + 1,
+    width: 40,
+    Cell: ({ value }) => <div>{value}</div>,
+  },
+  {
+    Header: "NIP",
+    accessor: "no_pegawai",
+    width: 150,
+  },
+  {
+    Header: "Nama",
+    accessor: "nama_lengkap",
+    width: 200,
+  },
+  {
+    Header: "Email",
+    accessor: "email",
+    width: 200,
+  },
+  {
+    Header: "NO. TELP",
+    accessor: "no_hp",
+    width: 120,
+  },
+  {
+    Header: "Grup",
+    accessor: "nama_grup",
+    width: 150,
+  },
+  {
+    Header: "Bidang",
+    accessor: "nama_bidang",
+    width: 200,
+  },
+  {
+    Header: "Unit",
+    accessor: "nama_unit",
+    width: 250,
+  },
+  {
+    Header: "Sub-Unit",
+    accessor: "nama_sub_unit",
+    width: 300,
+  },
+  {
+    Header: "UPB",
+    accessor: "nama_upb",
+    width: 300,
+  },
+];

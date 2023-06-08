@@ -6,6 +6,7 @@ import {
   AiFillFolder,
 } from "react-icons/ai";
 import { BiMessageSquareDetail } from "react-icons/bi";
+import { FaUser } from "react-icons/fa";
 import { RiContactsLine } from "react-icons/ri";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { Link, useLocation } from "react-router-dom";
@@ -88,7 +89,6 @@ const Sidebar = () => {
       icon: MdSpaceDashboard,
       subItems: [],
       to: "/",
-      state: "",
     },
     {
       title: "Data Master",
@@ -99,69 +99,64 @@ const Sidebar = () => {
           icon: RiContactsLine,
           subItems: [],
           to: "/datamaster/kib-b/filter",
-          state: "KIB B",
         },
         {
           title: "KIB E",
           icon: BiMessageSquareDetail,
           subItems: [],
           to: "/datamaster/kib-e/filter",
-          state: "KIB E",
         },
       ],
       to: "#",
     },
-    //(pengusulan with sub unit)
-    // {
-    //   title: "Pengusulan",
-    //   to: "#",
-    //    subItems: [
-    //     {
-    //       title: "KIB B",
-    //       icon: RiContactsLine,
-    //       subItems: [],
-    //       to: "/pengusulan/kib-b",
-    //       state: "KIB B",
-    //     },
-    //     {
-    //       title: "KIB E",
-    //       icon: BiMessageSquareDetail,
-    //       subItems: [],
-    //       to: "/pengusulan/kib-e",
-    //       state: "KIB E",
-    //     },
-    //   ],
-    //   icon: MdDriveFileMoveOutline,
-    //   state: "",
-    // },
-    // (pengusulan without sub unit)
     {
       title: "Pengusulan",
       to: "/pengusulan/filter",
       subItems: [],
       icon: MdDriveFileMoveOutline,
-      state: "Pengusulan",
     },
     {
       title: "Penilaian",
-      to: "/penilaian",
+      to: "/penilaian/filter",
       subItems: [],
       icon: BsFillClipboardDataFill,
-      state: "",
     },
     {
       title: "Verifikasi",
-      to: "/verifikasi",
+      to: "/verifikasi/filter",
       subItems: [],
       icon: BsFillClipboardCheckFill,
-      state: "",
+    },
+    {
+      title: "Laporan",
+      icon: BsFillBoxFill,
+      subItems: [
+        {
+          title: "Berita Acara",
+          icon: RiContactsLine,
+          subItems: [],
+          to: "/berita-acara/filter",
+        },
+        {
+          title: "Penghapusan",
+          icon: BiMessageSquareDetail,
+          subItems: [],
+          to: "/laporan-penghapusan/filter",
+        },
+      ],
+      to: "#",
+    },
+    {
+      title: "Data User",
+      icon: FaUser,
+      subItems: [],
+      to: "/data-user",
     },
     {
       title: "Settings",
       icon: AiOutlineSetting,
       subItems: [],
       to: "/settings",
-      state: "",
     },
   ];
 

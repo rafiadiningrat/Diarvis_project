@@ -7,58 +7,20 @@ import { UserContext } from "../App";
 
 const Dashboard = () => {
   const isLoggedIn = useContext(UserContext);
-  const [dataPengusulan, setDataPengusulan] = useState();
-  const [dataPenilaian, setDataPenilaian] = useState();
-  const [dataVerifikasi, setDataVerifikasi] = useState();
-  const [dataPenghapusan, setDataPenghapusan] = useState();
+  const [dataDashboard, setDataDashboard] = useState({});
+  console.log(dataDashboard);
 
   useEffect(() => {
     const getDataDashboard = async () => {
       try {
-        const resPengusulan = await axios.get(
-          "http://localhost:8000/api/total-pengusulan"
+        const resDashboard = await axios.get(
+          "http://localhost:8000/api/dashboard"
         );
-        setDataPengusulan(resPengusulan.data);
-        const resPenilaian = await axios.get(
-          "http://localhost:8000/api/total-penilaian"
-        );
-        setDataPenilaian(resPenilaian.data);
-        const resVerifikasi = await axios.get(
-          "http://localhost:8000/api/total-verifikasi"
-        );
-        setDataVerifikasi(resVerifikasi.data);
-        const resPenghapusan = await axios.get(
-          "http://localhost:8000/api/total-penghapusan"
-        );
-        setDataPenghapusan(resPenghapusan.data);
-        console
+        setDataDashboard(resDashboard.data);
       } catch (error) {
         console.log(error);
       }
     }
-
-    // const getDataDashboard = () => {
-    //   axios
-    //     .get("http://localhost:8000/api/total-pengusulan")
-    //     .then((resPengusulan) => {
-    //       setDataPengusulan(resPengusulan.data);
-    //     });
-    //     axios
-    //       .get("http://localhost:8000/api/total-penilaian")
-    //       .then((resPenilaian) => {
-    //         setDataPenilaian(resPenilaian.data);
-    //       });
-    //       axios
-    //         .get("http://localhost:8000/api/total-verifikasi")
-    //         .then((resVerifikasi) => {
-    //           setDataVerifikasi(resVerifikasi.data);
-    //         });
-    //         axios
-    //           .get("http://localhost:8000/api/total-penghapusan")
-    //           .then((resPenghapusan) => {
-    //             setDataPenghapusan(resPenghapusan.data);
-    //           });
-    // };
     getDataDashboard();
   }, []);
   return (
@@ -73,7 +35,7 @@ const Dashboard = () => {
                   <FaRegCheckCircle size={25} />
                   <h2 className="card-title ml-5">Proses Pengusulan</h2>
                 </div>
-                <p>{dataPengusulan}</p>
+                <p>{}</p>
               </div>
             </div>
             <div className="card w-auto bg-[#FFC764] text-primary-content">
@@ -82,7 +44,7 @@ const Dashboard = () => {
                   <FaBookOpen size={25} />
                   <h2 className="card-title ml-5">Proses Penilaian</h2>
                 </div>
-                <p>{dataPenilaian}</p>
+                <p>{}</p>
               </div>
             </div>
             <div className="card w-auto bg-[#7868E6] text-primary-content">
@@ -91,7 +53,7 @@ const Dashboard = () => {
                   <BsCashStack size={25} />
                   <h2 className="card-title ml-5">Proses Verifikasi</h2>
                 </div>
-                <p>{dataVerifikasi}</p>
+                <p>{}</p>
               </div>
             </div>
             <div className="card w-auto bg-[#BC658D] text-primary-content">
@@ -100,7 +62,7 @@ const Dashboard = () => {
                   <FaChartBar size={25} />
                   <h2 className="card-title ml-5">Total Penghapusan</h2>
                 </div>
-                <p>{dataPenghapusan}</p>
+                <p>{}</p>
               </div>
             </div>
           </div>

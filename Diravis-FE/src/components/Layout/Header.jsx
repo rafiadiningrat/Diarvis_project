@@ -3,7 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 const Header = (props) => {
   const navigate = useNavigate();
-  // const dataUser = JSON.parse(sessionStorage.getItem("user"));
+  const dataUser = JSON.parse(sessionStorage.getItem("user"));
+  // console.log(dataUser);
   return (
     <>
       <div className="fixed top-0 z-50 w-full">
@@ -49,7 +50,7 @@ const Header = (props) => {
                       aria-expanded="false"
                       data-dropdown-toggle="dropdown-user"
                     >
-                      <div className="text-black">Akbar | Admin</div>
+                      <div className="text-black">{dataUser.nama} | {dataUser.grups}</div>
                     </button>
                   </div>
                   <div

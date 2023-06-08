@@ -3,23 +3,26 @@ import Home from "../components/Layout/Sidebar";
 import Header from "../components/Layout/Header";
 import Swal from "sweetalert2";
 import axios from "axios";
-import Layout from "../layout/layout";
 import { useNavigate } from "react-router-dom";
+import Layout from "../layout/layout";
 
 const InputTugas = () => {
   const [judul, setJudul] = useState();
-  const [deskripsi, setDeskripsi] = useState();
-  const [file, setFile] = useState(null);
+  const [deskripsi, setDeskripsi] = useState();;
+  const [file1, setFile1] = useState(null);
+  const [file2, setFile2] = useState(null);
+
   const navigate = useNavigate();
 
   const formData = {
     judul: judul,
     deskripsi: deskripsi,
-    file_tugas: file,
+    file1: file1
   };
 
   useEffect(() => {
     console.log("File has been set.");
+    console.log(file);
   }, [file]);
 
   const uploadTugasHandler = async (e) => {
@@ -60,16 +63,28 @@ const InputTugas = () => {
             <div class="block w-full rounded-lg border border-gray-200 bg-white p-6 shadow-md">
               <form onSubmit={uploadTugasHandler}>
                 <div class="mb-6">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    Form Usulan
-                  </h5>
+                  <label
+                    for="mata_kuliah"
+                    class="block mb-2 text-sm font-medium text-gray-900"
+                  >
+                    Judul
+                  </label>
+                  <input
+                    type="text"
+                    id="mata_kuliah"
+                    value={judul}
+                    onChange={(e) => setJudul(e.target.value)}
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/6 p-2.5 "
+                    placeholder="Masukan Judul"
+                    required
+                  />
                 </div>
                 <div class="mb-6">
                   <label
-                    for="alasan"
+                    for="deskripsi"
                     class="block mb-2 text-sm font-medium text-gray-900"
                   >
-                    Alasan
+                    Deskripsi
                   </label>
                   <textarea
                     type="deskripsi"
@@ -82,78 +97,43 @@ const InputTugas = () => {
                     required
                   />
                 </div>
-                <div class="mb-6">
-                  <h5 className="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">
-                    Upload Foto
-                  </h5>
-                </div>
-                <div className="mt-5 grid grid-cols-2 gap-10">
-                  <div className="flex flex-row items-center justify-evenly">
-                    <label
-                      class="mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      for="file_input"
-                    >
-                      Tampak Depan
-                    </label>
-                    <input
-                      class="w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
-                      id="file_input"
-                      type="file"
-                      onChange={(e) => setFile(e.target.files[0])}
-                    />
-                  </div>
-                  <div className="flex flex-row items-center justify-evenly">
-                    <label
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      for="file_input"
-                    >
-                      Tampak Atas
-                    </label>
-                    <input
-                      class="block w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
-                      id="file_input"
-                      type="file"
-                      onChange={(e) => setFile(e.target.files[0])}
-                    />
-                  </div>
-                  <div className="flex flex-row items-center justify-evenly">
-                    <label
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      for="file_input"
-                    >
-                      Tampak Belakang
-                    </label>
-                    <input
-                      class="block w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
-                      id="file_input"
-                      type="file"
-                      onChange={(e) => setFile(e.target.files[0])}
-                    />
-                  </div>
-                  <div className="flex flex-row items-center justify-evenly">
-                    <label
-                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                      for="file_input"
-                    >
-                      Tampak Bawah
-                    </label>
-                    <input
-                      class="block w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
-                      id="file_input"
-                      type="file"
-                      onChange={(e) => setFile(e.target.files[0])}
-                    />
-                  </div>
-                </div>
 
-                {/* <div className="flex justify-center">
+                <div className="mt-5 flex flex-col justify-start gap-3">
+                  <label
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    for="file_input"
+                  >
+                    Upload file Tugas
+                  </label>
+                  <input
+                    class="block w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
+                    id="file_input"
+                    type="file"
+                    onChange={(e) => setFile1(e.target.files[0])}
+                  />
+                </div>
+                <div className="mt-5 flex flex-col justify-start gap-3">
+                  <label
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    for="file_input"
+                  >
+                    Upload file Tugas
+                  </label>
+                  <input
+                    class="block w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
+                    id="file_input"
+                    type="file"
+                    onChange={(e) => setFile2(e.target.files[0])}
+                  />
+                </div>
+                <div className="flex justify-center">
                   <button
                     type="submit"
                     className="btn bg-emerald-600 hover:bg-emerald-700 border-transparent hover:border-transparent  btn-xl mt-3 w-40 text-white"
                   >
-                    Submit
+                    Upload Tugas
                   </button>
-                </div> */}
+                </div>
               </form>
             </div>
           </div>
