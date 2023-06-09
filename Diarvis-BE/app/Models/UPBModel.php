@@ -22,10 +22,10 @@ class UPBModel extends Model
         return $upb;
     }
 
-    public function getUpb($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
+    public function getUpb($kode_bidang, $kode_unit, $kode_sub_unit)
     {
 
-        $unit = SubUnitModel::with('bidang', 'unit', 'subUnit')
+        $unit = UPBModel::with('bidang', 'unit', 'subUnit')
         ->where('kode_bidang', $kode_bidang)
         ->where('kode_unit', $kode_unit)
         ->where('kode_sub_unit', $kode_sub_unit)->get();
