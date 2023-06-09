@@ -1,38 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import axios from "axios";
-import { AiOutlinePaperClip } from "react-icons/ai";
 import Layout from "../../layout/layout";
 import { UserContext } from "../../App";
 
 function DetailPenilaianB(props) {
   const location = useLocation();
-  const [dataBarang, setDataBarang] = useState({});
-  const id_barang = location.state;
+  const dataPenilaian = location.state;
+  const dataBarang = dataPenilaian.kib_b;
+  console.log(dataPenilaian);
 
   useEffect(() => {
-    const getDataBarang = async () => {
-      try {
-        const resBarang = await axios.get(
-          //   `http://localhost:8000/api/kib-b/detail/${location.state}`
-          `http://localhost:8000/api/kib-b/detail/100002`
-        );
-        setDataBarang(resBarang.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getDataBarang();
+
   }, []);
   return (
     <>
       <Layout />
-      <div className="flex flex-col  lg:ml-64 mt-[118px] px-5 pt-5 w-auto min-h-[52.688rem]">
-        <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow">
-          <div>
+      <div className="flex flex-col lg:ml-64 mt-[118px] px-5 pt-5 w-auto min-h-[52.688rem]">
+        <div className="grid grid-cols-2 gap-4">
+          <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
             <div className="px-4 sm:px-0">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
-                Informasi Detail Penilaian KIB-B
+                Informasi Detail Barang KIB-B
               </h3>
             </div>
             <div className="mt-6 border-t border-gray-100">
@@ -42,7 +30,7 @@ function DetailPenilaianB(props) {
                     Id Pemda
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    Margot Foster
+                    {/* Margot Foster */}
                   </dd>
                 </div>
                 <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -50,7 +38,7 @@ function DetailPenilaianB(props) {
                     Nama Aset
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    Backend Developer
+                    {/* Backend Developer */}
                   </dd>
                 </div>
                 <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -209,6 +197,54 @@ function DetailPenilaianB(props) {
                   </dd>
                 </div>
               </dl>
+            </div>
+          </div>
+          <div className="block p-6 h-auto max-h-auto bg-white border border-gray-200 rounded-lg shadow">
+            <div className="px-4 sm:px-0">
+              <h3 className="text-base font-semibold leading-7 text-gray-900">
+                Informasi Detail Penilaian KIB-B
+              </h3>
+              {/* <div className="h-[1px] min-w-full bg-gray-100" /> */}
+              <div className="mt-6 border-t border-gray-100">
+                <div className="divide-y divide-gray-100">
+                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">
+                      Foto Barang
+                    </dt>
+                  </div>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-2 mt-5">
+                <div>
+                  <img
+                    className="h-[11.875rem] w-[11.875rem] lg:h-[9.25rem] lg:w-[9.25rem] xl:h-[13.125rem] xl:w-[22.5rem] 2xl:h-[22.5rem] 2xl:w-[22.5rem] rounded-lg"
+                    // className="h-auto max-w-full rounded-lg"
+                    src={dataPenilaian.foto_barang1}
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <img
+                    className="h-[11.875rem] w-[11.875rem] lg:h-[9.25rem] lg:w-[9.25rem] xl:h-[13.125rem] xl:w-[22.5rem] 2xl:h-[22.5rem] 2xl:w-[22.5rem] rounded-lg"
+                    src={dataPenilaian.foto_barang2}
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <img
+                    className="h-[11.875rem] w-[11.875rem] lg:h-[9.25rem] lg:w-[9.25rem] xl:h-[13.125rem] xl:w-[22.5rem] 2xl:h-[22.5rem] 2xl:w-[22.5rem] rounded-lg"
+                    src={dataPenilaian.foto_barang3}
+                    alt=""
+                  />
+                </div>
+                <div>
+                  <img
+                    className="h-[11.875rem] w-[11.875rem] lg:h-[9.25rem] lg:w-[9.25rem] xl:h-[13.125rem] xl:w-[22.5rem] 2xl:h-[22.5rem] 2xl:w-[22.5rem] rounded-lg"
+                    src={dataPenilaian.foto_barang4}
+                    alt=""
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>

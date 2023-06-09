@@ -6,7 +6,6 @@ import {
   AiOutlineDoubleRight,
   AiOutlineRight,
   AiOutlineLeft,
-  AiOutlineEdit,
   AiFillFileText,
 } from "react-icons/ai";
 import Layout from "../../layout/layout";
@@ -18,10 +17,10 @@ import axios from "axios";
 
 const DataMasterE = () => {
   const isLoggedIn = useContext(UserContext);
-  const [Datatable, setDataTable] = useState([]);
+  const [DataTable, setDataTable] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  // console.log(location.state);
+  console.log(location.state);
 
   const fetchData = async () => {
     const response = await axios
@@ -30,21 +29,21 @@ const DataMasterE = () => {
 
     if (response) {
       const DataTable = response.data.data;
-      // console.log("data: ", DataTable);
+      console.log("data: ", response);
       setDataTable(DataTable);
     }
   };
 
-  // Table Property
-  // const columns = useMemo(() => COLUMNS_E, []);
+  // Table Property (using dummy)
+  // const columns = useMemo(() => COLUMNS_B, []);
   // const data = useMemo(() => MOCK_DATA, []);
 
-  // Table property (using API)
+  // Table Property (using API)
   const columns = useMemo(() => COLUMNS_E_API, []);
-  const data = useMemo(() => [...Datatable], [Datatable]);
+  const data = useMemo(() => [...DataTable], [DataTable]);
 
-  const openDetails = (id) => {
-    navigate(`/datamaster/kib-e/detail/${id}`, { state: id });
+  const openDetails = (data) => {
+    navigate(`/datamaster/kib-e/detail/${data.id_aset_e}`, { state: data });
   };
 
   const tableHooks = (hooks) => {
@@ -54,13 +53,13 @@ const DataMasterE = () => {
         id: "Aksi",
         Header: "Aksi",
         sticky: "right",
-        width: 100,
+        width: 80,
         Cell: ({ row }) => (
           <div className="flex justify-center ml-2">
-           <button
+            <button
               title="Detail"
               className="px-3 py-2 text-xs mr-2 font-medium text-center rounded-md text-white bg-yellow-300 hover:bg-yellow-400"
-              onClick={() => openDetails(row.original.id_aset_e)}
+              onClick={() => openDetails(row.original)}
             >
               <AiFillFileText />
             </button>
@@ -107,7 +106,7 @@ const DataMasterE = () => {
       <Layout />
       <div className="flex flex-col  lg:ml-64 mt-[118px] px-5 pt-5 w-auto min-h-[52.688rem]">
         <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
-          <h5 class="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             Data Master / KIB B
           </h5>
           <div className="relative overflow-x-auto border border-gray-300">
@@ -203,7 +202,7 @@ const DataMasterE = () => {
                   onClick={() => previousPage()}
                   disabled={!canPreviousPage}
                 >
-                  <label className="sr-only">Previous</label>
+                  <span className="sr-only">Previous</span>
                   <AiOutlineLeft />
                 </button>
               </li>

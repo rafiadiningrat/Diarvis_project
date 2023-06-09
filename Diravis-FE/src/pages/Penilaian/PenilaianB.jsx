@@ -12,8 +12,7 @@ import { BsFillClipboardPlusFill } from "react-icons/bs";
 import Layout from "../../layout/layout";
 import MOCK_DATA from "../../components/Table/DataMaster/MOCK_DATA.json";
 import {
-  COLUMNS_B,
-  COLUMNS_B_API,
+  COLUMNS_PENILAIAN_B_API,
 } from "../../components/Table/DataMaster/columns";
 import { UserContext } from "../../App";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -22,60 +21,69 @@ import axios from "axios";
 const PenilaianB = () => {
   const isLoggedIn = useContext(UserContext);
   const [DataTable, setDataTable] = useState([]);
-  const [idUsulan, setIdUsulan] = useState();
+  const [idPenilaian, setIdPenilaian] = useState();
   const [file, setFile] = useState(null);
   const [linkPostPenilaian, setLinkPostPenilaian] = useState();
   const [editedData, setEditedData] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const [statusUsulan, setStatusUsulan] = useState(null);
+  const [statusPenilaian, setstatusPenilaian] = useState(null);
+  const [keteranganPenilaian, setKeteranganPenilaian] = useState();
   const navigate = useNavigate();
   const location = useLocation();
   const formData = {
+    keterangan_penilaian: keteranganPenilaian,
     dokumen_penilaian: file,
   };
-  console.log(location.state);
+  console.log("form penilaian: ", formData);
+  console.log("id penilaian: ", idPenilaian);
+  console.log("link api", linkPostPenilaian);
 
-  // const fetchData = async () => {
-  //   const response = await axios
-  //     .get(`http://localhost:8000/api/kib-b/${location.state}`)
-  //     .catch((err) => console.log(err));
-  //   if (response) {
-  //     const DataTable = response.data.data;
-  //     console.log("data: ", DataTable);
-  //     setDataTable(DataTable);
-  //   }
-  // };
+  const handleRadioDiterima = (e) => {
+    setstatusPenilaian(e.target.value === "true");
+  };
 
-  // Table Property (using dummy)
-  const columns = useMemo(() => COLUMNS_B, []);
-  const data = useMemo(() => MOCK_DATA, []);
+  const handleRadioDitolak = (e) => {
+    setstatusPenilaian(e.target.value === "false");
+  };
+
+  const fetchData = async () => {
+    const response = await axios
+      .get(`http://localhost:8000/api/kibb/penilaian`)
+      .catch((err) => console.log(err));
+    if (response) {
+      // console.log("response: ", response);
+      const data = response.data;
+      setDataTable(data);
+    }
+  };
 
   // Table Property (using API)
-  // const columns = useMemo(() => COLUMNS_B_API, []);
-  // const data = useMemo(() => [...DataTable], [DataTable]);
+  const columns = useMemo(() => COLUMNS_PENILAIAN_B_API, []);
+  const data = useMemo(() => [...DataTable], [DataTable]);
 
-  const openDetails = (id) => {
-    navigate(`/penilaian/kib-b/detail/${id}`, { state: id });
+  const openDetails = (data) => {
+    navigate(`/penilaian/kib-b/detail/${data.id_usulan_b}`, { state: data });
   };
 
   const handleInputPenilaian = (item) => {
-    setIdUsulan(item);
+    setIdPenilaian(item);
     setShowModal(true);
   };
 
   const handleModalClose = () => {
-    setIdUsulan();
+    setIdPenilaian();
     setFile(null);
-    setStatusUsulan();
+    setstatusPenilaian(null);
     setShowModal(false);
+    setKeteranganPenilaian();
   };
 
-  const handleSubmitUsulan = async (id) => {
+  const handleSubmitPenilaian = async (e) => {
     e.preventDefault();
-    {statusUsulan === false
+    {statusPenilaian === false
       ? setLinkPostPenilaian("http://localhost:8000/api/kibb/penilaian/ditolak")
       : setLinkPostPenilaian(
-          "http://localhost:8000/api/kibb/penilaian/ditolak"
+          "http://localhost:8000/api/kibb/penilaian/diterima"
         );}
     try {
       const config = {
@@ -83,8 +91,8 @@ const PenilaianB = () => {
           "Content-Type": "multipart/form-data",
         },
       };
-      const dataTugas = await axios
-        .post(`${linkPostPenilaian}/${id}`, formData, config)
+      const dataPenilaian = await axios
+        .post(`${linkPostPenilaian}/${idPenilaian}`, formData, config)
         .then((res) => {
           console.log(res);
           handleModalClose();
@@ -107,14 +115,14 @@ const PenilaianB = () => {
             <button
               title="Detail"
               className="px-3 py-2 text-xs mr-2 font-medium text-center rounded-md text-white bg-yellow-300 hover:bg-yellow-400"
-              onClick={() => openDetails(row.original.id_aset_b)}
+              onClick={() => openDetails(row.original)}
             >
               <AiFillFileText />
             </button>
             <button
               title="Penilaian"
               className="px-3 py-2 text-xs mr-2 font-medium text-center rounded-md text-white bg-green-400 hover:bg-green-500"
-              onClick={() => handleInputPenilaian(row.original.id)}
+              onClick={() => handleInputPenilaian(row.original.id_usulan_b)}
             >
               <BsFillClipboardPlusFill />
             </button>
@@ -153,7 +161,7 @@ const PenilaianB = () => {
   const { pageIndex, pageSize } = state;
 
   useEffect(() => {
-    // fetchData();
+    fetchData();
   }, []);
 
   return (
@@ -301,16 +309,18 @@ const PenilaianB = () => {
                 >
                   Pilih Status Penilaian
                 </label>
-                <div className="mt-6 space-y-6">
+                <div className="mt-6 mb-6 space-y-6">
                   <div className="flex items-center gap-x-3">
                     <input
-                      id="push-everything"
+                      id="push-diterima"
                       name="push-notifications"
                       type="radio"
+                      value="true"
+                      onChange={handleRadioDiterima}
                       className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     />
                     <label
-                      htmlFor="push-everything"
+                      htmlFor="push-diterima"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
                       Diterima
@@ -318,24 +328,44 @@ const PenilaianB = () => {
                   </div>
                   <div className="flex items-center gap-x-3">
                     <input
-                      id="push-email"
+                      id="push-ditolak"
                       name="push-notifications"
                       type="radio"
+                      value="true"
+                      onChange={handleRadioDitolak}
                       className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
                     />
                     <label
-                      htmlFor="push-email"
+                      htmlFor="push-ditolak"
                       className="block text-sm font-medium leading-6 text-gray-900"
                     >
                       Ditolak
                     </label>
                   </div>
                 </div>
+                <div class="mb-6">
+                  <label
+                    for="alasan"
+                    class="block mb-2 text-sm font-medium text-gray-900"
+                  >
+                    Keterangan
+                  </label>
+                  <textarea
+                    type="deskripsi"
+                    id="deskripsi"
+                    value={keteranganPenilaian}
+                    onChange={(e) => setKeteranganPenilaian(e.target.value)}
+                    rows="3"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 "
+                    placeholder="Masukkan Deskripsi atau keterangan"
+                    required
+                  />
+                </div>
 
                 <div className="mt-5 grid grid-rows-2 gap-5">
                   <div className="flex flex-row items-center justify-between">
                     <label
-                      class="mb-2 text-sm font-semibold text-gray-900 dark:text-white"
+                      class="block mb-2 text-sm font-semibold text-gray-900"
                       for="file_input"
                     >
                       Upload Dokumen
@@ -346,7 +376,9 @@ const PenilaianB = () => {
                       class="w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
                       id="file_input"
                       type="file"
-                      onChange={(e) => setFile1(e.target.files[0])}
+                      accept="application/pdf"
+                      required
+                      onChange={(e) => setFile(e.target.files[0])}
                     />
                   </div>
                 </div>
@@ -354,7 +386,7 @@ const PenilaianB = () => {
               <div className="flex justify-end mt-8">
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={handleSubmitUsulan}
+                  onClick={(e) => handleSubmitPenilaian(e)}
                 >
                   Usulkan
                 </button>

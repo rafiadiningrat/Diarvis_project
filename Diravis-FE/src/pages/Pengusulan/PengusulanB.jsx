@@ -16,6 +16,7 @@ import { COLUMNS_B, COLUMNS_B_API } from "../../components/Table/DataMaster/colu
 import { UserContext } from "../../App";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 const PengusulanB = () => {
   const dataUser = JSON.parse(sessionStorage.getItem("user"));
@@ -197,13 +198,13 @@ const PengusulanB = () => {
 
   const handleMoveToSecondTable = (item) => {
     setSelectedData((prevData) => [...prevData, item]);
-    setDataTable((prevData) =>
+    setDataByUPB((prevData) =>
       prevData.filter((dataItem) => dataItem.id_aset_b !== item.id_aset_b)
     );
   };
 
   const handleMoveToFirstTable = (item) => {
-    setDataTable((prevData) => [...prevData, item]);
+    setDataByUPB((prevData) => [...prevData, item]);
     setSelectedData((prevData) =>
       prevData.filter((dataItem) => dataItem.id_aset_b !== item.id_aset_b)
     );
@@ -232,14 +233,27 @@ const PengusulanB = () => {
           "Content-Type": "multipart/form-data",
         },
       };
-      const dataTugas = await axios
+      const dataUsulan = await axios
         .post("http://localhost:8000/api/kibb/usulan", formData, config)
         .then((res) => {
           console.log(res);
-          handleModalClose();
+          Swal.fire({
+            icon: "success",
+            title: "Pengusulan Berhasil",
+            text: "Barang berhasil diusulkan!",
+          }).then(function () {
+            handleModalClose();
+          });
         });
     } catch (error) {
       console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Pengusulan Gagal",
+        text: "Barang gagal diusulkan!",
+      }).then(function () {
+        handleModalClose();
+      });
     }
   };
 
@@ -474,6 +488,7 @@ const PengusulanB = () => {
                       class="w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
                       id="file_input"
                       type="file"
+                      accept="image/*"
                       onChange={(e) => setFile1(e.target.files[0])}
                     />
                   </div>
@@ -488,6 +503,7 @@ const PengusulanB = () => {
                       class="block w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
                       id="file_input"
                       type="file"
+                      accept="image/*"
                       onChange={(e) => setFile2(e.target.files[0])}
                     />
                   </div>
@@ -502,6 +518,7 @@ const PengusulanB = () => {
                       class="block w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
                       id="file_input"
                       type="file"
+                      accept="image/*"
                       onChange={(e) => setFile3(e.target.files[0])}
                     />
                   </div>
@@ -516,6 +533,7 @@ const PengusulanB = () => {
                       class="block w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
                       id="file_input"
                       type="file"
+                      accept="image/*"
                       onChange={(e) => setFile4(e.target.files[0])}
                     />
                   </div>

@@ -42,8 +42,8 @@ const DataMasterB = () => {
   const columns = useMemo(() => COLUMNS_B_API, []);
   const data = useMemo(() => [...DataTable], [DataTable]);
 
-  const openDetails = (id) => {
-    navigate(`/datamaster/kib-b/detail/${id}`, { state: id });
+  const openDetails = (data) => {
+    navigate(`/datamaster/kib-b/detail/${data.id_aset_b}`, { state: data });
   };
   
   const tableHooks = (hooks) => {
@@ -59,7 +59,7 @@ const DataMasterB = () => {
             <button
               title="Detail"
               className="px-3 py-2 text-xs mr-2 font-medium text-center rounded-md text-white bg-yellow-300 hover:bg-yellow-400"
-              onClick={() => openDetails(row.original.id_aset_b)}
+              onClick={() => openDetails(row.original)}
             >
               <AiFillFileText />
             </button>
@@ -106,7 +106,7 @@ const DataMasterB = () => {
       <Layout />
       <div className="flex flex-col  lg:ml-64 mt-[118px] px-5 pt-5 w-auto min-h-[52.688rem]">
         <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
-          <h5 class="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             Data Master / KIB B
           </h5>
           <div className="relative overflow-x-auto border border-gray-300">

@@ -7,21 +7,21 @@ import { UserContext } from "../../App";
 
 function DetailsDataMasterB(props) {
   const location = useLocation();
-  const [dataBarang, setDataBarang] = useState({});
-  const id_barang = location.state;
+  // const [dataBarang, setDataBarang] = useState({});
+  const dataBarang = location.state;
 
   useEffect(() => {
-    const getDataBarang = async () => {
-      try {
-        const resBarang = await axios.get(
-          `http://localhost:8000/api/kib-b/detail/${location.state}`
-        );
-        setDataBarang(resBarang.data.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getDataBarang();
+    // const getDataBarang = async () => {
+    //   try {
+    //     const resBarang = await axios.get(
+    //       `http://localhost:8000/api/kib-b/detail/${location.state}`
+    //     );
+    //     setDataBarang(resBarang.data.data);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // getDataBarang();
   }, []);
   return (
     <>

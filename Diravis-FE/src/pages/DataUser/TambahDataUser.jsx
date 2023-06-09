@@ -107,6 +107,7 @@ const ShowTambahDataUser = (props) => {
   const handleUnit = (e) => {
     setIdUnit(+e.target.value);
     axios
+      // .get(`http://localhost:8000/api/sub-unit/${idBidang}/${e.target.value}`)
       .get(`http://localhost:8000/api/sub-unit/${e.target.value}`)
       .then((res) => {
         setSubUnit(res.data.data);
@@ -115,9 +116,14 @@ const ShowTambahDataUser = (props) => {
 
   const handleSubUnit = (e) => {
     setIdSubUnit(+e.target.value);
-    axios.get(`http://localhost:8000/api/upb/${e.target.value}`).then((res) => {
-      setUPB(res.data.data);
-    });
+    axios
+      .get(
+        // `http://localhost:8000/api/upb/${idBidang}/${idUnit}/${e.target.value}`
+        `http://localhost:8000/api/upb/${e.target.value}`
+      )
+      .then((res) => {
+        setUPB(res.data.data);
+      });
   };
 
   const handleUPB = (e) => {
