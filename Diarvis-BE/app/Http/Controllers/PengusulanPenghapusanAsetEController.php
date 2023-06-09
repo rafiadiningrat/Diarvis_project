@@ -165,13 +165,18 @@ public function detail($id_usulan_e)
     ], 200);
 }
 
-public function getBarangBelumUsulan()
+public function getBarangBelumUsulan($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 {
     $barangBelumUsulan = KIBEModel::whereNotExists(function ($query) {
         $query->select(DB::raw(1))
             ->from('pengusulan_penghapusan_aset_e')
             ->whereRaw('pengusulan_penghapusan_aset_e.id_aset_e = kib_e.id_aset_e');
-    })->get();
+    })
+    ->where('kib_e.kode_bidang', $kode_bidang)
+    ->where('kib_e.kode_unit', $kode_unit)
+    ->where('kib_e.kode_sub_unit', $kode_sub_unit)
+    ->where('kib_e.kode_upb', $kode_upb)
+    ->get();
 
     return response()->json([
         'success' => true,

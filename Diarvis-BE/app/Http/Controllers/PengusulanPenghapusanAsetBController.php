@@ -307,19 +307,48 @@ public function detail($id_usulan_b)
     ], 200);
 }
 
-public function getBarangBelumUsulan()
+public function getBarangBelumUsulan($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 {
     $barangBelumUsulan = KIBBModel::whereNotExists(function ($query) {
         $query->select(DB::raw(1))
             ->from('pengusulan_penghapusan_aset_b')
             ->whereRaw('pengusulan_penghapusan_aset_b.id_aset_b = kib_b.id_aset_b');
-    })->get();
+    })
+    ->where('kib_b.kode_bidang', $kode_bidang)
+    ->where('kib_b.kode_unit', $kode_unit)
+    ->where('kib_b.kode_sub_unit', $kode_sub_unit)
+    ->where('kib_b.kode_upb', $kode_upb)
+    ->get();
 
     return response()->json([
         'success' => true,
         'data' => $barangBelumUsulan
     ]);
 }
+
+// public function getBarangBelumUsulan($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
+// {
+//     $barangBelumUsulan = KIBBModel::join('upb', 'kib_b.kode_upb', '=', 'upb.kode_upb')
+//         ->join('sub_unit', 'upb.kode_sub_unit', '=', 'sub_unit.kode_sub_unit')
+//         ->join('unit', 'sub_unit.kode_unit', '=', 'unit.kode_unit')
+//         ->join('bidang', 'unit.kode_bidang', '=', 'bidang.kode_bidang')
+//         ->whereNotExists(function ($query) {
+//             $query->select(DB::raw(1))
+//                 ->from('pengusulan_penghapusan_aset_b')
+//                 ->whereRaw('pengusulan_penghapusan_aset_b.id_aset_b = kib_b.id_aset_b');
+//         })
+//         ->where('bidang.kode_bidang', '=', $kode_bidang)
+//         ->where('unit.kode_unit', '=', $kode_unit)
+//         ->where('sub_unit.kode_sub_unit', '=', $kode_sub_unit)
+//         ->where('upb.kode_upb', '=', $kode_upb)
+//         ->select('kib_b.*')
+//         ->get();
+
+//     return response()->json([
+//         'success' => true,
+//         'data' => $barangBelumUsulan
+//     ]);
+// }
 
 public function getAllUsulanB()
     {
