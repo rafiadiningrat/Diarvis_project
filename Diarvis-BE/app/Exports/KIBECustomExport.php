@@ -20,14 +20,12 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Drawing;
 use App\Models\KIBBModel;
 use App\Models\PengusulanPenghapusanAsetBModel;
 
-class KIBBCustomExport implements FromCollection, WithHeadings
-
+class KIBECustomExport implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
     */
-
-    // public function collection()
+   // public function collection()
     // {
     //     $table1Data = PengusulanPenghapusanAsetBModel::where('status_verifikasi', true)->get();
     //     $table2Data = KIBBModel::join('kib_b AS kib', 'kib_b.id_aset_b', '=', 'kib.id_aset_b')->get();
@@ -148,28 +146,26 @@ class KIBBCustomExport implements FromCollection, WithHeadings
     public function headings(): array
     {
         return [
-            'id_aset_b',
+            'id_aset_e',
             'no_reg8',
-            'merk',
-            'type',
-            'cc',
+            'judul/pencipta',
+            // 'spesifikasi',
+            // 'asal daerah',
+            'pencipta',
             'bahan',
-            'tgl_perolehan',
             // 'Nomor',
-            'nomor_pabrik',
-            'nomor_rangka',
-            'nomor_mesin',
-            'nomor_polisi',
-            'nomor_bpkb',
+            // 'jenis',
+            'ukuran',
+            'jumlah',
             'asal_usul',
+            'tahun pembelian',
             'kondisi',
             'harga',
             'keterangan',
-            'sisa_umur',
+            // 'sisa_umur',
             'status_penghapusan',
             'alasan_penghapusan',
             
         ];
     }
 }
-

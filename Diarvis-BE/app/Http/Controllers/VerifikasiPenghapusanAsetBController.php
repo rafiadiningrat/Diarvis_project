@@ -21,6 +21,22 @@ class VerifikasiPenghapusanAsetBController extends Controller
         return response()->json($verifikasi);
     }
 
+    public function getVerifikasiByUpb($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
+    {
+        $penilaian = PengusulanPenghapusanAsetBModel::whereNull('status_verifikasi')
+                            ->whereNotNull('status_penilaian')
+                            ->whereNull('status_penghapusan')
+                            ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
+                            ->where('kib_b.kode_bidang', $kode_bidang)
+                            ->where('kib_b.kode_unit', $kode_unit)
+                            ->where('kib_b.kode_sub_unit', $kode_sub_unit)
+                            ->where('kib_b.kode_upb', $kode_upb)
+                            ->with('kibB')
+                            ->get();
+
+    return response()->json($penilaian);
+    }
+
     public function approve(Request $request, $id_usulan_b)
     {
 
@@ -33,6 +49,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
         $verifikasiB->status_verifikasi = true;
         $verifikasiB->status_penghapusan = true;
         $verifikasiB->keterangan_verifikasi = $request->input('keterangan_verifikasi');
+        $verifikasiB->verifikasi_at = now();
 
         $verifikasiB->save();
     
@@ -54,6 +71,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
         $verifikasiB->status_verifikasi = false;
         $verifikasiB->status_penghapusan = false;
         $verifikasiB->keterangan_verifikasi = $request->input('keterangan_verifikasi');
+        $verifikasiB->verifikasi_at = now();
 
         $verifikasiB->save();
     

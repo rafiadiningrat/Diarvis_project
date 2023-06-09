@@ -239,7 +239,7 @@ public function deleteUser($id_user)
             ], 422);
         }
     
-        $user = UserModel::with('grups', 'upb')->where('email', $request->email)->first();
+        $user = UserModel::with('grups', 'bidang', 'unit', 'subUnit', 'upb')->where('email', $request->email)->first();
         if (!$user) {
             return response()->json([
                 'success' => false,
@@ -257,8 +257,14 @@ public function deleteUser($id_user)
                 'nama' => $user->nama_lengkap,
                 'kode_group' => $user->grups->kode_grup,
                 'grups' => $user->grups->nama_grup,
+                'kode_bidang' => $user->bidang->kode_bidang,
+                'nama_bidang' => $user->bidang->nama_bidang,
+                'kode_unit' => $user->unit->kode_unit,
+                'nama_unit' => $user->unit->nama_unit,
+                'kode_sub_unit' => $user->subUnit->kode_sub_unit,
+                'nama_sub_unit' => $user->subUnit->nama_sub_unit,
                 'kode_upb' => $user->upb->kode_upb,
-                'Upb' => $user->upb->nama_upb // Mengakses atribut "nama_grup" dari relasi "grup"
+                'nama_upb' => $user->upb->nama_upb // Mengakses atribut "nama_grup" dari relasi "grup"
             ],
         ]);
 

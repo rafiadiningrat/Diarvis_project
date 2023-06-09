@@ -27,7 +27,7 @@ class UnitModel extends Model
         return $this->belongsTo(BidangModel::class, 'kode_bidang', 'kode_bidang');
     }
 
-    public function subUnits()
+    public function subUnit()
     {
         return $this->hasMany(SubUnitModel::class);
     }

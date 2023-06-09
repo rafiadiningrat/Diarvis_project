@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\KIBEModel;
+use App\Models\PengusulanPenghapusanAsetEModel;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\KIBEExport;
+use App\Exports\KIBECustomExport;
 
 class KIBEController extends Controller
 {
@@ -33,37 +35,64 @@ public function detail($id_aset_e)
     ], 200);
 }
 
-public function getKibE($kode_upb)
+public function getKibE($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 {
-    $kib = KIBEModel::with('bidang', 'unit', 'subUnit', 'upb')->where('kode_upb', $kode_upb)->get();
-    $KibResponse = [];
+    // $kib = KIBEModel::join('upb', 'kib_e.kode_upb', '=', 'upb.kode_upb')
+    //     ->join('sub_unit', 'upb.kode_sub_unit', '=', 'sub_unit.kode_sub_unit')
+    //     ->join('unit', 'sub_unit.kode_unit', '=', 'unit.kode_unit')
+    //     ->join('bidang', 'unit.kode_bidang', '=', 'bidang.kode_bidang')
+    //     ->where('bidang.kode_bidang', $kode_bidang)
+    //     ->where('unit.kode_unit', $kode_unit)
+    //     ->where('sub_unit.kode_sub_unit', $kode_sub_unit)
+    //     ->where('upb.kode_upb', $kode_upb)
+    //     ->select(
+    //         'bidang.kode_bidang',
+    //         'bidang.nama_bidang',
+    //         'unit.kode_unit',
+    //         'unit.nama_unit',
+    //         'sub_unit.kode_sub_unit',
+    //         'sub_unit.nama_sub_unit',
+    //         'upb.kode_upb',
+    //         'upb.nama_upb',
+    //         'kib_e.*'
+    //     )
+    //     ->get();
+    $kib = KIBEModel::with('bidang', 'unit', 'subUnit', 'upb')
+    ->where('kode_bidang', $kode_bidang)
+    ->where('kode_unit', $kode_unit)
+    ->where('kode_sub_unit', $kode_sub_unit)
+    ->where('kode_upb', $kode_upb)->get();
+        $KibResponse = [];
     foreach ($kib as $value) {
         array_push($KibResponse, [
-            'nama_bidang' => $value->bidang->nama_bidang,
-            'nama_unit' => $value->unit->nama_unit,
-            'nama_sub_unit' => $value->subUnit->nama_sub_unit,
-            'nama_upb' => $value->upb->nama_upb,
+            'kode_bidang' => $value->kode_bidang,
+            'nama_bidang' => $value->nama_bidang,
+            'kode_unit' => $value->kode_unit,
+            'nama_unit' => $value->nama_unit,
+            'kode_sub_unit' => $value->kode_sub_unit,
+            'nama_sub_unit' => $value->nama_sub_unit,
+            'kode_upb' => $value->kode_upb,
+            'nama_upb' => $value->nama_upb,
             'id_aset_e' => $value->id_aset_e,
             'kode_pemilik' => $value->kode_pemilik,
+            'kode_jenis_aset' => $value->kode_jenis_aset,
             'tgl_perolehan' => $value->tgl_perolehan,
             'judul' => $value->judul,
             'pencipta' => $value->pencipta,
             'bahan' => $value->bahan,
             'ukuran' => $value->ukuran,
             'asal_usul' => $value->asal_usul,
-            'nomor_mesin' => $value->nomor_mesin,
-            'asal-usul' => $value->asal_usul,
             'kondisi' => $value->kondisi,
-            'harga' => $value->harga,
-            'masa_manfaat' =>$value->masa_manfaat, 
-            'nilai_sisa' =>$value->nilai_sisa,
-            'keterangan'=>$value->keterangan, 
-            'tahun' =>$value->tahun,
+            'harga' =>$value->harag, 
+            'masa_manfaat' =>$value->masa_manfaat,
+            'nila_sisa'=>$value->nilai_sisa, 
+            'keterangan' =>$value->keterangan, 
+            'tahun' =>$value->tahun, 
             'no_sp2d' =>$value->no_sp2d, 
-            'tgl_pembukuan' =>$value->tgl_pembukuan,
-            'no_skguna' =>$value->no_skguna,  
+            'tgl_pembukuan' =>$value->tgl_pembukuan, 
+            'no_skguna' =>$value->no_skguna, 
             'log_user' =>$value->log_user, 
-            'log_entry' =>$value->log_entry, 
+            'log_entry' =>$value->log_entry,
             'kd_ka' =>$value->kd_ka, 
             'no_sippt' =>$value->no_sippt, 
             'kd_hapus' =>$value->kd_hapus, 
@@ -78,19 +107,21 @@ public function getKibE($kode_upb)
             'created_by' =>$value->created_by, 
             'update_at' =>$value->update_at, 
             'update_by' =>$value->update_by, 
-            'jumlah' =>$value->jumlah, 
+            'jumlah' =>$value->akum_susut, 
+            'sisa_umur' =>$value->jumlah, 
             'is_aset_yang_ditemukan' =>$value->is_aset_yang_ditemukan, 
-            'no_reg8' =>$value->no_reg8, 
-            'jenis_aset' =>$value->jenis_aset,
+            'no_reg8' =>$value->no_reg8,
 	
         ]);
     }
+
     return response()->json([
         'success' => true,
         'data' => $KibResponse
-        // 'data'=>$unit[0]
     ], 200);
-}
+    }
+    
+
 
 public function exportToExcel()
     {
@@ -130,5 +161,38 @@ public function exportToExcel()
     //     'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     //     'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
     // ]);
+}
+
+public function exportData()
+{
+    $data = PengusulanPenghapusanAsetEModel::whereNotNull('status_verifikasi')
+    ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+    ->select(
+        'kib_e.id_aset_e',
+        'kib_e.no_reg8',
+        'kib_e.judul',
+        'kib_e.pencipta',
+        'kib_e.bahan',
+        'kib_e.ukuran',
+        'kib_e.jumlah',
+        'kib_e.asal_usul',
+        'kib_e.tahun',
+        'kib_e.kondisi',
+        'kib_e.harga',
+        'kib_e.keterangan',
+        // 'kib_e.sisa_umur',
+        'pengusulan_penghapusan_aset_e.status_verifikasi',
+        'pengusulan_penghapusan_aset_e.keterangan_verifikasi',
+    )
+    ->get();
+
+    // $dataWithCustomColumn = $data->map(function ($item) {
+    //     $item['Nomor'] = $item->nomor_pabrik . ' - ' . $item->nomor_rangka . ' - ' . $item->nomor_mesin . ' - ' . $item->nomor_polisi . ' - ' . $item->nomor_bpkb;
+    //     return $item;
+    // });
+
+        $export = new KIBECustomExport($data);
+
+        return Excel::download($export, 'penghapusan_aset_e_report.xlsx');;
 }
 }

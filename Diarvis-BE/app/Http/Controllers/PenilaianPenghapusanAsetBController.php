@@ -31,6 +31,22 @@ class PenilaianPenghapusanAsetBController extends Controller
         return response()->json($penilaian);
     }
 
+    public function getPenilaianByUpb($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
+    {
+        $penilaian = PengusulanPenghapusanAsetBModel::whereNull('status_verifikasi')
+                            ->whereNull('status_penilaian')
+                            ->whereNull('status_penghapusan')
+                            ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
+                            ->where('kib_b.kode_bidang', $kode_bidang)
+                            ->where('kib_b.kode_unit', $kode_unit)
+                            ->where('kib_b.kode_sub_unit', $kode_sub_unit)
+                            ->where('kib_b.kode_upb', $kode_upb)
+                            ->with('kibB')
+                            ->get();
+
+    return response()->json($penilaian);
+    }
+
     public function approve(Request $request, $id_usulan_b)
     {
 
@@ -43,6 +59,8 @@ class PenilaianPenghapusanAsetBController extends Controller
 
         $penilaianB->status_penilaian = true;
         $penilaianB->keterangan_penilaian = $request->input('keterangan_penilaian');
+        $penilaianB->penilaian_at = now();
+
 
         if ($request->hasFile('dokumen_penilaian')) {
                  $media = $penilaianB->addMedia($request->file('dokumen_penilaian'))
@@ -73,6 +91,8 @@ class PenilaianPenghapusanAsetBController extends Controller
 
         $penilaianB->status_penilaian = false;
         $penilaianB->keterangan_penilaian = $request->input('keterangan_penilaian');
+        $penilaianB->penilaian_at = now();
+
 
         if ($request->hasFile('dokumen_penilaian')) {
                  $media = $penilaianB->addMedia($request->file('dokumen_penilaian'))

@@ -58,11 +58,11 @@ Route::get('/unit/{id}', [UnitModel::class, 'getUnit']); // get seluruh data uni
 
 // Sub Unit
 Route::get('/sub-unit', [SubUnitModel::class, 'getAllSubUnit']); // get seluruh data sub unit saja
-Route::get('/sub-unit/{id}', [SubUnitModel::class, 'getSubUnit']); // get seluruh data sub unit berdasarkan unit yang dipilih
+Route::get('/sub-unit/{kode_bidang}/{kode_unit}', [SubUnitModel::class, 'getSubUnit']); // get seluruh data sub unit berdasarkan unit yang dipilih
 
 // UPB
 Route::get('/upb', [UPBModel::class, 'getAllUpb']); // get seluruh data upb saja
-Route::get('/upb/{id}', [UPBModel::class, 'getUpb']); // get seluruh data upb berdasarkan sub unit yang dipilih
+Route::get('/upb/{kode_bidang}/{kode_unit}/{kode_sub_unit}', [UPBModel::class, 'getUpb']); // get seluruh data upb berdasarkan sub unit yang dipilih
 
 // Grup
 Route::get('/grup', [GrupModel::class, 'getGrup']); // get seluruh data grup
@@ -77,12 +77,12 @@ Route::delete('/delete/user/{id}', [UserController::class, 'deleteUser']);
 
 // KIB B
 Route::get('/kib-b', [KIBBController::class, 'getAllKibB']); // get seluruh data kib b
-Route::get('/kib-b/{id}', [KIBBController::class, 'getKibB']); // get seluruh data kib b berdasarkan upb yang dipilih
+Route::get('/kib-b/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'getKibB']); // get seluruh data kib b berdasarkan upb yang dipilih
 Route::get('/kib-b/detail/{id}', [KIBBController::class, 'detail']);
 
 // KIB E
 Route::get('/kib-e', [KIBEController::class, 'getAllKibE']); // get seluruh data kib b
-Route::get('/kib-e/{id}', [KIBEController::class, 'getKibE']); // get seluruh data kib b berdasarkan upb yang dipilih
+Route::get('/kib-e/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBEController::class, 'getKibE']); // get seluruh data kib b berdasarkan upb yang dipilih
 Route::get('/kib-e/detail/{id}', [KIBEController::class, 'detail']);
 
 // Usulan B
@@ -99,6 +99,7 @@ Route::get('/kibb/belumUsulan', [PengusulanPenghapusanAsetBController::class, 'g
 
 //Penilaian B
 Route::get('/kibb/penilaian', [PenilaianPenghapusanAsetBController::class, 'index']);
+Route::get('/kibb/penilaian/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [PenilaianPenghapusanAsetBController::class, 'getPenilaianByUpb']);
 Route::put('/kibb/usulanb/update-penilaian/{id}', [PenilaianPenghapusanAsetBController::class, 'updatePenilaianB']);
 Route::post('/kibb/penilaian/diterima/{id}', [PenilaianPenghapusanAsetBController::class, 'approve']);
 Route::post('/kibb/penilaian/ditolak/{id}', [PenilaianPenghapusanAsetBController::class, 'decline']);
@@ -127,6 +128,7 @@ Route::put('/kibe/update-penilaian/{id}', [PenilaianPenghapusanAsetEController::
 Route::post('/kibe/penilaian/diterima/{id}', [PenilaianPenghapusanAsetEController::class, 'approve']);
 Route::post('/kibe/penilaian/ditolak/{id}', [PenilaianPenghapusanAsetEController::class, 'decline']);
 Route::get('/kibe/penilaian/detail/{id}', [PenilaianPenghapusanAsetEController::class, 'detailPenilaian']);
+Route::get('/kibe/penilaian/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [PenilaianPenghapusanAsetEController::class, 'getPenilaianByUpb']);
 
 // verifikator E
 Route::get('/kibe/verifikasi', [VerifikasiPenghapusanAsetEController::class, 'index']);
@@ -144,6 +146,8 @@ Route::get('/kibe/dashboard', [DashboardController::class, 'dashboardE']);
 Route::get('/kibb/export', [KIBBController::class, 'exportToExcel']);
 Route::get('/kibe/export', [KIBEController::class, 'exportToExcel']);
 Route::get('/kibb/custom-export', [KIBBController::class, 'exportData']);
+Route::get('/kibe/custom-export', [KIBEController::class, 'exportData']);
+Route::get('/pdf/export', [KIBBController::class, 'generatePDF']);
 
 // Pemilik
 Route::get('/pemilik', [PemilikModel::class, 'getPemilik']);

@@ -39,10 +39,10 @@ public function store(Request $request)
         'id_user' => $validatedData['id_user'],
         'id_aset_e' => $validatedData['id_aset_e'],
         'alasan_penghapusan' => $validatedData['alasan_penghapusan'],
-        'status_penghapusan' => false,
-        'status_penilaian' => false,
-        'status_verifikasi' => false,
-        'dokumen_penilaian' => '',
+        // 'status_penghapusan' => false,
+        // 'status_penilaian' => false,
+        // 'status_verifikasi' => false,
+        // 'dokumen_penilaian' => '',
     ]);
 
 
