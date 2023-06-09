@@ -5,7 +5,7 @@ import { AiOutlinePaperClip } from "react-icons/ai";
 import Layout from "../../layout/layout";
 import { UserContext } from "../../App";
 
-function DetailsDataMasterB(props) {
+function DetailPenilaianE(props) {
   const location = useLocation();
   const [dataBarang, setDataBarang] = useState({});
   const id_barang = location.state;
@@ -14,7 +14,8 @@ function DetailsDataMasterB(props) {
     const getDataBarang = async () => {
       try {
         const resBarang = await axios.get(
-          `http://localhost:8000/api/kib-b/detail/${location.state}`
+          //   `http://localhost:8000/api/kib-b/detail/${location.state}`
+          `http://localhost:8000/api/kib-b/detail/100002`
         );
         setDataBarang(resBarang.data.data);
       } catch (error) {
@@ -31,7 +32,7 @@ function DetailsDataMasterB(props) {
           <div>
             <div className="px-4 sm:px-0">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
-                Informasi Detail Data User
+                Informasi Detail KIB-B
               </h3>
             </div>
             <div className="mt-6 border-t border-gray-100">
@@ -216,4 +217,4 @@ function DetailsDataMasterB(props) {
   );
 }
 
-export default DetailsDataMasterB;
+export default DetailPenilaianE;

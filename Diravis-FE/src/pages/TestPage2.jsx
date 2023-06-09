@@ -16,16 +16,40 @@ import {
   COLUMNS_B,
   COLUMNS_B_API,
 } from "./../components/Table/DataMaster/columns";
-// import { UserContext } from "../../App";
 import { useNavigate, useLocation } from "react-router-dom";
-import axios from "axios";
+import axios, { Axios } from "axios";
 
 const TestPage2 = () => {
 //   const isLoggedIn = useContext(UserContext);
   const [DataTable, setDataTable] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
+  const [idBarang, setIdBarang] = useState();
   const [editedData, setEditedData] = useState({});
   const [showModal, setShowModal] = useState(false);
+  const [alasanPenghapusan, setAlasanPenghapusan] = useState();
+  const [file1, setFile1] = useState(null);
+    const [file2, setFile2] = useState(null);
+    const [file3, setFile3] = useState(null);
+    const [file4, setFile4] = useState(null);
+    const formData = {
+        id_user: 3,
+        id_aset_b: idBarang,
+        alasan_penghapusan: alasanPenghapusan,
+        foto_barang1: file1,
+        foto_barang2: file2,
+        foto_barang3: file3,
+        foto_barang4: file4,
+    };
+    console.log(formData);
+    console.log("alasan :", alasanPenghapusan);
+    console.log("file1 :");
+    console.log(file1);
+    console.log("file2 :");
+    console.log(file2);
+    console.log("file3 :");
+    console.log(file3);
+    console.log("file4 :");
+    console.log(file4);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -97,7 +121,7 @@ const TestPage2 = () => {
             <button
             title="Usulkan"
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded mr-2"
-              onClick={() => handleEditData(row.original)}
+              onClick={() => handleInputPengusulan(row.original.id_aset_b)}
             >
               <BiUpload />
             </button>
@@ -174,27 +198,53 @@ const TestPage2 = () => {
     );
   };
 
-  const handleEditData = (item) => {
-    setEditedData(item);
+  const handleInputPengusulan = (item) => {
+    setIdBarang(item);
     setShowModal(true);
   };
 
   const handleModalClose = () => {
-    setEditedData({});
+    setIdBarang();
+    setAlasanPenghapusan();
+    setFile1(null);
+    setFile2(null);
+    setFile3(null);
+    setFile4(null);
     setShowModal(false);
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setEditedData((prevData) => ({ ...prevData, [name]: value }));
+  
+    const handleSubmitUsulan = async (e) => {
+    e.preventDefault();
+    try {
+      const config = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      const dataTugas = await axios
+        .post("http://localhost:8000/api/kibb/usulan", formData, config)
+        .then((res) => {
+          console.log(res);
+          handleModalClose();
+        });
+    } catch (error) {
+      console.log(error);
+      
+    }
   };
+
+
+    
+
+
 
   const handleSaveChanges = () => {
     // Kirim data yang diubah ke API
     axios
       .put(
-        `https://jsonplaceholder.typicode.com/users/${editedData.id}`,
-        editedData
+        `https://jsonplaceholder.typicode.com/users/${editedBarang.id}`,
+        editedBarang
       )
       .then((response) => {
         // Perbarui data di tabel kedua
@@ -205,19 +255,6 @@ const TestPage2 = () => {
         setShowModal(false);
       })
       .catch((error) => console.log(error));
-  };
-
-  const handleAddToSecondTable = (item) => {
-    setSelectedData((prevData) => [...prevData, item]);
-    setDataTable((prevData) =>
-      prevData.filter((dataItem) => dataItem.id_aset_b !== item.id_aset_b)
-    );
-  };
-
-  const handleRemoveFromSecondTable = (id) => {
-    setSelectedData((prevData) =>
-      prevData.filter((dataItem) => dataItem.id_aset_b !== id)
-    );
   };
 
   const { pageIndex, pageSize } = state;
@@ -409,7 +446,7 @@ const TestPage2 = () => {
         </div>
         {showModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-[60]">
-            <div className="bg-white w-auto h-auto rounded p-4">
+            <div className="bg-white lg:w-auto xl:w-10/12 2xl:w-8/12  rounded p-8">
               <form>
                 <div class="mb-6">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -426,8 +463,8 @@ const TestPage2 = () => {
                   <textarea
                     type="deskripsi"
                     id="deskripsi"
-                    // value={deskripsi}
-                    // onChange={(e) => setDeskripsi(e.target.value)}
+                    value={alasanPenghapusan}
+                    onChange={(e) => setAlasanPenghapusan(e.target.value)}
                     rows="3"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 "
                     placeholder="Masukkan Deskripsi atau keterangan"
@@ -439,7 +476,7 @@ const TestPage2 = () => {
                     Upload Foto
                   </h5>
                 </div>
-                <div className="mt-5 grid grid-cols-2 gap-10">
+                <div className="mt-5 grid lg:grid-cols-2 grid-rows-2 gap-10">
                   <div className="flex flex-row items-center justify-between">
                     <label
                       class="mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -451,7 +488,7 @@ const TestPage2 = () => {
                       class="w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
                       id="file_input"
                       type="file"
-                      //   onChange={(e) => setFile(e.target.files[0])}
+                        onChange={(e) => setFile1(e.target.files[0])}
                     />
                   </div>
                   <div className="flex flex-row items-center justify-between">
@@ -465,7 +502,7 @@ const TestPage2 = () => {
                       class="block w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
                       id="file_input"
                       type="file"
-                      //   onChange={(e) => setFile(e.target.files[0])}
+                        onChange={(e) => setFile2(e.target.files[0])}
                     />
                   </div>
                   <div className="flex flex-row items-center justify-between">
@@ -479,7 +516,7 @@ const TestPage2 = () => {
                       class="block w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
                       id="file_input"
                       type="file"
-                      //   onChange={(e) => setFile(e.target.files[0])}
+                        onChange={(e) => setFile3(e.target.files[0])}
                     />
                   </div>
                   <div className="flex flex-row items-center justify-between">
@@ -493,17 +530,17 @@ const TestPage2 = () => {
                       class="block w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
                       id="file_input"
                       type="file"
-                      //   onChange={(e) => setFile(e.target.files[0])}
+                        onChange={(e) => setFile4(e.target.files[0])}
                     />
                   </div>
                 </div>
               </form>
-              <div className="flex justify-end">
+              <div className="flex justify-end mt-8">
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={handleSaveChanges}
+                  onClick={handleSubmitUsulan}
                 >
-                  Simpan
+                  Usulkan
                 </button>
                 <button
                   className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded ml-2"

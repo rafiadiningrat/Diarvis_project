@@ -10,12 +10,15 @@ import {
 } from "react-icons/ai";
 import Layout from "../../layout/layout";
 import MOCK_DATA from "../../components/Table/DataMaster/MOCK_DATA.json";
-import { COLUMNS_B, COLUMNS_B_API } from "../../components/Table/DataMaster/columns";
+import {
+  COLUMNS_B,
+  COLUMNS_B_API,
+} from "../../components/Table/DataMaster/columns";
 import { UserContext } from "../../App";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
-const DataMasterB = () => {
+const LaporanPenghapusanE = () => {
   const isLoggedIn = useContext(UserContext);
   const [DataTable, setDataTable] = useState([]);
   const navigate = useNavigate();
@@ -24,8 +27,8 @@ const DataMasterB = () => {
 
   const fetchData = async () => {
     const response = await axios
-    .get(`http://localhost:8000/api/kib-b/${location.state}`)
-    .catch((err) => console.log(err));
+      .get(`http://localhost:8000/api/kib-b/${location.state}`)
+      .catch((err) => console.log(err));
 
     if (response) {
       const DataTable = response.data.data;
@@ -35,17 +38,17 @@ const DataMasterB = () => {
   };
 
   // Table Property (using dummy)
-  // const columns = useMemo(() => COLUMNS_B, []);
-  // const data = useMemo(() => MOCK_DATA, []);
+  const columns = useMemo(() => COLUMNS_B, []);
+  const data = useMemo(() => MOCK_DATA, []);
 
   // Table Property (using API)
-  const columns = useMemo(() => COLUMNS_B_API, []);
-  const data = useMemo(() => [...DataTable], [DataTable]);
+  // const columns = useMemo(() => COLUMNS_B_API, []);
+  // const data = useMemo(() => [...DataTable], [DataTable]);
 
   const openDetails = (id) => {
     navigate(`/datamaster/kib-b/detail/${id}`, { state: id });
   };
-  
+
   const tableHooks = (hooks) => {
     hooks.visibleColumns.push((columns) => [
       ...columns,
@@ -68,7 +71,7 @@ const DataMasterB = () => {
       },
     ]);
   };
-  
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -93,13 +96,13 @@ const DataMasterB = () => {
     tableHooks,
     useBlockLayout,
     useSticky
-    );
-        
-    const { pageIndex, pageSize } = state;
-    
-    useEffect(() => {
-      fetchData();
-    }, []);
+  );
+
+  const { pageIndex, pageSize } = state;
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   return (
     <>
@@ -136,7 +139,7 @@ const DataMasterB = () => {
                 {page.map((row) => {
                   prepareRow(row);
                   return (
-                    <tr className="" {...row.getRowProps()} >
+                    <tr className="" {...row.getRowProps()}>
                       {row.cells.map((cell) => {
                         return (
                           <td
@@ -234,4 +237,4 @@ const DataMasterB = () => {
   );
 };
 
-export default DataMasterB;
+export default LaporanPenghapusanE;

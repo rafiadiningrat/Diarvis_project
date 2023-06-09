@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Layout from "../../layout/layout";
 import { UserContext } from "../../App";
 
-const Penilaian = () => {
+const VerifikasiE = () => {
   const isLoggedIn = useContext(UserContext);
   return (
     <>
@@ -14,4 +14,4 @@ const Penilaian = () => {
   );
 };
 
-export default Penilaian;
+export default VerifikasiE;
