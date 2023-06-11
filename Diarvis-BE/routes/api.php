@@ -111,7 +111,7 @@ Route::get('/kibb/penilaian/detail/{id}', [PenilaianPenghapusanAsetBController::
 
 // verifikator B
 Route::get('/kibb/all/verifikasi/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [VerifikasiPenghapusanAsetBController::class, 'index']);
-Route::get('/kibb/verifikasi/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [VerifikasiPenghapusanAsetBController::class, 'getPenilaianByUpb']);
+Route::get('/kibb/verifikasi/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [VerifikasiPenghapusanAsetBController::class, 'getVerifikasiByUpb']);
 Route::post('/kibb/verifikasi/diterima/{id}', [VerifikasiPenghapusanAsetBController::class, 'approve']); // proses verifikasi
 Route::post('/kibb/verifikasi/ditolak/{id}', [VerifikasiPenghapusanAsetBController::class, 'decline']); // proses verifikasi
 Route::get('/kibb/verifikasi/detail/{id}', [VerifikasiPenghapusanAsetBController::class, 'detailVerifikasi']);
@@ -137,7 +137,7 @@ Route::get('/kibe/penilaian/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}
 
 // verifikator E
 Route::get('/kibe/all/verifikasi/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [VerifikasiPenghapusanAsetEController::class, 'index']);
-Route::get('/kibe/verifikasi/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [VerifikasiPenghapusanAsetEController::class, 'getPenilaianByUpb']);
+Route::get('/kibe/verifikasi/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [VerifikasiPenghapusanAsetEController::class, 'getVerifikasiByUpb']);
 Route::post('/kibe/verifikasi/diterima/{id}', [VerifikasiPenghapusanAsetEController::class, 'approve']); // proses verifikasi
 Route::post('/kibe/verifikasi/ditolak/{id}', [VerifikasiPenghapusanAsetEController::class, 'decline']); // proses verifikasi
 Route::get('/kibe/verifikasi/detail/{id}', [VerifikasiPenghapusanAsetBController::class, 'detailVerifikasi']);
