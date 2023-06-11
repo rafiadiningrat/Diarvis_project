@@ -47,29 +47,73 @@ class DashboardController extends Controller
     return $usulanBCount;
     }
     
-    public function dashboardE()
+    public function dashboardE($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
-        $status = true;
+
         $usulanECount = [
-            'total_pengusulan' => PengusulanPenghapusanAsetEModel::query("SELECT * from pengusulan_penghapusan_aset_e")->select('kib_e.kode_upb', DB::raw('count(*) as count'))
-                                                            ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
-                                                            ->groupBy('kib_e.kode_upb')
-                                                            ->get(),
-            'total_penilaian' => PengusulanPenghapusanAsetEModel::whereNotNull('status_penilaian')->select('kib_e.kode_upb', DB::raw('count(*) as count'))
-                                                            ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
-                                                            ->groupBy('kib_e.kode_upb')
-                                                            ->get(),
-            'total_verifikasi' => PengusulanPenghapusanAsetEModel::whereNotNull('status_verifikasi')->select('kib_e.kode_upb', DB::raw('count(*) as count'))
-                                                            ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
-                                                            ->groupBy('kib_e.kode_upb')
-                                                            ->get(),
-            'total_penghapusan' => PengusulanPenghapusanAsetEModel::where('status_penghapusan', true)->select('kib_e.kode_upb', DB::raw('count(*) as count'))
-                                                            ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
-                                                            ->groupBy('kib_e.kode_upb')
-                                                            ->get()
+            'total_pengusulan' => PengusulanPenghapusanAsetEModel::select('kib_e.kode_upb', DB::raw('count(*) as count'))
+                ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+                ->where('kib_e.kode_bidang', $kode_bidang)
+                ->where('kib_e.kode_unit', $kode_unit)
+                ->where('kib_e.kode_sub_unit', $kode_sub_unit)
+                ->where('kib_e.kode_upb', $kode_upb)
+                ->groupBy('kib_e.kode_upb')
+                ->get(),
+    
+            'total_penilaian' => PengusulanPenghapusanAsetEModel::select('kib_e.kode_upb', DB::raw('count(*) as count'))
+                ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+                ->where('kib_e.kode_bidang', $kode_bidang)
+                ->where('kib_e.kode_unit', $kode_unit)
+                ->where('kib_e.kode_sub_unit', $kode_sub_unit)
+                ->where('kib_e.kode_upb', $kode_upb)
+                ->whereNotNull('pengusulan_penghapusan_aset_e.status_penilaian')
+                ->groupBy('kib_e.kode_upb')
+                ->get(),
+    
+            'total_verifikasi' => PengusulanPenghapusanAsetEModel::select('kib_e.kode_upb', DB::raw('count(*) as count'))
+                ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+                ->where('kib_e.kode_bidang', $kode_bidang)
+                ->where('kib_e.kode_unit', $kode_unit)
+                ->where('kib_e.kode_sub_unit', $kode_sub_unit)
+                ->where('kib_e.kode_upb', $kode_upb)
+                ->whereNotNull('pengusulan_penghapusan_aset_e.status_verifikasi')
+                ->groupBy('kib_e.kode_upb')
+                ->get(),
+    
+            'total_penghapusan' => PengusulanPenghapusanAsetEModel::select('kib_e.kode_upb', DB::raw('count(*) as count'))
+                ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+                ->where('kib_e.kode_bidang', $kode_bidang)
+                ->where('kib_e.kode_unit', $kode_unit)
+                ->where('kib_e.kode_sub_unit', $kode_sub_unit)
+                ->where('kib_e.kode_upb', $kode_upb)
+                ->where('pengusulan_penghapusan_aset_e.status_penghapusan', true)
+                ->groupBy('kib_e.kode_upb')
+                ->get()
         ];
     
         return $usulanECount;
+
+        // $status = true;
+        // $usulanECount = [
+        //     'total_pengusulan' => PengusulanPenghapusanAsetEModel::query("SELECT * from pengusulan_penghapusan_aset_e")->select('kib_e.kode_upb', DB::raw('count(*) as count'))
+        //                                                     ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+        //                                                     ->groupBy('kib_e.kode_upb')
+        //                                                     ->get(),
+        //     'total_penilaian' => PengusulanPenghapusanAsetEModel::whereNotNull('status_penilaian')->select('kib_e.kode_upb', DB::raw('count(*) as count'))
+        //                                                     ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+        //                                                     ->groupBy('kib_e.kode_upb')
+        //                                                     ->get(),
+        //     'total_verifikasi' => PengusulanPenghapusanAsetEModel::whereNotNull('status_verifikasi')->select('kib_e.kode_upb', DB::raw('count(*) as count'))
+        //                                                     ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+        //                                                     ->groupBy('kib_e.kode_upb')
+        //                                                     ->get(),
+        //     'total_penghapusan' => PengusulanPenghapusanAsetEModel::where('status_penghapusan', true)->select('kib_e.kode_upb', DB::raw('count(*) as count'))
+        //                                                     ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+        //                                                     ->groupBy('kib_e.kode_upb')
+        //                                                     ->get()
+        // ];
+    
+        // return $usulanECount;
     }
 
 

@@ -14,12 +14,6 @@ class BidangModel extends Model
     protected $guarded = ['id'];
     public $timestamps = false;
 
-    public function getBidang()
-    {
-        $bidang = BidangModel::all();
-        return $bidang;
-    }
-
     public function units()
     {
         return $this->hasMany(UnitModel::class);

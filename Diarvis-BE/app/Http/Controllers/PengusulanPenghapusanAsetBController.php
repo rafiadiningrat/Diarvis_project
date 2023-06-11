@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\PengusulanPenghapusanAsetBModel;
 use App\Models\KIBBModel;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
@@ -86,6 +87,7 @@ public function index()
 
     if ($request->hasFile('foto_barang1')) {
         $media = $usulanB->addMedia($request->file('foto_barang1'))
+            // ->usingFileName(Str::random(40))
             ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
 
         $usulanB->foto_barang1 = $media->getUrl();
@@ -94,6 +96,7 @@ public function index()
 
     if ($request->hasFile('foto_barang2')) {
         $media = $usulanB->addMedia($request->file('foto_barang2'))
+            // ->usingFileName(Str::random(40))
             ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
 
         $usulanB->foto_barang2 = $media->getUrl();
@@ -101,6 +104,7 @@ public function index()
 
     if ($request->hasFile('foto_barang3')) {
         $media = $usulanB->addMedia($request->file('foto_barang3'))
+            // ->usingFileName(Str::random(40))
             ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
 
         $usulanB->foto_barang3 = $media->getUrl();
@@ -108,6 +112,7 @@ public function index()
 
     if ($request->hasFile('foto_barang4')) {
         $media = $usulanB->addMedia($request->file('foto_barang4'))
+            // ->usingFileName(Str::random(40))
             ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
 
         $usulanB->foto_barang4 = $media->getUrl();

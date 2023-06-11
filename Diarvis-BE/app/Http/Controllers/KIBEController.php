@@ -65,14 +65,14 @@ public function getKibE($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
         $KibResponse = [];
     foreach ($kib as $value) {
         array_push($KibResponse, [
-            'kode_bidang' => $value->kode_bidang,
-            'nama_bidang' => $value->nama_bidang,
-            'kode_unit' => $value->kode_unit,
-            'nama_unit' => $value->nama_unit,
-            'kode_sub_unit' => $value->kode_sub_unit,
-            'nama_sub_unit' => $value->nama_sub_unit,
-            'kode_upb' => $value->kode_upb,
-            'nama_upb' => $value->nama_upb,
+            'kode_bidang' => $value->bidang->kode_bidang,
+            'nama_bidang' => $value->bidang->nama_bidang,
+            'kode_unit' => $value->unit->kode_unit,
+            'nama_unit' => $value->unit->nama_unit,
+            'kode_sub_unit' => $value->subUnit->kode_sub_unit,
+            'nama_sub_unit' => $value->subUnit->nama_sub_unit,
+            'kode_upb' => $value->upb->kode_upb,
+            'nama_upb' => $value->upb->nama_upb,
             'id_aset_e' => $value->id_aset_e,
             'kode_pemilik' => $value->kode_pemilik,
             'kode_jenis_aset' => $value->kode_jenis_aset,

@@ -9,6 +9,7 @@ use App\Models\GrupModel;
 use app\Models\User;
 use app\Helpers\Functions;
 use Illuminate\Support\Facades\Auth;
+Use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Exception;
@@ -18,35 +19,79 @@ class UserController extends Controller
     
     public function getAllUser()
     {
-        $user = UserModel::with('grups', 'upb', 'bidang', 'unit', 'subUnit')->get();
 
-        $UserResponse = [];
-        foreach ($user as $user) {
-            array_push($UserResponse, [
-                'kode_grup' => $user->grups->kode_grup,
-                'nama_grup' => $user->grups->nama_grup,
-                'kode_upb' => $user->upb->kode_upb,
-                'nama_upb'=> $user->upb->nama_upb,
-                'kode_sub_unit'=> $user->subUnit->kode_sub_unit,
-                'nama_sub_unit'=> $user->subUnit->nama_sub_unit,
-                'kode_unit'=> $user->unit->kode_unit,
-                'nama_unit'=> $user->unit->nama_unit,
-                'kode_bidang'=> $user->bidang->kode_bidang,
-                'nama_bidang'=> $user->bidang->nama_bidang,
-                'id_user' => $user->id_user,
-                'no_pegawai'=> $user->no_pegawai,
-                'nama_lengkap'=> $user->nama_lengkap,
-                'email'=> $user->email,
-                'password'=> $user->password,
-                'no_hp'=> $user->no_hp,
-            ]);
-        }
-        // Verifikasi apakah Anda memiliki logika tambahan untuk memeriksa pengguna tanpa kata sandi
+
+        $UserResponse = DB::table('USER')
+        ->join('grup', 'USER.kode_grup', '=', 'grup.kode_grup')
+        ->join('bidang', 'USER.kode_bidang', '=', 'bidang.kode_bidang')
+        ->join('unit', function ($join) {
+            $join->on('USER.kode_bidang', '=', 'unit.kode_bidang')
+                ->on('USER.kode_unit', '=', 'unit.kode_unit');
+        })
+        ->join('sub_unit', function ($join) {
+            $join->on('USER.kode_bidang', '=', 'sub_unit.kode_bidang')
+                ->on('USER.kode_unit', '=', 'sub_unit.kode_unit')
+                ->on('USER.kode_sub_unit', '=', 'sub_unit.kode_sub_unit');
+        })
+        ->join('upb', function ($join) {
+            $join->on('USER.kode_bidang', '=', 'upb.kode_bidang')
+                ->on('USER.kode_unit', '=', 'upb.kode_unit')
+                ->on('USER.kode_sub_unit', '=', 'upb.kode_sub_unit')
+                ->on('USER.kode_upb', '=', 'upb.kode_upb');
+        })
+        ->select(
+            'grup.kode_grup',
+            'grup.nama_grup',
+            'upb.kode_upb',
+            'upb.nama_upb',
+            'sub_unit.kode_sub_unit',
+            'sub_unit.nama_sub_unit',
+            'unit.kode_unit',
+            'unit.nama_unit',
+            'bidang.kode_bidang',
+            'bidang.nama_bidang',
+            'USER.id_user',
+            'USER.no_pegawai',
+            'USER.nama_lengkap',
+            'USER.email',
+            'USER.password',
+            'USER.no_hp'
+        )
+        ->get();
+
+    return response()->json([
+        'success' => true,
+        'data' => $UserResponse
+    ]);
+        // $user = UserModel::with('grups', 'upb', 'bidang', 'unit', 'subUnit')->get();
+
+        // $UserResponse = [];
+        // foreach ($user as $user) {
+        //     array_push($UserResponse, [
+        //         'kode_grup' => $user->grups->kode_grup,
+        //         'nama_grup' => $user->grups->nama_grup,
+        //         'kode_upb' => $user->upb->kode_upb,
+        //         'nama_upb'=> $user->upb->nama_upb,
+        //         'kode_sub_unit'=> $user->subUnit->kode_sub_unit,
+        //         'nama_sub_unit'=> $user->subUnit->nama_sub_unit,
+        //         'kode_unit'=> $user->unit->kode_unit,
+        //         'nama_unit'=> $user->unit->nama_unit,
+        //         'kode_bidang'=> $user->bidang->kode_bidang,
+        //         'nama_bidang'=> $user->bidang->nama_bidang,
+        //         'id_user' => $user->id_user,
+        //         'no_pegawai'=> $user->no_pegawai,
+        //         'nama_lengkap'=> $user->nama_lengkap,
+        //         'email'=> $user->email,
+        //         'password'=> $user->password,
+        //         'no_hp'=> $user->no_hp,
+        //     ]);
+        // }
+        // // Verifikasi apakah Anda memiliki logika tambahan untuk memeriksa pengguna tanpa kata sandi
     
-        return response()->json([
-            'success' => true,
-            'data' => $UserResponse
-        ]);
+        // return response()->json([
+        //     'success' => true,
+        //     'data' => $UserResponse
+        // ]);
     }
 
     public function getUser($kode_grup)
@@ -82,32 +127,71 @@ class UserController extends Controller
         ]);
     }
 
+    // $subUnitResponse = DB::table('USER')
+    //     ->join('bidang', 'USER.kode_bidang', '=', 'bidang.kode_bidang')
+    //     ->join('unit', function ($join) {
+    //         $join->on('USER.kode_bidang', '=', 'unit.kode_bidang')
+    //             ->on('USER.kode_unit', '=', 'unit.kode_unit');
+    //     })
+    //     ->join('sub_unit', function ($join) {
+    //         $join->on('USER.kode_bidang', '=', 'sub_unit.kode_bidang')
+    //             ->on('USER.kode_unit', '=', 'sub_unit.kode_unit')
+    //             ->on('USER.kode_sub_unit', '=', 'sub_unit.kode_sub_unit');
+    //     })
+    //     ->join('upb', function ($join) {
+    //         $join->on('USER.kode_bidang', '=', 'sub_unit.kode_bidang')
+    //             ->on('USER.kode_unit', '=', 'sub_unit.kode_unit')
+    //             ->on('USER.kode_sub_unit', '=', 'sub_unit.kode_sub_unit')
+    //             ->on('USER.kode_upb', '=', 'upb.kode_upb');
+    //     })
+    //     ->select('bidang.kode_bidang', 'bidang.nama_bidang', 'unit.kode_unit', 'unit.nama_unit', 'sub_unit.kode_sub_unit', 'sub_unit.nama_sub_unit', 'upb.kode_upb', 'upb.nama_upb')
+    //     ->get();
+
     public function detail($id_user)
     {
-        $user = UserModel::with('grups', 'upb', 'bidang', 'unit', 'subUnit')->where('id_user', $id_user)->get();
+        $UserResponse = DB::table('USER')
+        ->join('grup', 'USER.kode_grup', '=', 'grup.kode_grup')
+        ->join('bidang', 'USER.kode_bidang', '=', 'bidang.kode_bidang')
+        ->join('unit', function ($join) {
+            $join->on('USER.kode_bidang', '=', 'unit.kode_bidang')
+                ->on('USER.kode_unit', '=', 'unit.kode_unit');
+        })
+        ->join('sub_unit', function ($join) {
+            $join->on('USER.kode_bidang', '=', 'sub_unit.kode_bidang')
+                ->on('USER.kode_unit', '=', 'sub_unit.kode_unit')
+                ->on('USER.kode_sub_unit', '=', 'sub_unit.kode_sub_unit');
+        })
+        ->join('upb', function ($join) {
+            $join->on('USER.kode_bidang', '=', 'upb.kode_bidang')
+                ->on('USER.kode_unit', '=', 'upb.kode_unit')
+                ->on('USER.kode_sub_unit', '=', 'upb.kode_sub_unit')
+                ->on('USER.kode_upb', '=', 'upb.kode_upb');
+        })
+        ->select(
+            'grup.kode_grup',
+            'grup.nama_grup',
+            'upb.kode_upb',
+            'upb.nama_upb',
+            'sub_unit.kode_sub_unit',
+            'sub_unit.nama_sub_unit',
+            'unit.kode_unit',
+            'unit.nama_unit',
+            'bidang.kode_bidang',
+            'bidang.nama_bidang',
+            'USER.id_user',
+            'USER.no_pegawai',
+            'USER.nama_lengkap',
+            'USER.email',
+            'USER.password',
+            'USER.no_hp'
+        )
+        ->where('id_user', $id_user)
+        ->first();
 
-        $UserResponse = [];
-        foreach ($user as $user) {
-            array_push($UserResponse, [
-                'nama_grup' => $user->grups->nama_grup,
-                'nama_upb'=> $user->upb->nama_upb,
-                'nama_sub_unit'=> $user->subUnit->nama_sub_unit,
-                'nama_unit'=> $user->unit->nama_unit,
-                'nama_bidang'=> $user->bidang->nama_bidang,
-                'id_user' => $user->id_user,
-                'no_pegawai'=> $user->no_pegawai,
-                'nama_lengkap'=> $user->nama_lengkap,
-                'email'=> $user->email,
-                'password'=> $user->password,
-                'no_hp'=> $user->no_hp,
-            ]);
-        }
-        // Verifikasi apakah Anda memiliki logika tambahan untuk memeriksa pengguna tanpa kata sandi
-    
-        return response()->json([
-            'success' => true,
-            'data' => $UserResponse
-        ]);
+    return response()->json([
+        'success' => true,
+        'data' => $UserResponse
+    ]);
     }
 
     public function addUser(Request $request)

@@ -8,11 +8,16 @@ use App\Models\PengusulanPenghapusanAsetEModel;
 class VerifikasiPenghapusanAsetEController extends Controller
 {
     //
-    public function index()
+    public function index($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
-        $verifikasi = PengusulanPenghapusanAsetEModel::whereNull('status_verifikasi')
+        $verifikasi = PengusulanPenghapusanAsetEModel::whereNotNull('status_verifikasi')
                                 ->whereNotNull('status_penilaian')
-                                ->whereNull('status_penghapusan')
+                                ->whereNotNull('status_penghapusan')
+                                ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+                                ->where('kib_e.kode_bidang', $kode_bidang)
+                                ->where('kib_e.kode_unit', $kode_unit)
+                                ->where('kib_e.kode_sub_unit', $kode_sub_unit)
+                                ->where('kib_e.kode_upb', $kode_upb)
                                 ->with('kibE')
                                 ->get();
 
