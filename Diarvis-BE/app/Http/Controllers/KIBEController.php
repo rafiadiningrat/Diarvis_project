@@ -137,7 +137,7 @@ public function getKibE($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     
 
 
-public function exportToExcel()
+public function exportToExcel($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
     //     $export = new KibBExport();
     // $fileName = 'kib_b_data.xlsx';
@@ -154,7 +154,7 @@ public function exportToExcel()
     //     'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     // ])->deleteFileAfterSend();
 
-    $export = new KIBEExport();
+    $export = new KIBEExport($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb);
     $fileName = 'kib_e_data.xlsx';
 
     Excel::store($export, 'temp/' . $fileName, 'local');
@@ -199,7 +199,7 @@ public function exportData($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
         'kib_e.harga',
         'kib_e.keterangan',
         // 'kib_e.sisa_umur',
-        'pengusulan_penghapusan_aset_e.penghapusan',
+        'pengusulan_penghapusan_aset_e.status_penghapusan',
         'pengusulan_penghapusan_aset_e.keterangan_verifikasi',
     )
     ->get()
