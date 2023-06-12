@@ -177,10 +177,14 @@ public function exportToExcel()
     // ]);
 }
 
-public function exportData()
+public function exportData($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 {
-    $data = PengusulanPenghapusanAsetEModel::whereNotNull('status_verifikasi')
+    $data = PengusulanPenghapusanAsetEModel::whereNotNull('status_penghapusan')
     ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
+    ->where('kib_e.kode_bidang', $kode_bidang)
+    ->where('kib_e.kode_unit', $kode_unit)
+    ->where('kib_e.kode_sub_unit', $kode_sub_unit)
+    ->where('kib_e.kode_upb', $kode_upb)
     ->select(
         'kib_e.id_aset_e',
         'kib_e.no_reg8',
@@ -195,10 +199,14 @@ public function exportData()
         'kib_e.harga',
         'kib_e.keterangan',
         // 'kib_e.sisa_umur',
-        'pengusulan_penghapusan_aset_e.status_verifikasi',
+        'pengusulan_penghapusan_aset_e.penghapusan',
         'pengusulan_penghapusan_aset_e.keterangan_verifikasi',
     )
-    ->get();
+    ->get()
+    ->map(function ($item) {
+        $item->status_penghapusan = $item->status_penghapusan ? 'Diterima' : 'Ditolak';
+        return $item;
+    });
 
     // $dataWithCustomColumn = $data->map(function ($item) {
     //     $item['Nomor'] = $item->nomor_pabrik . ' - ' . $item->nomor_rangka . ' - ' . $item->nomor_mesin . ' - ' . $item->nomor_polisi . ' - ' . $item->nomor_bpkb;

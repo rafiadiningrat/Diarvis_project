@@ -51,24 +51,16 @@ class KIBBController extends Controller
         'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
     ])->deleteFileAfterSend();
-
-    // $export = new KIBBExport();
-    // $fileName = 'kib_b_data.xlsx';
-
-    // $filePath = 'D:/TA/' . $fileName;
-
-    // Excel::store($export, $filePath, 'local');
-
-    // return Storage::download($filePath, $fileName, [
-    //     'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-    //     'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
-    // ]);
 }
 
-public function exportData()
+public function exportData($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 {
     $data = PengusulanPenghapusanAsetBModel::whereNotNull('status_penghapusan')
     ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
+    ->where('kib_b.kode_bidang', $kode_bidang)
+    ->where('kib_b.kode_unit', $kode_unit)
+    ->where('kib_b.kode_sub_unit', $kode_sub_unit)
+    ->where('kib_b.kode_upb', $kode_upb)
     ->select(
         'kib_b.id_aset_b',
         'kib_b.nama_aset',
@@ -91,41 +83,37 @@ public function exportData()
         'pengusulan_penghapusan_aset_b.status_penghapusan',
         'pengusulan_penghapusan_aset_b.keterangan_verifikasi',
     )
-    ->get();
+    ->get()
+    ->map(function ($item) {
+        $item->status_penghapusan = $item->status_penghapusan ? 'Diterima' : 'Ditolak';
+        return $item;
+    });
 
-    // $dataWithCustomColumn = $data->map(function ($item) {
-    //     $item['Nomor'] = $item->nomor_pabrik . ' - ' . $item->nomor_rangka . ' - ' . $item->nomor_mesin . ' - ' . $item->nomor_polisi . ' - ' . $item->nomor_bpkb;
-    //     return $item;
-    // });
-
-        $export = new KIBBCustomExport($data);
-
-        return Excel::download($export, 'penghapusan_aset_b_report.xlsx');;
+$export = new KIBBCustomExport($data);
+return Excel::download($export, 'penghapusan_aset_b_report.xlsx');
+        
+    
+        
 }
+
 
 public function generatePDF()
     {
 
         // Query untuk mendapatkan saldo akhir KIB_B
-    $saldoAkhirKIBB = KIBBModel::whereIn('id_aset_b', function ($query) {
-        $query->select('id_aset_b')
-            ->from('pengusulan_penghapusan_aset_b')
-            ->where('status_penghapusan', true);
-    })
-    ->sum('harga');
+    $saldoAkhirKIBB = KIBBModel::join('pengusulan_penghapusan_aset_b', 'kib_b.id_aset_b', '=', 'pengusulan_penghapusan_aset_b.id_aset_b')
+    ->where('pengusulan_penghapusan_aset_b.status_penghapusan', true)
+    ->sum('kib_b.harga');
 
 // Query untuk mendapatkan saldo akhir KIB_E
-    $saldoAkhirKIBE = KIBEModel::whereIn('id_aset_e', function ($query) {
-        $query->select('id_aset_e')
-            ->from('pengusulan_penghapusan_aset_e')
-            ->where('status_penghapusan', true);
-    })
-    ->sum('harga');
+$saldoAkhirKIBE = KIBEModel::join('pengusulan_penghapusan_aset_e', 'kib_e.id_aset_e', '=', 'pengusulan_penghapusan_aset_e.id_aset_e')
+    ->where('pengusulan_penghapusan_aset_e.status_penghapusan', true)
+    ->sum('kib_e.harga');
 
 // Buat objek PDF
 $pdf = FacadePdf::loadHTML('<h1>Saldo Akhir:</h1>
-                     <p>Saldo Akhir KIB_B: ' . $saldoAkhirKIBB . '</p>
-                     <p>Saldo Akhir KIB_E: ' . $saldoAkhirKIBE . '</p>');
+                 <p>Saldo Akhir KIB_B: ' . $saldoAkhirKIBB . '</p>
+                 <p>Saldo Akhir KIB_E: ' . $saldoAkhirKIBE . '</p>');
 
 // Simpan PDF ke file
 $filename = 'saldo_akhir.pdf';
@@ -137,6 +125,37 @@ $headers = [
 
 // Menggunakan response() untuk mengembalikan response PDF
 return response($pdf->output(), Response::HTTP_OK, $headers)->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+//         // Query untuk mendapatkan saldo akhir KIB_B
+//     $saldoAkhirKIBB = KIBBModel::whereIn('id_aset_b', function ($query) {
+//         $query->select('id_aset_b')
+//             ->from('pengusulan_penghapusan_aset_b')
+//             ->where('status_penghapusan', true);
+//     })
+//     ->sum('harga');
+
+// // Query untuk mendapatkan saldo akhir KIB_E
+//     $saldoAkhirKIBE = KIBEModel::whereIn('id_aset_e', function ($query) {
+//         $query->select('id_aset_e')
+//             ->from('pengusulan_penghapusan_aset_e')
+//             ->where('status_penghapusan', true);
+//     })
+//     ->sum('harga');
+
+// // Buat objek PDF
+// $pdf = FacadePdf::loadHTML('<h1>Saldo Akhir:</h1>
+//                      <p>Saldo Akhir KIB_B: ' . $saldoAkhirKIBB . '</p>
+//                      <p>Saldo Akhir KIB_E: ' . $saldoAkhirKIBE . '</p>');
+
+// // Simpan PDF ke file
+// $filename = 'saldo_akhir.pdf';
+
+// // Set header Content-Type
+// $headers = [
+//     'Content-Type' => 'application/pdf',
+// ];
+
+// // Menggunakan response() untuk mengembalikan response PDF
+// return response($pdf->output(), Response::HTTP_OK, $headers)->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
         
     }
 

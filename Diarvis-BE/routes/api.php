@@ -149,11 +149,11 @@ Route::get('/kibb/dashboard/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}
 Route::get('/kibe/dashboard/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [DashboardController::class, 'dashboardE']);
 
 // Generate
-Route::get('/kibb/export', [KIBBController::class, 'exportToExcel']);
-Route::get('/kibe/export', [KIBEController::class, 'exportToExcel']);
-Route::get('/kibb/custom-export', [KIBBController::class, 'exportData']);
-Route::get('/kibe/custom-export', [KIBEController::class, 'exportData']);
-Route::get('/pdf/export', [KIBBController::class, 'generatePDF']);
+Route::get('/kibb/excel', [KIBBController::class, 'exportToExcel']);
+Route::get('/kibe/excel', [KIBEController::class, 'exportToExcel']);
+Route::get('/kibb/laporan-penghapusan/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'exportData']);
+Route::get('/kibe/laporan-penghapusan/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBEController::class, 'exportData']);
+Route::get('/berita-acara', [KIBBController::class, 'generatePDF']);
 
 // Pemilik
 Route::get('/pemilik', [PemilikModel::class, 'getPemilik']);
