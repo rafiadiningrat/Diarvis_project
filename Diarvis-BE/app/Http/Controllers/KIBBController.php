@@ -269,63 +269,63 @@ public function getKibB($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 //     'data' => $KibResponse
 // ], 200);
 
-    // $kib =KIBBModel::join('bidang', 'kib_b.kode_bidang', '=', 'bidang.kode_bidang')
-    // ->join('unit', function ($join) {
-    //     $join->on('kib_b.kode_bidang', '=', 'unit.kode_bidang')
-    //         ->on('kib_b.kode_unit', '=', 'unit.kode_unit');
-    // })
-    // ->join('sub_unit', function ($join) {
-    //     $join->on('kib_b.kode_bidang', '=', 'sub_unit.kode_bidang')
-    //         ->on('kib_b.kode_unit', '=', 'sub_unit.kode_unit')
-    //         ->on('kib_b.kode_sub_unit', '=', 'sub_unit.kode_sub_unit');
-    // })
-    // ->join('upb', function ($join) {
-    //     $join->on('kib_b.kode_bidang', '=', 'upb.kode_bidang')
-    //         ->on('kib_b.kode_unit', '=', 'upb.kode_unit')
-    //         ->on('kib_b.kode_sub_unit', '=', 'upb.kode_sub_unit')
-    //         ->on('kib_b.kode_upb', '=', 'upb.kode_upb');
-    // })
-    // ->select(
-    //                 'bidang.kode_bidang',
-    //                 'bidang.nama_bidang',
-    //                 'unit.kode_unit',
-    //                 'unit.nama_unit',
-    //                 'sub_unit.kode_sub_unit',
-    //                 'sub_unit.nama_sub_unit',
-    //                 'upb.kode_upb',
-    //                 'upb.nama_upb',
-    //                 'kib_b.*'
-    //             )
-    //             ->where('upb.kode_bidang', $kode_bidang)
-    //             ->where('upb.kode_unit', $kode_unit)
-    //             ->where('upb.kode_sub_unit', $kode_sub_unit)
-    //             ->where('upb.kode_upb', $kode_upb)
+    $kib =KIBBModel::join('bidang', 'kib_b.kode_bidang', '=', 'bidang.kode_bidang')
+    ->join('unit', function ($join) {
+        $join->on('kib_b.kode_bidang', '=', 'unit.kode_bidang')
+            ->on('kib_b.kode_unit', '=', 'unit.kode_unit');
+    })
+    ->join('sub_unit', function ($join) {
+        $join->on('kib_b.kode_bidang', '=', 'sub_unit.kode_bidang')
+            ->on('kib_b.kode_unit', '=', 'sub_unit.kode_unit')
+            ->on('kib_b.kode_sub_unit', '=', 'sub_unit.kode_sub_unit');
+    })
+    ->join('upb', function ($join) {
+        $join->on('kib_b.kode_bidang', '=', 'upb.kode_bidang')
+            ->on('kib_b.kode_unit', '=', 'upb.kode_unit')
+            ->on('kib_b.kode_sub_unit', '=', 'upb.kode_sub_unit')
+            ->on('kib_b.kode_upb', '=', 'upb.kode_upb');
+    })
+    ->select(
+                    'bidang.kode_bidang',
+                    'bidang.nama_bidang',
+                    'unit.kode_unit',
+                    'unit.nama_unit',
+                    'sub_unit.kode_sub_unit',
+                    'sub_unit.nama_sub_unit',
+                    'upb.kode_upb',
+                    'upb.nama_upb',
+                    'kib_b.*'
+                )
+                ->where('upb.kode_bidang', $kode_bidang)
+                ->where('upb.kode_unit', $kode_unit)
+                ->where('upb.kode_sub_unit', $kode_sub_unit)
+                ->where('upb.kode_upb', $kode_upb)
                 
-    //             ->get();
+                ->get();
 
                 
 
 
     
-    $kib = KIBBModel::with('bidang', 'unit', 'subUnit', 'upb')
-    ->where('kode_bidang', $kode_bidang)
-    ->where('kode_unit', $kode_unit)
-    ->where('kode_sub_unit', $kode_sub_unit)
-    ->where('kode_upb', $kode_upb)->get();
+    // $kib = KIBBModel::with('bidang', 'unit', 'subUnit', 'upb')
+    // ->where('kode_bidang', $kode_bidang)
+    // ->where('kode_unit', $kode_unit)
+    // ->where('kode_sub_unit', $kode_sub_unit)
+    // ->where('kode_upb', $kode_upb)->get();
 
     $KibResponse = [];
     foreach ($kib as $value) {
         array_push($KibResponse, [
-            'kode_bidang' => $value->bidang->kode_bidang,
-            'nama_bidang' => $value->bidang->nama_bidang,
-            'kode_unit' => $value->unit->kode_unit,
-            'nama_unit' => $value->unit->nama_unit,
-            'kode_sub_unit' => $value->subUnit->kode_sub_unit,
-            'nama_sub_unit' => $value->subUnit->nama_sub_unit,
-            'kode_upb' => $value->upb->kode_upb,
-            'nama_upb' => $value->upb->nama_upb,
+            'kode_bidang' => $value->kode_bidang,
+            'nama_bidang' => $value->nama_bidang,
+            'kode_unit' => $value->kode_unit,
+            'nama_unit' => $value->nama_unit,
+            'kode_sub_unit' => $value->kode_sub_unit,
+            'nama_sub_unit' => $value->nama_sub_unit,
+            'kode_upb' => $value->kode_upb,
+            'nama_upb' => $value->nama_upb,
             'id_aset_b' => $value->id_aset_b,
-            'kode_pemilik' => $value->kode_pemilik,
+            'nama_aset' => $value->nama_aset,
             'merk' => $value->merk,
             'cc' => $value->cc,
             'bahan' => $value->bahan,

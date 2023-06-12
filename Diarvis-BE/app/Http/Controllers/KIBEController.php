@@ -37,43 +37,57 @@ public function detail($id_aset_e)
 
 public function getKibE($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 {
-    // $kib = KIBEModel::join('upb', 'kib_e.kode_upb', '=', 'upb.kode_upb')
-    //     ->join('sub_unit', 'upb.kode_sub_unit', '=', 'sub_unit.kode_sub_unit')
-    //     ->join('unit', 'sub_unit.kode_unit', '=', 'unit.kode_unit')
-    //     ->join('bidang', 'unit.kode_bidang', '=', 'bidang.kode_bidang')
-    //     ->where('bidang.kode_bidang', $kode_bidang)
-    //     ->where('unit.kode_unit', $kode_unit)
-    //     ->where('sub_unit.kode_sub_unit', $kode_sub_unit)
-    //     ->where('upb.kode_upb', $kode_upb)
-    //     ->select(
-    //         'bidang.kode_bidang',
-    //         'bidang.nama_bidang',
-    //         'unit.kode_unit',
-    //         'unit.nama_unit',
-    //         'sub_unit.kode_sub_unit',
-    //         'sub_unit.nama_sub_unit',
-    //         'upb.kode_upb',
-    //         'upb.nama_upb',
-    //         'kib_e.*'
-    //     )
-    //     ->get();
-    $kib = KIBEModel::with('bidang', 'unit', 'subUnit', 'upb')
-    ->where('kode_bidang', $kode_bidang)
-    ->where('kode_unit', $kode_unit)
-    ->where('kode_sub_unit', $kode_sub_unit)
-    ->where('kode_upb', $kode_upb)->get();
+    $kib =KIBEModel::join('bidang', 'kib_e.kode_bidang', '=', 'bidang.kode_bidang')
+    ->join('unit', function ($join) {
+        $join->on('kib_e.kode_bidang', '=', 'unit.kode_bidang')
+            ->on('kib_e.kode_unit', '=', 'unit.kode_unit');
+    })
+    ->join('sub_unit', function ($join) {
+        $join->on('kib_e.kode_bidang', '=', 'sub_unit.kode_bidang')
+            ->on('kib_e.kode_unit', '=', 'sub_unit.kode_unit')
+            ->on('kib_e.kode_sub_unit', '=', 'sub_unit.kode_sub_unit');
+    })
+    ->join('upb', function ($join) {
+        $join->on('kib_e.kode_bidang', '=', 'upb.kode_bidang')
+            ->on('kib_e.kode_unit', '=', 'upb.kode_unit')
+            ->on('kib_e.kode_sub_unit', '=', 'upb.kode_sub_unit')
+            ->on('kib_e.kode_upb', '=', 'upb.kode_upb');
+    })
+    ->select(
+                    'bidang.kode_bidang',
+                    'bidang.nama_bidang',
+                    'unit.kode_unit',
+                    'unit.nama_unit',
+                    'sub_unit.kode_sub_unit',
+                    'sub_unit.nama_sub_unit',
+                    'upb.kode_upb',
+                    'upb.nama_upb',
+                    'kib_e.*'
+                )
+                ->where('upb.kode_bidang', $kode_bidang)
+                ->where('upb.kode_unit', $kode_unit)
+                ->where('upb.kode_sub_unit', $kode_sub_unit)
+                ->where('upb.kode_upb', $kode_upb)
+                
+                ->get();
+    // $kib = KIBEModel::with('bidang', 'unit', 'subUnit', 'upb')
+    // ->where('kode_bidang', $kode_bidang)
+    // ->where('kode_unit', $kode_unit)
+    // ->where('kode_sub_unit', $kode_sub_unit)
+    // ->where('kode_upb', $kode_upb)->get();
         $KibResponse = [];
     foreach ($kib as $value) {
         array_push($KibResponse, [
-            'kode_bidang' => $value->bidang->kode_bidang,
-            'nama_bidang' => $value->bidang->nama_bidang,
-            'kode_unit' => $value->unit->kode_unit,
-            'nama_unit' => $value->unit->nama_unit,
-            'kode_sub_unit' => $value->subUnit->kode_sub_unit,
-            'nama_sub_unit' => $value->subUnit->nama_sub_unit,
-            'kode_upb' => $value->upb->kode_upb,
-            'nama_upb' => $value->upb->nama_upb,
+            'kode_bidang' => $value->kode_bidang,
+            'nama_bidang' => $value->nama_bidang,
+            'kode_unit' => $value->kode_unit,
+            'nama_unit' => $value->nama_unit,
+            'kode_sub_unit' => $value->kode_sub_unit,
+            'nama_sub_unit' => $value->nama_sub_unit,
+            'kode_upb' => $value->kode_upb,
+            'nama_upb' => $value->nama_upb,
             'id_aset_e' => $value->id_aset_e,
+            'nama_aset' => $value->nama_aset,
             'kode_pemilik' => $value->kode_pemilik,
             'kode_jenis_aset' => $value->kode_jenis_aset,
             'tgl_perolehan' => $value->tgl_perolehan,
