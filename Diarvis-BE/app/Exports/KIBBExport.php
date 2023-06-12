@@ -8,7 +8,7 @@ use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class KIBBExport implements WithHeadings, ShouldAutoSize
+class KIBBExport implements FromCollection, WithHeadings, ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection
