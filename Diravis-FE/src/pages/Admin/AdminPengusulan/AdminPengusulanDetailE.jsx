@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import Layout from "../../layout/layout";
-import { UserContext } from "../../App";
+import Layout from "../../../layout/layout";
+// import { UserContext } from "../../../App";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
 
-function DetailPenilaianB(props) {
+function AdminPengusulanDetailE(props) {
   const location = useLocation();
   const dataPenilaian = location.state;
-  const dataBarang = dataPenilaian.kib_b;
+  const dataBarang = dataPenilaian.kib_e;
   const [currentIndex, setCurrentIndex] = useState(0);
   const slides = [
     {
@@ -52,7 +52,7 @@ function DetailPenilaianB(props) {
           <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
             <div className="px-4 sm:px-0">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
-                Informasi Detail Barang KIB-B
+                Informasi Detail Barang KIB-E
               </h3>
             </div>
             <div className="mt-6 border-t border-gray-100">
@@ -94,74 +94,34 @@ function DetailPenilaianB(props) {
                 </div>
                 <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="text-sm font-medium leading-6 text-gray-900">
-                    Merek
+                    Tanggal Pembukuan
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {dataBarang.merk}
+                    {dataBarang.tgl_pembukuan}
                   </dd>
                 </div>
                 <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="text-sm font-medium leading-6 text-gray-900">
-                    Tipe
+                    Judul
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {dataBarang.type}
+                    {dataBarang.judul}
                   </dd>
                 </div>
                 <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="text-sm font-medium leading-6 text-gray-900">
-                    CC
+                    Pencipta
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {dataBarang.cc}
+                    {dataBarang.pencipta}
                   </dd>
                 </div>
                 <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="text-sm font-medium leading-6 text-gray-900">
-                    Bahan
+                    Ukuran
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {dataBarang.bahan}
-                  </dd>
-                </div>
-                <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm font-medium leading-6 text-gray-900">
-                    No Pabrik
-                  </dt>
-                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {dataBarang.nomor_pabrik}
-                  </dd>
-                </div>
-                <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm font-medium leading-6 text-gray-900">
-                    No Rangka
-                  </dt>
-                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {dataBarang.nomor_rangka}
-                  </dd>
-                </div>
-                <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm font-medium leading-6 text-gray-900">
-                    No Mesin
-                  </dt>
-                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {dataBarang.nomor_mesin}
-                  </dd>
-                </div>
-                <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm font-medium leading-6 text-gray-900">
-                    No Polisi
-                  </dt>
-                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {dataBarang.nomor_polisi}
-                  </dd>
-                </div>
-                <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm font-medium leading-6 text-gray-900">
-                    No BPKB
-                  </dt>
-                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {dataBarang.nomor_bpkb}
+                    {dataBarang.ukuran}
                   </dd>
                 </div>
                 <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -218,7 +178,7 @@ function DetailPenilaianB(props) {
           <div className="block p-6 h-auto max-h-auto bg-white border border-gray-200 rounded-lg shadow">
             <div className="px-4 sm:px-0">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
-                Informasi Detail Penilaian KIB-B
+                Informasi Detail Pengusulan KIB-B
               </h3>
               {/* <div className="h-[1px] min-w-full bg-gray-100" /> */}
               <div className="mt-6 border-t border-gray-100">
@@ -274,4 +234,4 @@ function DetailPenilaianB(props) {
   );
 }
 
-export default DetailPenilaianB;
+export default AdminPengusulanDetailE;

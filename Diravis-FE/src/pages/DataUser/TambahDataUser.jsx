@@ -38,7 +38,7 @@ const ShowTambahDataUser = (props) => {
     kode_sub_unit: idSubUnit,
     kode_upb: takenUPB,
   };
-  console.log(formData);
+  console.log("FormData: ", formData);
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/bidang").then((res) => {
@@ -92,11 +92,11 @@ const ShowTambahDataUser = (props) => {
   };
 
   const handleGrup = (e) => {
-    setGrup(+e.target.value);
+    setGrup(e.target.value);
   };
 
   const handleBidang = (e) => {
-    setIdBidang(+e.target.value);
+    setIdBidang(e.target.value);
     axios
       .get(`http://localhost:8000/api/unit/${e.target.value}`)
       .then((res) => {
@@ -105,29 +105,31 @@ const ShowTambahDataUser = (props) => {
   };
 
   const handleUnit = (e) => {
-    setIdUnit(+e.target.value);
+    setIdUnit(e.target.value);
     axios
-      // .get(`http://localhost:8000/api/sub-unit/${idBidang}/${e.target.value}`)
-      .get(`http://localhost:8000/api/sub-unit/${e.target.value}`)
+      .get(`http://localhost:8000/api/sub-unit/${idBidang}/${e.target.value}`)
+      // .get(`http://localhost:8000/api/sub-unit/${e.target.value}`)
       .then((res) => {
+        console.log("res Unit: ", res);
         setSubUnit(res.data.data);
       });
   };
 
   const handleSubUnit = (e) => {
-    setIdSubUnit(+e.target.value);
+    setIdSubUnit(e.target.value);
     axios
       .get(
-        // `http://localhost:8000/api/upb/${idBidang}/${idUnit}/${e.target.value}`
-        `http://localhost:8000/api/upb/${e.target.value}`
+        `http://localhost:8000/api/upb/${idBidang}/${idUnit}/${e.target.value}`
+        // `http://localhost:8000/api/upb/${e.target.value}`
       )
       .then((res) => {
+        console.log("res Sub Unit: ", res);
         setUPB(res.data.data);
       });
   };
 
   const handleUPB = (e) => {
-    setTakenUPB(+e.target.value);
+    setTakenUPB(e.target.value);
   };
   return (
     <>
@@ -137,7 +139,7 @@ const ShowTambahDataUser = (props) => {
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             Tambah Data User
           </h5>
-          <form >
+          <form>
             <div className="grid grid-cols-2 gap-10">
               <div className="grid grid-rows-5 gap-5">
                 <div className="flex flex-row items-center justify-between">
@@ -246,8 +248,8 @@ const ShowTambahDataUser = (props) => {
 
                     <option value="1">Administrator</option>
                     <option value="2">Pengguna BMD</option>
-                    <option value="3">Penilai Aset</option>
-                    <option value="4">Verifikator</option>
+                    <option value="3">Verifikator</option>
+                    <option value="4">Penilai Aset</option>
                   </select>
                 </div>
                 <div className="flex flex-row items-center justify-between">

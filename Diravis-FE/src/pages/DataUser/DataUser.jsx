@@ -42,10 +42,6 @@ const ShowDataUser = () => {
     }
   };
 
-  // Table Property (using dummy)
-  // const columns = useMemo(() => COLUMNS_B, []);
-  // const data = useMemo(() => MOCK_DATA, []);
-
   // Table Property (using API)
   const columns = useMemo(() => COLUMNS_USER, []);
   const data = useMemo(() => [...DataTable], [DataTable]);

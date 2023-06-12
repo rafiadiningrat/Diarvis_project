@@ -1,27 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import Layout from "../../layout/layout";
-import { UserContext } from "../../App";
+import Layout from "../../../layout/layout";
+import { UserContext } from "../../../App";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
 
-function DetailPenilaianB(props) {
+function AdminPenilaianDetailB(props) {
   const location = useLocation();
-  const dataPenilaian = location.state;
-  const dataBarang = dataPenilaian.kib_b;
+  const dataVerifikasi = location.state;
+  const dataBarang = dataVerifikasi.kib_b;
   const [currentIndex, setCurrentIndex] = useState(0);
   const slides = [
     {
-      url: dataPenilaian.foto_barang1,
+      url: dataVerifikasi.foto_barang1,
     },
     {
-      url: dataPenilaian.foto_barang2,
+      url: dataVerifikasi.foto_barang2,
     },
     {
-      url: dataPenilaian.foto_barang4,
+      url: dataVerifikasi.foto_barang3,
     },
     {
-      url: dataPenilaian.foto_barang3,
+      url: dataVerifikasi.foto_barang4,
     },
   ];
 
@@ -41,7 +41,6 @@ function DetailPenilaianB(props) {
     setCurrentIndex(slideIndex);
   };
   console.log(slides[currentIndex].url);
-  console.log(dataPenilaian);
 
   useEffect(() => {}, []);
   return (
@@ -228,8 +227,46 @@ function DetailPenilaianB(props) {
                       Alasan Penghapusan
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataPenilaian.alasan_penghapusan}
+                      {dataVerifikasi.alasan_penghapusan}
                     </dd>
+                  </div>
+                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">
+                      Keterangan Penilaian
+                    </dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {dataVerifikasi.keterangan_penilaian}
+                    </dd>
+                  </div>
+                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">
+                      Status Penilaian
+                    </dt>
+                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                      {dataVerifikasi.status_penilaian === true ? (
+                        <span className="font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                          Diterima
+                        </span>
+                      ) : (
+                        <span className="font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-700 dark:text-red-100">
+                          Ditolak
+                        </span>
+                      )}
+                    </dd>
+                  </div>
+                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                    <dt className="text-sm font-medium leading-6 text-gray-900">
+                      Dokumen Penilaian
+                    </dt>
+                    <a
+                      className="mt-1 text-sm leading-6 text-blue-500 underline sm:col-span-2 sm:mt-0"
+                      href={dataVerifikasi.dokumen_penilaian}
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                      Buka Dokumen
+                    </a>
+                    {/* <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0"></dd> */}
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
@@ -237,11 +274,10 @@ function DetailPenilaianB(props) {
                     </dt>
                   </div>
                 </div>
-                {/* Carousel */}
+                {/* carousel */}
                 <div className="max-w-[48.125rem] h-[24.375rem] w-full m-auto py-4 px-4 relative group">
                   <img
                     src={slides[currentIndex].url}
-                    // src="../../../public/images/tes1.jpeg"
                     alt=""
                     className="w-full h-full rounded-2xl transition-all duration-300 object-cover object-center"
                   />
@@ -274,4 +310,4 @@ function DetailPenilaianB(props) {
   );
 }
 
-export default DetailPenilaianB;
+export default AdminPenilaianDetailB;

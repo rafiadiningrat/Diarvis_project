@@ -38,18 +38,10 @@ function DetailsDataMasterE(props) {
               <dl className="divide-y divide-gray-100">
                 <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                   <dt className="text-sm font-medium leading-6 text-gray-900">
-                    Id Pemda
-                  </dt>
-                  <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    Margot Foster
-                  </dd>
-                </div>
-                <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                  <dt className="text-sm font-medium leading-6 text-gray-900">
                     Nama Aset
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    Backend Developer
+                    {dataBarang.nama_aset}
                   </dd>
                 </div>
                 <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -68,7 +60,7 @@ function DetailsDataMasterE(props) {
                     Nomor Register
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    -
+                  {dataBarang.no_reg8}
                   </dd>
                 </div>
                 <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -84,7 +76,7 @@ function DetailsDataMasterE(props) {
                     Tanggal Pembukuan
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    -
+                  {dataBarang.tgl_pembukuan}
                   </dd>
                 </div>
                 <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -156,8 +148,7 @@ function DetailsDataMasterE(props) {
                     Keterangan
                   </dt>
                   <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                    {/* {dataBarang.keterangan} */}
-                    Keterangan
+                    {dataBarang.keterangan}
                   </dd>
                 </div>
               </dl>

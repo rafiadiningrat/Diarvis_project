@@ -7,10 +7,11 @@ import {
   AiOutlineRight,
   AiOutlineLeft,
   AiFillFileText,
+  AiFillPlusCircle,
 } from "react-icons/ai";
 import Layout from "../../layout/layout";
 import MOCK_DATA from "../../components/Table/DataMaster/MOCK_DATA.json";
-import { COLUMNS_E, COLUMNS_E_API } from "../../components/Table/DataMaster/columns";
+import { COLUMNS_E_API } from "../../components/Table/DataMaster/columns";
 import { UserContext } from "../../App";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -20,11 +21,25 @@ const DataMasterE = () => {
   const [DataTable, setDataTable] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.state);
+  const dataUser = JSON.parse(sessionStorage.getItem("user"));
+  const codeFilterUpb = `${dataUser.kode_bidang}/${dataUser.kode_unit}/${dataUser.kode_sub_unit}/${dataUser.kode_upb}`;
 
-  const fetchData = async () => {
+  const fetchDataAdmin = async () => {
     const response = await axios
       .get(`http://localhost:8000/api/kib-e/${location.state}`)
+      .catch((err) => console.log(err));
+
+    if (response) {
+      const DataTable = response.data.data;
+      console.log("data: ", response);
+      setDataTable(DataTable);
+    }
+  };
+
+  const fetchDataUser = async () => {
+    const response = await axios
+      .get(`http://localhost:8000/api/kib-e/${codeFilterUpb}`)
+      // .get(`http://localhost:8000/api/kib-e`)
       .catch((err) => console.log(err));
 
     if (response) {
@@ -98,7 +113,13 @@ const DataMasterE = () => {
   const { pageIndex, pageSize } = state;
 
   useEffect(() => {
-    fetchData();
+    if (dataUser.kode_group === 1) {
+      fetchDataAdmin();
+      console.log("admin");
+    } else {
+      fetchDataUser();
+      console.log("user");
+    }
   }, []);
 
   return (
@@ -107,8 +128,16 @@ const DataMasterE = () => {
       <div className="flex flex-col  lg:ml-64 mt-[118px] px-5 pt-5 w-auto min-h-[52.688rem]">
         <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
           <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Data Master / KIB B
+            Data Master / KIB E
           </h5>
+          <a
+            href={`http://localhost:8000/api/kibe/excel/${location.state}`}
+            download
+            className="px-3 py-2 text-xs ml-3 mb-3 font-medium text-center inline-flex rounded-md text-white bg-blue-500 hover:bg-blue-600"
+          >
+            <AiFillPlusCircle size={15} />
+            &nbsp;&nbsp;Generate Laporan
+          </a>
           <div className="relative overflow-x-auto border border-gray-300">
             <table
               className="table-fixed w-full text-sm text-center text-gray-500 border-collapse"

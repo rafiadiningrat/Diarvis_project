@@ -12,15 +12,14 @@ import {
 import { BiUpload } from "react-icons/bi";
 import Layout from "../../layout/layout";
 import MOCK_DATA from "../../components/Table/DataMaster/MOCK_DATA.json";
-import { COLUMNS_B, COLUMNS_B_API } from "../../components/Table/DataMaster/columns";
+import { COLUMNS_B_API } from "../../components/Table/DataMaster/columns";
 import { UserContext } from "../../App";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
 const PengusulanB = () => {
-  const dataUser = JSON.parse(sessionStorage.getItem("user"));
-  //   const isLoggedIn = useContext(UserContext);
+  // const location = useLocation();
   const [DataTable, setDataTable] = useState([]);
   const [dataByUPB, setDataByUPB] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
@@ -32,8 +31,10 @@ const PengusulanB = () => {
   const [file2, setFile2] = useState(null);
   const [file3, setFile3] = useState(null);
   const [file4, setFile4] = useState(null);
+  const dataUser = JSON.parse(sessionStorage.getItem("user"));
+  const codeFilterUpb = `${dataUser.kode_bidang}/${dataUser.kode_unit}/${dataUser.kode_sub_unit}/${dataUser.kode_upb}`;
   const formData = {
-    id_user: 3,
+    id_user: dataUser.id_user,
     id_aset_b: idBarang,
     alasan_penghapusan: alasanPenghapusan,
     foto_barang1: file1,
@@ -41,42 +42,20 @@ const PengusulanB = () => {
     foto_barang3: file3,
     foto_barang4: file4,
   };
-  // console.log(formData);
-  // console.log("alasan :", alasanPenghapusan);
-  // console.log("file1 :");
-  // console.log(file1);
-  // console.log("file2 :");
-  // console.log(file2);
-  // console.log("file3 :");
-  // console.log(file3);
-  // console.log("file4 :");
-  // console.log(file4);
-
-  const navigate = useNavigate();
-  const location = useLocation();
-  console.log(location.state);
 
   const fetchData = async () => {
     const response = await axios
-      .get(`http://localhost:8000/api/kibb/belumUsulan`)
+      .get(`http://localhost:8000/api/kibb/belumUsulan/${codeFilterUpb}`)
+      // .get(`http://localhost:8000/api/kibb/belumUsulan/`)
       .catch((err) => console.log(err));
 
     if (response) {
-      const Data = response.data.data;
-      // console.log("data: ", Data);
-      setDataTable(Data);
-      handleFilter(Data);
+      const DataTable = response.data.data;
+      console.log("data: ", DataTable);
+      setDataByUPB(DataTable);
     }
   };
   
-  const handleFilter = (rawData) => {
-    const filteredData = rawData.filter(
-      (item) => item.kode_upb === dataUser.kode_upb
-      );
-      setDataByUPB(filteredData);
-      console.log("filtered: ", filteredData);
-  };
-
   // Table Property (using dummy)
     // const columns = useMemo(() => COLUMNS_B, []);
     // const data = useMemo(() => MOCK_DATA, []);
@@ -272,7 +251,7 @@ const PengusulanB = () => {
         <div className="flex flex-col  lg:ml-64 mt-[118px] px-5 pt-5 w-auto min-h-[52.688rem]">
           <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
             <h5 class="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Pengeusulan / KIB B
+              Pengusulan / KIB B
             </h5>
             <div className="relative overflow-x-auto border border-gray-300">
               <table
@@ -446,7 +425,7 @@ const PengusulanB = () => {
         </div>
         {showModal && (
           <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-[60]">
-            <div className="bg-white lg:w-auto xl:w-10/12 2xl:w-8/12  rounded p-8">
+            <div className="bg-white lg:w-auto xl:w-10/12 2xl:w-8/12 rounded p-8">
               <form>
                 <div class="mb-6">
                   <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -466,7 +445,7 @@ const PengusulanB = () => {
                     value={alasanPenghapusan}
                     onChange={(e) => setAlasanPenghapusan(e.target.value)}
                     rows="3"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/2 p-2.5 "
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block lg:w-1/2 w-full p-2.5 "
                     placeholder="Masukkan Deskripsi atau keterangan"
                     required
                   />

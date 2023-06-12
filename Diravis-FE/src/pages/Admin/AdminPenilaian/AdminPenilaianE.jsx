@@ -9,50 +9,23 @@ import {
   AiFillFileText,
 } from "react-icons/ai";
 import { BsFillClipboardPlusFill } from "react-icons/bs";
-import Layout from "../../layout/layout";
-import MOCK_DATA from "../../components/Table/DataMaster/MOCK_DATA.json";
-import {
-  COLUMNS_PENILAIAN_B_API,
-  COLUMNS_B
-} from "../../components/Table/DataMaster/columns";
-import { UserContext } from "../../App";
+import Layout from "../../../layout/layout";
+import MOCK_DATA from "../../../components/Table/DataMaster/MOCK_DATA.json";
+import { COLUMNS_PENILAIAN_E_API } from "../../../components/Table/DataMaster/columns";
+import { UserContext } from "../../../App";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const VerifikasiB = () => {
+const AdminPenilaianE = () => {
   const isLoggedIn = useContext(UserContext);
   const [DataTable, setDataTable] = useState([]);
-  const [idUsulan, setIdUsulan] = useState();
-  const [file, setFile] = useState(null);
-  const [linkPostVerifikasi, setLinkPostVerifikasi] = useState();
-  const [editedData, setEditedData] = useState({});
-  const [showModal, setShowModal] = useState(false);
-  const [statusVerifikasi, setStatusVerifikasi] = useState(null);
-  const [keteranganVerifikasi, setKeteranganVerifikasi] = useState();
+  const location = useLocation();
   const navigate = useNavigate();
-  const dataUser = JSON.parse(sessionStorage.getItem("user"));
-  const codeFilterUpb = `${dataUser.kode_bidang}/${dataUser.kode_unit}/${dataUser.kode_sub_unit}/${dataUser.kode_upb}`;
-  const formData = {
-    keterangan_verifikasi: keteranganVerifikasi,
-  };
-  console.log("form Verifikasi: ", formData);
-  console.log("id Verifikasi: ", idUsulan);
-  console.log("link api", linkPostVerifikasi);
-
-  const handleRadioDiterima = (e) => {
-    setStatusVerifikasi(e.target.value === "true");
-    setLinkPostVerifikasi("http://localhost:8000/api/kibb/verifikasi/diterima");
-  };
-
-  const handleRadioDitolak = (e) => {
-    setStatusVerifikasi(e.target.value === "false");
-    setLinkPostVerifikasi("http://localhost:8000/api/kibb/verifikasi/ditolak");
-  };
 
   const fetchData = async () => {
     const response = await axios
-      .get(`http://localhost:8000/api/kibb/verifikasi/${codeFilterUpb}`)
+      .get(`http://localhost:8000/api/kibe/all/penilaian/${location.state}`)
       .catch((err) => console.log(err));
     if (response) {
       console.log("response: ", response);
@@ -62,62 +35,13 @@ const VerifikasiB = () => {
   };
 
   // Table Property (using API)
-  // const columns = useMemo(() => COLUMNS_B, []);
-  // const data = useMemo(() => [...MOCK_DATA], [MOCK_DATA]);
-
-  // Table Property (using API)
-  const columns = useMemo(() => COLUMNS_PENILAIAN_B_API, []);
+  const columns = useMemo(() => COLUMNS_PENILAIAN_E_API, []);
   const data = useMemo(() => [...DataTable], [DataTable]);
 
   const openDetails = (data) => {
-    navigate(`/verifikasi/kib-b/detail/${data.id_usulan_b}`, { state: data });
-  };
-
-  const handleInputVerifikasi = (item) => {
-    setIdUsulan(item);
-    setShowModal(true);
-  };
-
-  const handleModalClose = () => {
-    setIdUsulan();
-    setFile(null);
-    setStatusVerifikasi(null);
-    setKeteranganVerifikasi();
-    setLinkPostVerifikasi();
-    setShowModal(false);
-  };
-
-  const handleSubmitVerifikasi = async (e) => {
-    e.preventDefault();
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      const dataTugas = await axios
-        .post(`${linkPostVerifikasi}/${idUsulan}`, formData, config)
-        .then((res) => {
-          console.log(res);
-          Swal.fire({
-            icon: "success",
-            title: "Verifikasi Berhasil",
-            text: "Berhasil melakukan verifikasi!",
-          }).then(function () {
-            handleModalClose();
-            fetchData();
-          });
-        });
-    } catch (error) {
-      console.log(error);
-      Swal.fire({
-        icon: "error",
-        title: "Verifikasi Gagal",
-        text: "Gagal melakukan verifikasi!",
-      }).then(function () {
-        handleModalClose();
-      });
-    }
+    navigate(`/admin/penilaian/detail/kib-e/${data.id_usulan_e}`, {
+      state: data,
+    });
   };
 
   const tableHooks = (hooks) => {
@@ -136,13 +60,6 @@ const VerifikasiB = () => {
               onClick={() => openDetails(row.original)}
             >
               <AiFillFileText />
-            </button>
-            <button
-              title="Penilaian"
-              className="px-3 py-2 text-xs mr-2 font-medium text-center rounded-md text-white bg-green-400 hover:bg-green-500"
-              onClick={() => handleInputVerifikasi(row.original.id_usulan_b)}
-            >
-              <BsFillClipboardPlusFill />
             </button>
           </div>
         ),
@@ -189,7 +106,7 @@ const VerifikasiB = () => {
         <div className="flex flex-col  lg:ml-64 mt-[118px] px-5 pt-5 w-auto min-h-[52.688rem]">
           <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
             <h5 class="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Verifikasi / KIB B
+              Penilaian / KIB B
             </h5>
             <div className="relative overflow-x-auto border border-gray-300">
               <table
@@ -312,94 +229,9 @@ const VerifikasiB = () => {
             </nav>
           </div>
         </div>
-        {showModal && (
-          <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-[60]">
-            <div className="bg-white w-1/2 lg:w-1/4 rounded p-8">
-              <form>
-                <div class="mb-6">
-                  <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                    Form Verifikasi
-                  </h5>
-                </div>
-                <label
-                  class="mb-2 text-sm font-semibold text-gray-900 dark:text-white"
-                  for="file_input"
-                >
-                  Pilih Status Verifikasi
-                </label>
-                <div className="mt-6 mb-6 space-y-6">
-                  <div className="flex items-center gap-x-3">
-                    <input
-                      id="push-diterima"
-                      name="push-notifications"
-                      type="radio"
-                      value="true"
-                      onChange={handleRadioDiterima}
-                      className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    />
-                    <label
-                      htmlFor="push-diterima"
-                      className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                      Diterima
-                    </label>
-                  </div>
-                  <div className="flex items-center gap-x-3">
-                    <input
-                      id="push-ditolak"
-                      name="push-notifications"
-                      type="radio"
-                      value="true"
-                      onChange={handleRadioDitolak}
-                      className="h-4 w-4 border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                    />
-                    <label
-                      htmlFor="push-ditolak"
-                      className="block text-sm font-medium leading-6 text-gray-900"
-                    >
-                      Ditolak
-                    </label>
-                  </div>
-                </div>
-                <div class="mb-6">
-                  <label
-                    for="alasan"
-                    class="block mb-2 text-sm font-medium text-gray-900"
-                  >
-                    Keterangan
-                  </label>
-                  <textarea
-                    type="deskripsi"
-                    id="deskripsi"
-                    value={keteranganVerifikasi}
-                    onChange={(e) => setKeteranganVerifikasi(e.target.value)}
-                    rows="3"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                    placeholder="Masukkan Deskripsi atau keterangan"
-                    required
-                  />
-                </div>
-              </form>
-              <div className="flex justify-end mt-8">
-                <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={(e) => handleSubmitVerifikasi(e)}
-                >
-                  Submit
-                </button>
-                <button
-                  className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded ml-2"
-                  onClick={handleModalClose}
-                >
-                  Batal
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </>
   );
 };
 
-export default VerifikasiB;
+export default AdminPenilaianE;

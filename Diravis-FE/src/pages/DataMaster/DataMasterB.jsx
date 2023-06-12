@@ -7,10 +7,13 @@ import {
   AiOutlineRight,
   AiOutlineLeft,
   AiFillFileText,
+  AiFillPlusCircle,
 } from "react-icons/ai";
 import Layout from "../../layout/layout";
 import MOCK_DATA from "../../components/Table/DataMaster/MOCK_DATA.json";
-import { COLUMNS_B, COLUMNS_B_API } from "../../components/Table/DataMaster/columns";
+import {
+  COLUMNS_B_API,
+} from "../../components/Table/DataMaster/columns";
 import { UserContext } from "../../App";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
@@ -20,16 +23,30 @@ const DataMasterB = () => {
   const [DataTable, setDataTable] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.state);
-
-  const fetchData = async () => {
+  const dataUser = JSON.parse(sessionStorage.getItem("user"));
+  const codeFilterUpb = `${dataUser.kode_bidang}/${dataUser.kode_unit}/${dataUser.kode_sub_unit}/${dataUser.kode_upb}`;
+  console.log("role: ", dataUser.kode_group);
+  const fetchDataAdmin = async () => {
     const response = await axios
-    .get(`http://localhost:8000/api/kib-b/${location.state}`)
-    .catch((err) => console.log(err));
+      .get(`http://localhost:8000/api/kib-b/${location.state}`)
+      .catch((err) => console.log(err));
 
     if (response) {
       const DataTable = response.data.data;
-      console.log("data: ", DataTable);
+      console.log("data: ", response);
+      setDataTable(DataTable);
+    }
+  };
+
+  const fetchDataUser = async () => {
+    const response = await axios
+      .get(`http://localhost:8000/api/kib-b/${codeFilterUpb}`)
+      // .get(`http://localhost:8000/api/kib-b`)
+      .catch((err) => console.log(err));
+
+    if (response) {
+      const DataTable = response.data.data;
+      console.log("data: ", response);
       setDataTable(DataTable);
     }
   };
@@ -45,7 +62,7 @@ const DataMasterB = () => {
   const openDetails = (data) => {
     navigate(`/datamaster/kib-b/detail/${data.id_aset_b}`, { state: data });
   };
-  
+
   const tableHooks = (hooks) => {
     hooks.visibleColumns.push((columns) => [
       ...columns,
@@ -68,7 +85,7 @@ const DataMasterB = () => {
       },
     ]);
   };
-  
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -93,13 +110,19 @@ const DataMasterB = () => {
     tableHooks,
     useBlockLayout,
     useSticky
-    );
-        
-    const { pageIndex, pageSize } = state;
-    
-    useEffect(() => {
-      fetchData();
-    }, []);
+  );
+
+  const { pageIndex, pageSize } = state;
+
+  useEffect(() => {
+    if (dataUser.kode_group === 1) {
+      fetchDataAdmin();
+      console.log("admin");
+    } else {
+      fetchDataUser();
+      console.log("user");
+    }
+  }, []);
 
   return (
     <>
@@ -109,6 +132,14 @@ const DataMasterB = () => {
           <h5 className="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             Data Master / KIB B
           </h5>
+          <a
+            href={`http://localhost:8000/api/kibb/excel/${location.state}`}
+            download
+            className="px-3 py-2 text-xs ml-3 mb-3 font-medium text-center inline-flex rounded-md text-white bg-blue-500 hover:bg-blue-600"
+          >
+            <AiFillPlusCircle size={15} />
+            &nbsp;&nbsp;Generate Laporan
+          </a>
           <div className="relative overflow-x-auto border border-gray-300">
             <table
               className="table-fixed w-full text-sm text-center text-gray-500 border-collapse"
@@ -136,7 +167,7 @@ const DataMasterB = () => {
                 {page.map((row) => {
                   prepareRow(row);
                   return (
-                    <tr className="" {...row.getRowProps()} >
+                    <tr className="" {...row.getRowProps()}>
                       {row.cells.map((cell) => {
                         return (
                           <td

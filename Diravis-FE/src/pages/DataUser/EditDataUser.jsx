@@ -26,7 +26,6 @@ const ShowEditDataUser = (props) => {
   const [idSubUnit, setIdSubUnit] = useState(user.kode_sub_unit);
   const [UPB, setUPB] = useState([]);
   const [takenUPB, setTakenUPB] = useState(user.kode_upb);
-  
 
   const formData = {
     nama_lengkap: Nama,
@@ -41,7 +40,7 @@ const ShowEditDataUser = (props) => {
     kode_upb: takenUPB,
   };
 
-  console.log(formData);
+  console.log(Grup);
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/bidang").then((res) => {
@@ -50,7 +49,6 @@ const ShowEditDataUser = (props) => {
   }, []);
 
   const updateHandler = async () => {
-    
     const createUser = await axios
       .put(`http://localhost:8000/api/update/user/${user.id_user}`, formData)
       .then((res) => {
@@ -95,11 +93,11 @@ const ShowEditDataUser = (props) => {
   };
 
   const handleGrup = (e) => {
-    setGrup(+e.target.value);
+    setGrup(e.target.value);
   };
 
   const handleBidang = (e) => {
-    setIdBidang(+e.target.value);
+    setIdBidang(e.target.value);
     axios
       .get(`http://localhost:8000/api/unit/${e.target.value}`)
       .then((res) => {
@@ -108,7 +106,7 @@ const ShowEditDataUser = (props) => {
   };
 
   const handleUnit = (e) => {
-    setIdUnit(+e.target.value);
+    setIdUnit(e.target.value);
     axios
       .get(`http://localhost:8000/api/sub-unit/${e.target.value}`)
       .then((res) => {
@@ -117,14 +115,14 @@ const ShowEditDataUser = (props) => {
   };
 
   const handleSubUnit = (e) => {
-    setIdSubUnit(+e.target.value);
+    setIdSubUnit(e.target.value);
     axios.get(`http://localhost:8000/api/upb/${e.target.value}`).then((res) => {
       setUPB(res.data.data);
     });
   };
 
   const handleUPB = (e) => {
-    setTakenUPB(+e.target.value);
+    setTakenUPB(e.target.value);
   };
   return (
     <>
@@ -144,9 +142,9 @@ const ShowEditDataUser = (props) => {
                   Nama
                 </label>
                 <input
-                type="text"
-                  id="Grup"
-                  name="Grup"
+                  type="text"
+                  id="Nama"
+                  name="Nama"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                   placeholder="Masukkan Nama"
                   required
@@ -162,13 +160,13 @@ const ShowEditDataUser = (props) => {
                   NIP
                 </label>
                 <input
-                    type="number"
+                  type="number"
                   id="NIP"
                   name="NIP"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                   placeholder="Masukkan NIP"
                   required
-                    value={NIP}
+                  value={NIP}
                   onChange={(e) => handleNIP(e)}
                 />
               </div>
@@ -180,13 +178,13 @@ const ShowEditDataUser = (props) => {
                   Nomor Telepon
                 </label>
                 <input
-                    type="number"
+                  type="number"
                   id="NoTelepon"
                   name="NoTelepon"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                   placeholder="Masukkan No.Telp"
                   required
-                    value={NoTelepon}
+                  value={NoTelepon}
                   onChange={(e) => handleNoTelepon(e)}
                 />
               </div>
@@ -198,13 +196,13 @@ const ShowEditDataUser = (props) => {
                   Email
                 </label>
                 <input
-                    type="email"
+                  type="email"
                   id="Email"
                   name="Email"
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                   placeholder="Masukkan Email"
                   required
-                    value={Email}
+                  value={Email}
                   onChange={(e) => handleEmail(e)}
                 />
               </div>
@@ -240,16 +238,16 @@ const ShowEditDataUser = (props) => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                   placeholder="pilih Grup"
                   required
-                value={Grup}
+                  value={Grup}
                   onChange={(e) => handleGrup(e)}
-                //   disabled
+                  //   disabled
                 >
                   {/* <option defaultValue>{user.nama_grup}</option> */}
 
                   <option value="1">Administrator</option>
                   <option value="2">Pengguna BMD</option>
-                  <option value="3">Penilai Aset</option>
-                  <option value="4">Verifikator</option>
+                  <option value="3">Verifikator</option>
+                  <option value="4">Tim Penilai Aset</option>
                 </select>
               </div>
               <div className="flex flex-row items-center justify-between">
@@ -267,6 +265,7 @@ const ShowEditDataUser = (props) => {
                   required
                   onChange={(e) => handleBidang(e)}
                   value={idBidang}
+                  disabled
                 >
                   {/* <option default>{user.nama_bidang}</option> */}
                   {Bidang.map((item) => (
@@ -289,6 +288,7 @@ const ShowEditDataUser = (props) => {
                   required
                   value={idUnit}
                   onChange={(e) => handleUnit(e)}
+                  disabled
                 >
                   <option defaultValue>{user.nama_unit}</option>
                   {Unit.map((item) => (
@@ -311,7 +311,7 @@ const ShowEditDataUser = (props) => {
                   required
                   value={idSubUnit}
                   onChange={(e) => handleSubUnit(e)}
-                
+                  disabled
                 >
                   <option defaultValue>{user.nama_sub_unit}</option>
                   {SubUnit.map((item) => (
@@ -334,9 +334,9 @@ const ShowEditDataUser = (props) => {
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                   placeholder="pilih UPB"
                   required
-                    value={takenUPB}
+                  value={takenUPB}
                   onChange={(e) => handleUPB(e)}
-                //   disabled
+                  disabled
                 >
                   <option defaultValue>{user.nama_upb}</option>
                   {UPB.map((item) => (

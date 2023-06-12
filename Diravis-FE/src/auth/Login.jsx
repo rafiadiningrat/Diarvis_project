@@ -3,6 +3,7 @@ import { UserContext } from "../App";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import styled from "styled-components";
 
 const Login = () => {
   const isLoggedIn = useContext(UserContext);
@@ -12,6 +13,7 @@ const Login = () => {
   useEffect(() => {
     sessionStorage.removeItem("user");
     sessionStorage.removeItem("isLogin");
+    // window.location.reload(true);
   }, []);
   
   const loginHandler = async (e) => {
@@ -51,10 +53,17 @@ const Login = () => {
     }
   };
 
+  const BackgroundContainer = styled.div`
+    background-image: url("images/Login_full.png");
+
+    @media (max-width: 1024px) {
+      background-image: url("images/Login_half.png");
+    }
+  `;
 
   return (
     <>
-      <div className="bg-auto bg-no-repeat bg-left-top min-h-screen flex items-center justify-center bg-[url('images/Login_half.png')] lg:bg-[url('images/Login_full.png')]">
+      <BackgroundContainer className="bg-auto bg-no-repeat bg-left-top min-h-screen flex items-center justify-center">
         <div className="absolute md:mx-auto lg:right-0 w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 md:p-8 lg:mr-28">
           <form className="space-y-6" onSubmit={loginHandler}>
             <img src="/images/diarvis-logo.png" className="mx-auto w-96" />
@@ -101,7 +110,7 @@ const Login = () => {
             </button>
           </form>
         </div>
-      </div>
+      </BackgroundContainer>
     </>
   );
 };

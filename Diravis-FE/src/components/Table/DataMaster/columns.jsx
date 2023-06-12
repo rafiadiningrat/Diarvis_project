@@ -7,9 +7,8 @@ export const COLUMNS_B = [
   },
   {
     Header: "id Pemda",
-    // accessor: "id_pemda",
+    accessor: "id_pemda",
     width: 140,
-    Cell: ({row}) => <p>{row.original.no_register} . {row.original.nama_aset}</p>,
   },
   {
     Header: "Nama Aset",
@@ -208,14 +207,14 @@ export const COLUMNS_B_API = [
     width: 40,
     Cell: ({ value }) => <div>{value}</div>,
   },
-  {
-    Header: "id Pemda",
-    accessor: "id_pemda",
-    width: 140,
-  },
+  // {
+  //   Header: "id Pemda",
+  //   accessor: "id_pemda",
+  //   width: 140,
+  // },
   {
     Header: "Nama Aset",
-    // accessor: "nama_aset",
+    accessor: "nama_aset",
     width: 200,
   },
   {
@@ -241,11 +240,11 @@ export const COLUMNS_B_API = [
     accessor: "tgl_perolehan",
     width: 160,
   },
-  {
-    Header: "Tanggal Pembukuan",
-    // accessor: "tgl_pembukuan",
-    width: 160,
-  },
+  // {
+  //   Header: "Tanggal Pembukuan",
+  //   accessor: "tgl_pembukuan",
+  //   width: 160,
+  // },
   {
     Header: "Merek",
     accessor: "merk",
@@ -253,7 +252,7 @@ export const COLUMNS_B_API = [
   },
   {
     Header: "Type",
-    // accessor: "tipe",
+    accessor: "type",
     width: 160,
   },
   {
@@ -273,7 +272,7 @@ export const COLUMNS_B_API = [
   },
   {
     Header: "No Rangka",
-    // accessor: "nomor_rangka",
+    accessor: "nomor_rangka",
     width: 160,
   },
   {
@@ -283,17 +282,17 @@ export const COLUMNS_B_API = [
   },
   {
     Header: "No Polisi",
-    // accessor: "no_polisi",
+    accessor: "nomor_polisi",
     width: 140,
   },
   {
     Header: "No BPKB",
-    // accessor: "no_bpkb",
+    accessor: "nomor_bpkb",
     width: 140,
   },
   {
     Header: "Asal Usul",
-    accessor: "asal_usul",
+    accessor: "asal-usul",
     width: 100,
   },
   {
@@ -308,17 +307,17 @@ export const COLUMNS_B_API = [
   },
   {
     Header: "masa Manfaat",
-    // accessor: "masa_manfaat",
+    accessor: "masa_manfaat",
     width: 150,
   },
   {
     Header: "Nilai Sisa",
-    // accessor: "nilai_sisa",
+    accessor: "nilai_sisa",
     width: 140,
   },
   {
     Header: "Keterangan",
-    // accessor: "keterangan",
+    accessor: "keterangan",
     width: 300,
   },
 ];
@@ -329,11 +328,6 @@ export const COLUMNS_E_API = [
     accessor: (row, i) => i + 1,
     width: 40,
     Cell: ({ value }) => <div>{value}</div>,
-  },
-  {
-    Header: "id Pemda",
-    accessor: "id_pemda",
-    width: 140,
   },
   {
     Header: "Nama Aset",
@@ -481,17 +475,16 @@ export const COLUMNS_PENILAIAN_B_API = [
     width: 40,
     Cell: ({ value }) => <div>{value}</div>,
   },
-  {
-    Header: "id Pemda",
-    accessor: "id_pemda",
-    width: 140,
-    // Cell: ({ row }) => <div>{row.original.kib_b.id_pemda}</div>,
-  },
+  // {
+  //   Header: "id Pemda",
+  //   accessor: "id_pemda",
+  //   width: 140,
+  // },
   {
     Header: "Nama Aset",
     // accessor: "nama_aset",
     width: 200,
-    // Cell: ({ row }) => <div>{row.original.kib_b.nama_aset}</div>,
+    Cell: ({ row }) => <div>{row.original.kib_b.nama_aset}</div>,
   },
   {
     Header: "Kode Aset",
@@ -518,12 +511,11 @@ export const COLUMNS_PENILAIAN_B_API = [
     width: 160,
     Cell: ({ row }) => <div>{row.original.kib_b.tgl_perolehan}</div>,
   },
-  {
-    Header: "Tanggal Pembukuan",
-    // accessor: "tgl_pembukuan",
-    width: 160,
-    // Cell: ({ row }) => <div>{row.original.kib_b.tgl_pembukuan}</div>,
-  },
+  // {
+  //   Header: "Tanggal Pembukuan",
+  //   accessor: "tgl_pembukuan",
+  //   width: 160,
+  // },
   {
     Header: "Merek",
     // accessor: "merk",
@@ -564,7 +556,7 @@ export const COLUMNS_PENILAIAN_B_API = [
     Header: "No Mesin",
     // accessor: "nomor_mesin",
     width: 140,
-    // Cell: ({ row }) => <div>{row.original.kib_b.nomor_mesin}</div>,
+    Cell: ({ row }) => <div>{row.original.kib_b.nomor_mesin}</div>,
   },
   {
     Header: "No Polisi",
@@ -576,7 +568,7 @@ export const COLUMNS_PENILAIAN_B_API = [
     Header: "No BPKB",
     // accessor: "no_bpkb",
     width: 140,
-    Cell: ({ row }) => <div>{row.original.kib_b.nomor_bkpb}</div>,
+    Cell: ({ row }) => <div>{row.original.kib_b.nomor_bpkb}</div>,
   },
   {
     Header: "Asal Usul",
@@ -623,15 +615,16 @@ export const COLUMNS_PENILAIAN_E_API = [
     width: 40,
     Cell: ({ value }) => <div>{value}</div>,
   },
-  {
-    Header: "id Pemda",
-    // accessor: "id_pemda",
-    width: 140,
-  },
+  // {
+  //   Header: "id Pemda",
+  //   // accessor: "id_pemda",
+  //   width: 140,
+  // },
   {
     Header: "Nama Aset",
     // accessor: "nama_aset",
     width: 200,
+    Cell: ({ row }) => <div>{row.original.kib_e.nama_aset}</div>,
   },
   {
     Header: "Kode Aset",
@@ -639,76 +632,89 @@ export const COLUMNS_PENILAIAN_E_API = [
     width: 140,
     Cell: ({ row }) => (
       <p>
-        {row.original.kd_aset8}.{row.original.kd_aset80}.
-        {row.original.kd_aset81}.{row.original.kd_aset82}.
-        {row.original.kd_aset83}.{row.original.kd_aset84}.
-        {row.original.kd_aset85}
+        {row.original.kib_e.kd_aset8}.{row.original.kib_e.kd_aset80}.
+        {row.original.kib_e.kd_aset81}.{row.original.kib_e.kd_aset82}.
+        {row.original.kib_e.kd_aset83}.{row.original.kib_e.kd_aset84}.
+        {row.original.kib_e.kd_aset85}
       </p>
     ),
   },
   {
     Header: "No register",
-    accessor: "no_reg8",
+    // accessor: "no_reg8",
     width: 95,
+    Cell: ({ row }) => <div>{row.original.kib_e.no_reg8}</div>,
   },
   {
     Header: "Tanggal Pembelian",
-    accessor: "tgl_perolehan",
+    // accessor: "tgl_perolehan",
     width: 160,
+    Cell: ({ row }) => <div>{row.original.kib_e.tgl_perolehan}</div>,
   },
   {
     Header: "Tanggal Pembukuan",
-    accessor: "tgl_pembukuan",
+    // accessor: "tgl_pembukuan",
     width: 160,
+    Cell: ({ row }) => <div>{row.original.kib_e.tgl_pembukuan}</div>,
   },
   {
     Header: "Judul",
-    accessor: "judul",
+    // accessor: "judul",
     width: 250,
+    Cell: ({ row }) => <div>{row.original.kib_e.judul}</div>,
   },
   {
     Header: "Pencipta",
-    accessor: "pencipta",
+    // accessor: "pencipta",
     width: 150,
+    Cell: ({ row }) => <div>{row.original.kib_e.pencipta}</div>,
   },
   {
     Header: "Bahan",
-    accessor: "bahan",
+    // accessor: "bahan",
     width: 100,
+    Cell: ({ row }) => <div>{row.original.kib_e.bahan}</div>,
   },
   {
     Header: "Ukuran",
-    accessor: "ukuran",
+    // accessor: "ukuran",
     width: 100,
+    Cell: ({ row }) => <div>{row.original.kib_e.ukuran}</div>,
   },
   {
     Header: "Asal Usul",
-    accessor: "asal_usul",
+    // accessor: "asal_usul",
     width: 100,
+    Cell: ({ row }) => <div>{row.original.kib_e.asal_usul}</div>,
   },
   {
     Header: "Kondisi",
-    accessor: "kondisi",
+    // accessor: "kondisi",
     width: 100,
+    Cell: ({ row }) => <div>{row.original.kib_e.kondisi}</div>,
   },
   {
     Header: "Harga",
-    accessor: "harga",
+    // accessor: "harga",
     width: 150,
+    Cell: ({ row }) => <div>{row.original.kib_e.harga}</div>,
   },
   {
     Header: "masa Manfaat",
     accessor: "masa_manfaat",
     width: 150,
+    Cell: ({ row }) => <div>{row.original.kib_e.masa_manfaat}</div>,
   },
   {
     Header: "Nilai Sisa",
-    accessor: "nilai_sisa",
+    // accessor: "nilai_sisa",
     width: 140,
+    Cell: ({ row }) => <div>{row.original.kib_e.nilai_sisa}</div>,
   },
   {
     Header: "Keterangan",
-    accessor: "keterangan",
+    // accessor: "keterangan",
     width: 300,
+    Cell: ({ row }) => <div>{row.original.kib_e.keterangan}</div>,
   },
 ];

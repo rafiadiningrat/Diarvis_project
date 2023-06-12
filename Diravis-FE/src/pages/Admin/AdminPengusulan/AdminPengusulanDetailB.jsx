@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
-import Layout from "../../layout/layout";
-import { UserContext } from "../../App";
+import Layout from "../../../layout/layout";
+// import { UserContext } from "../../../App";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
 
-function DetailPenilaianB(props) {
+function AdminPengusulanDetailB(props) {
   const location = useLocation();
   const dataPenilaian = location.state;
   const dataBarang = dataPenilaian.kib_b;
@@ -218,7 +218,7 @@ function DetailPenilaianB(props) {
           <div className="block p-6 h-auto max-h-auto bg-white border border-gray-200 rounded-lg shadow">
             <div className="px-4 sm:px-0">
               <h3 className="text-base font-semibold leading-7 text-gray-900">
-                Informasi Detail Penilaian KIB-B
+                Informasi Detail Pengusulan KIB-B
               </h3>
               {/* <div className="h-[1px] min-w-full bg-gray-100" /> */}
               <div className="mt-6 border-t border-gray-100">
@@ -274,4 +274,4 @@ function DetailPenilaianB(props) {
   );
 }
 
-export default DetailPenilaianB;
+export default AdminPengusulanDetailB;
