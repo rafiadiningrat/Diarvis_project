@@ -14,30 +14,30 @@ class KIBBExport implements WithHeadings, ShouldAutoSize
     * @return \Illuminate\Support\Collection
     */
     
-        // protected $kode_bidang;
-        // protected $kode_unit;
-        // protected $kode_sub_unit;
-        // protected $kode_upb;
+        protected $kode_bidang;
+        protected $kode_unit;
+        protected $kode_sub_unit;
+        protected $kode_upb;
     
-        // public function __construct($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
-        // {
-        //     $this->kode_bidang = $kode_bidang;
-        //     $this->kode_unit = $kode_unit;
-        //     $this->kode_sub_unit = $kode_sub_unit;
-        //     $this->kode_upb = $kode_upb;
-        // }
+        public function __construct($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
+        {
+            $this->kode_bidang = $kode_bidang;
+            $this->kode_unit = $kode_unit;
+            $this->kode_sub_unit = $kode_sub_unit;
+            $this->kode_upb = $kode_upb;
+        }
     
-        // /**
-        //  * @return \Illuminate\Support\Collection
-        //  */
-        // public function collection()
-        // {
-        //     return KIBBModel::where('kode_bidang', $this->kode_bidang)
-        //         ->where('kode_unit', $this->kode_unit)
-        //         ->where('kode_sub_unit', $this->kode_sub_unit)
-        //         ->where('kode_upb', $this->kode_upb)
-        //         ->get();
-        // }
+        /**
+         * @return \Illuminate\Support\Collection
+         */
+        public function collection()
+        {
+            return KIBBModel::where('kode_bidang', $this->kode_bidang)
+                ->where('kode_unit', $this->kode_unit)
+                ->where('kode_sub_unit', $this->kode_sub_unit)
+                ->where('kode_upb', $this->kode_upb)
+                ->get();
+        }
 
     public function headings(): array
     {

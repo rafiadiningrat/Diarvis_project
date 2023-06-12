@@ -42,13 +42,13 @@ class KIBBController extends Controller
     //     'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     // ])->deleteFileAfterSend();
 
-    $data=KIBBModel::where('kode_bidang', $kode_bidang)
-    ->where('kode_unit', $kode_unit)
-    ->where('kode_sub_unit', $kode_sub_unit)
-    ->where('kode_upb', $kode_upb)
-    ->get();
+    // $data=KIBBModel::where('kode_bidang', $kode_bidang)
+    // ->where('kode_unit', $kode_unit)
+    // ->where('kode_sub_unit', $kode_sub_unit)
+    // ->where('kode_upb', $kode_upb)
+    // ->get();
 
-    $export = new KIBBExport($data);
+    $export = new KIBBExport($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb);
     $fileName = 'kib_b_data.xlsx';
 
     Excel::store($export, 'temp/' . $fileName, 'local');

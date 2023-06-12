@@ -150,7 +150,7 @@ Route::get('/kibe/dashboard/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}
 
 // Generate
 Route::get('/kibb/excel/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'exportToExcel']);
-Route::get('/kibe/excel', [KIBEController::class, 'exportToExcel']);
+Route::get('/kibe/excel/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBEController::class, 'exportToExcel']);
 Route::get('/kibb/laporan-penghapusan/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'exportData']);
 Route::get('/kibe/laporan-penghapusan/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBEController::class, 'exportData']);
 Route::get('/berita-acara/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'generatePDF']);
