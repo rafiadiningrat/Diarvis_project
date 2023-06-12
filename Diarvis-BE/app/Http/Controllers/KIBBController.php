@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\File;
 class KIBBController extends Controller
 {
     //
-    public function exportToExcel()
+    public function exportToExcel($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
     //     $export = new KibBExport();
     // $fileName = 'kib_b_data.xlsx';
@@ -42,7 +42,13 @@ class KIBBController extends Controller
     //     'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
     // ])->deleteFileAfterSend();
 
-    $export = new KIBBExport();
+    $data=KIBBModel::where('kode_bidang', $kode_bidang)
+    ->where('kode_unit', $kode_unit)
+    ->where('kode_sub_unit', $kode_sub_unit)
+    ->where('kode_upb', $kode_upb)
+    ->get();
+
+    $export = new KIBBExport($data);
     $fileName = 'kib_b_data.xlsx';
 
     Excel::store($export, 'temp/' . $fileName, 'local');
@@ -97,17 +103,25 @@ return Excel::download($export, 'penghapusan_aset_b_report.xlsx');
 }
 
 
-public function generatePDF()
+public function generatePDF($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
 
         // Query untuk mendapatkan saldo akhir KIB_B
     $saldoAkhirKIBB = KIBBModel::join('pengusulan_penghapusan_aset_b', 'kib_b.id_aset_b', '=', 'pengusulan_penghapusan_aset_b.id_aset_b')
     ->where('pengusulan_penghapusan_aset_b.status_penghapusan', true)
+    ->where('kib_b.kode_bidang', $kode_bidang)
+    ->where('kib_b.kode_unit', $kode_unit)
+    ->where('kib_b.kode_sub_unit', $kode_sub_unit)
+    ->where('kib_b.kode_upb', $kode_upb)
     ->sum('kib_b.harga');
 
 // Query untuk mendapatkan saldo akhir KIB_E
 $saldoAkhirKIBE = KIBEModel::join('pengusulan_penghapusan_aset_e', 'kib_e.id_aset_e', '=', 'pengusulan_penghapusan_aset_e.id_aset_e')
     ->where('pengusulan_penghapusan_aset_e.status_penghapusan', true)
+    ->where('kib_e.kode_bidang', $kode_bidang)
+    ->where('kib_e.kode_unit', $kode_unit)
+    ->where('kib_e.kode_sub_unit', $kode_sub_unit)
+    ->where('kib_e.kode_upb', $kode_upb)
     ->sum('kib_e.harga');
 
 // Buat objek PDF

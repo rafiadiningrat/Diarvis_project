@@ -4,28 +4,50 @@ namespace App\Exports;
 
 use App\Models\KIBBModel;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class KIBBExport implements FromCollection, WithHeadings, ShouldAutoSize
+class KIBBExport implements WithHeadings, ShouldAutoSize
 {
     /**
     * @return \Illuminate\Support\Collection
     */
-    public function collection()
-    {
-        return KIBBModel::all();
-    }
+    
+        // protected $kode_bidang;
+        // protected $kode_unit;
+        // protected $kode_sub_unit;
+        // protected $kode_upb;
+    
+        // public function __construct($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
+        // {
+        //     $this->kode_bidang = $kode_bidang;
+        //     $this->kode_unit = $kode_unit;
+        //     $this->kode_sub_unit = $kode_sub_unit;
+        //     $this->kode_upb = $kode_upb;
+        // }
+    
+        // /**
+        //  * @return \Illuminate\Support\Collection
+        //  */
+        // public function collection()
+        // {
+        //     return KIBBModel::where('kode_bidang', $this->kode_bidang)
+        //         ->where('kode_unit', $this->kode_unit)
+        //         ->where('kode_sub_unit', $this->kode_sub_unit)
+        //         ->where('kode_upb', $this->kode_upb)
+        //         ->get();
+        // }
 
     public function headings(): array
     {
         return [
             'id_aset_b', 
-            'kode_pemilik', 
-            'kode_upb', 
             'kode_sub_unit', 
             'kode_unit', 
-            'kode_bidang', 
+            'kode_upb', 
+            'kode_bidang',
+            'kode_pemilik', 
             'merk', 
             'type', 
             'cc', 
@@ -68,9 +90,9 @@ class KIBBExport implements FromCollection, WithHeadings, ShouldAutoSize
             'sisa_umur', 
             'is_aset_yang_ditemukan', 
             'no_reg8', 
-            'jenis_aset', 
             'kd_aset', 
             'kd_aset0',
+            'nama_aset',
 	
         ];
     }
