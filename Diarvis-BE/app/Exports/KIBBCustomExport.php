@@ -149,6 +149,7 @@ class KIBBCustomExport implements FromCollection, WithHeadings
     {
         return [
             'id_aset_b',
+            'nama_aset',
             'no_reg8',
             'merk',
             'type',

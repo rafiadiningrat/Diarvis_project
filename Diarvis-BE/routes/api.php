@@ -145,7 +145,7 @@ Route::get('/kibe/verifikasi/detail/{id}', [VerifikasiPenghapusanAsetBController
 
 // Dashboard
 Route::get('/dashboard', [DashboardController::class, 'dashboardBE']);
-Route::get('/kibb/dashboard', [DashboardController::class, 'dashboardB']);
+Route::get('/kibb/dashboard/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [DashboardController::class, 'dashboardB']);
 Route::get('/kibe/dashboard/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [DashboardController::class, 'dashboardE']);
 
 // Generate

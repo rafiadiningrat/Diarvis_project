@@ -67,10 +67,10 @@ public function index()
     $validatedData = $request->validate([
         'id_user' => 'required|exists:USER,id_user',
         'id_aset_b' => 'required|exists:kib_b,id_aset_b',
-        'foto_barang1' => 'required|image|mimes:jpeg,jpg,png|max:2048',
-        'foto_barang2' => 'required|image|mimes:jpeg,jpg,png|max:2048',
-        'foto_barang3' => 'required|image|mimes:jpeg,jpg,png|max:2048',
-        'foto_barang4' => 'required|image|mimes:jpeg,jpg,png|max:2048',
+        'foto_barang1' => 'required|image|mimes:jpeg,jpg,png|max:8192',
+        'foto_barang2' => 'required|image|mimes:jpeg,jpg,png|max:8192',
+        'foto_barang3' => 'required|image|mimes:jpeg,jpg,png|max:8192',
+        'foto_barang4' => 'required|image|mimes:jpeg,jpg,png|max:8192',
         'alasan_penghapusan' => 'required|string',
     ]);
 
