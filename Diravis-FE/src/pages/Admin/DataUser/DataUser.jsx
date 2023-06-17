@@ -7,27 +7,32 @@ import {
   AiOutlineRight,
   AiOutlineLeft,
   AiFillFileText,
+  AiFillPlusCircle,
+  AiFillEdit,
+  AiFillDelete,
 } from "react-icons/ai";
-import Layout from "../../layout/layout";
-import MOCK_DATA from "../../components/Table/DataMaster/MOCK_DATA.json";
+import { BsFillEyeFill } from "react-icons/bs";
+import Layout from "../../../layout/layout";
+import MOCK_DATA from "../../../components/Table/DataMaster/MOCK_DATA.json";
 import {
   COLUMNS_B,
-  COLUMNS_B_API,
-} from "../../components/Table/DataMaster/columns";
-import { UserContext } from "../../App";
+  COLUMNS_USER,
+} from "../../../components/Table/DataMaster/columns";
+import { UserContext } from "../../../App";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import Swal from "sweetalert2";
 
-const BeritaAcaraE = () => {
+const ShowDataUser = () => {
   const isLoggedIn = useContext(UserContext);
   const [DataTable, setDataTable] = useState([]);
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.state);
+//   console.log(location.state);
 
   const fetchData = async () => {
     const response = await axios
-      .get(`http://localhost:8000/api/kib-b/${location.state}`)
+      .get("http://localhost:8000/api/user")
       .catch((err) => console.log(err));
 
     if (response) {
@@ -37,17 +42,37 @@ const BeritaAcaraE = () => {
     }
   };
 
-  // Table Property (using dummy)
-  const columns = useMemo(() => COLUMNS_B, []);
-  const data = useMemo(() => MOCK_DATA, []);
-
   // Table Property (using API)
-  // const columns = useMemo(() => COLUMNS_B_API, []);
-  // const data = useMemo(() => [...DataTable], [DataTable]);
+  const columns = useMemo(() => COLUMNS_USER, []);
+  const data = useMemo(() => [...DataTable], [DataTable]);
 
-  const openDetails = (id) => {
-    navigate(`/datamaster/kib-b/detail/${id}`, { state: id });
+  const openDetails = (data) => {
+    navigate(`/data-user/detail/${data.id_user}`, { state: data });
   };
+
+    const openEdit = (data) => {
+        navigate(`/data-user/edit/${data.id_user}`, { state: data });
+    };
+
+    const handleDelete = async (id) => {
+        // console.log(id);
+        try {
+            await axios.delete(`http://localhost:8000/api/delete/user/${id}`);
+            Swal.fire({
+              icon: "success",
+              title: "Hapus Berhasil",
+              text: "Data user berhasil dihapuskan!",
+            });
+            fetchData();
+        } catch (error) {
+            console.log(error);
+            Swal.fire({
+              icon: "error",
+              title: "Hapus Gagal",
+              text: "Tidak bisa menghapus user yang sedang melakukan penghapusan!",
+            });
+        }
+    };
 
   const tableHooks = (hooks) => {
     hooks.visibleColumns.push((columns) => [
@@ -56,15 +81,29 @@ const BeritaAcaraE = () => {
         id: "Aksi",
         Header: "Aksi",
         sticky: "right",
-        width: 80,
+        width: 150,
         Cell: ({ row }) => (
           <div className="flex justify-center ml-2">
             <button
               title="Detail"
               className="px-3 py-2 text-xs mr-2 font-medium text-center rounded-md text-white bg-yellow-300 hover:bg-yellow-400"
-              onClick={() => openDetails(row.original.id_aset_b)}
+              onClick={() => openDetails(row.original)}
             >
-              <AiFillFileText />
+              <BsFillEyeFill />
+            </button>
+            <button
+              title="Detail"
+              className="px-3 py-2 text-xs mr-2 font-medium text-center rounded-md text-white bg-blue-600 hover:bg-blue-700"
+              onClick={() => openEdit(row.original)}
+            >
+              <AiFillEdit />
+            </button>
+            <button
+              title="Detail"
+              className="px-3 py-2 text-xs mr-2 font-medium text-center rounded-md text-white bg-red-600 hover:bg-red-700"
+              onClick={() => handleDelete(row.original.id_user)}
+            >
+              <AiFillDelete />
             </button>
           </div>
         ),
@@ -111,8 +150,16 @@ const BeritaAcaraE = () => {
         <div className="flex flex-col lg:ml-64 pt-[8.7rem] px-5 w-auto">
           <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
             <h5 class="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Data Master / KIB B
+              Data User
             </h5>
+            <button
+              title="Detail"
+              className="px-3 py-2 text-xs ml-3 mb-3 font-medium text-center inline-flex rounded-md text-white bg-blue-500 hover:bg-blue-600"
+              onClick={() => navigate("/data-user/tambah-user")}
+            >
+              <AiFillPlusCircle size={15} />
+              &nbsp;&nbsp;Tambah Data User
+            </button>
             <div className="relative overflow-x-auto border border-gray-300">
               <table
                 className="table-fixed w-full text-sm text-center text-gray-500 border-collapse"
@@ -239,4 +286,4 @@ const BeritaAcaraE = () => {
   );
 };
 
-export default BeritaAcaraE;
+export default ShowDataUser;

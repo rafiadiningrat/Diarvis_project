@@ -1,16 +1,18 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Layout from "../../layout/layout";
+import Layout from "../../../layout/layout";
 import { FaRegCheckCircle, FaBookOpen, FaChartBar } from "react-icons/fa";
 import { BsCashStack } from "react-icons/bs";
-import { UserContext } from "../../App";
+import { UserContext } from "../../../App";
 import Swal from "sweetalert2";
 
-const ShowTambahDataUser = (props) => {
+const ShowEditDataUser = (props) => {
   const isLoggedIn = useContext(UserContext);
   const navigate = useNavigate();
   const location = useLocation();
+  const [user, setUser] = useState({});
+  // const user = location.state;
   const [Nama, setNama] = useState("");
   const [NIP, setNIP] = useState("");
   const [Email, setEmail] = useState("");
@@ -25,7 +27,7 @@ const ShowTambahDataUser = (props) => {
   const [idSubUnit, setIdSubUnit] = useState();
   const [UPB, setUPB] = useState([]);
   const [takenUPB, setTakenUPB] = useState();
-
+  console.log(idBidang);
   const formData = {
     nama_lengkap: Nama,
     no_pegawai: NIP,
@@ -38,24 +40,33 @@ const ShowTambahDataUser = (props) => {
     kode_sub_unit: idSubUnit,
     kode_upb: takenUPB,
   };
-  console.log("FormData: ", formData);
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/bidang").then((res) => {
       setBidang(res.data);
     });
+    setUser(location.state);
+    setNama(location.state.nama_lengkap);
+    setNIP(location.state.no_pegawai);
+    setEmail(location.state.email);
+    setNoTelepon(location.state.no_hp);
+    setGrup(location.state.kode_grup);
+    setIdBidang(location.state.kode_bidang);
+    setIdUnit(location.state.kode_unit);
+    setIdSubUnit(location.state.kode_sub_unit);
+    setTakenUPB(location.state.kode_upb);
   }, []);
 
-  const createHandler = async (e) => {
-    e.preventDefault();
+
+  const updateHandler = async () => {
     const createUser = await axios
-      .post("http://localhost:8000/api/create/user", formData)
+      .put(`http://localhost:8000/api/update/user/${user.id_user}`, formData)
       .then((res) => {
         console.log(res);
         Swal.fire({
           icon: "success",
-          title: "Tambah User Berhasil",
-          text: "User Ditambahkan",
+          title: "Edit User Berhasil",
+          text: "Data User berhasil diubah!",
         }).then(function () {
           navigate("/data-user");
         });
@@ -65,7 +76,7 @@ const ShowTambahDataUser = (props) => {
         console.log(err);
         Swal.fire({
           icon: "error",
-          title: "Tambah User Gagal",
+          title: "Edit User Gagal",
           text: "Pastikan semua kolom terisi dengan benar!",
         });
       });
@@ -107,25 +118,17 @@ const ShowTambahDataUser = (props) => {
   const handleUnit = (e) => {
     setIdUnit(e.target.value);
     axios
-      .get(`http://localhost:8000/api/sub-unit/${idBidang}/${e.target.value}`)
-      // .get(`http://localhost:8000/api/sub-unit/${e.target.value}`)
+      .get(`http://localhost:8000/api/sub-unit/${e.target.value}`)
       .then((res) => {
-        console.log("res Unit: ", res);
         setSubUnit(res.data.data);
       });
   };
 
   const handleSubUnit = (e) => {
     setIdSubUnit(e.target.value);
-    axios
-      .get(
-        `http://localhost:8000/api/upb/${idBidang}/${idUnit}/${e.target.value}`
-        // `http://localhost:8000/api/upb/${e.target.value}`
-      )
-      .then((res) => {
-        console.log("res Sub Unit: ", res);
-        setUPB(res.data.data);
-      });
+    axios.get(`http://localhost:8000/api/upb/${e.target.value}`).then((res) => {
+      setUPB(res.data.data);
+    });
   };
 
   const handleUPB = (e) => {
@@ -134,12 +137,12 @@ const ShowTambahDataUser = (props) => {
   return (
     <>
       <Layout />
-      <div className="lg:ml-64 mt-[118px] px-5 pt-5 w-auto min-h-[52.688rem]">
-        <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
-          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Tambah Data User
-          </h5>
-          <form>
+      <div className="min-h-screen">
+        <div className="lg:ml-64 pt-[8.7rem] px-5 w-auto">
+          <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
+            <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              Tambah Data User
+            </h5>
             <div className="grid grid-cols-2 gap-10">
               <div className="grid grid-rows-5 gap-5">
                 <div className="flex flex-row items-center justify-between">
@@ -156,6 +159,7 @@ const ShowTambahDataUser = (props) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                     placeholder="Masukkan Nama"
                     required
+                    value={Nama}
                     onChange={(e) => handleNama(e)}
                   />
                 </div>
@@ -173,6 +177,7 @@ const ShowTambahDataUser = (props) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                     placeholder="Masukkan NIP"
                     required
+                    value={NIP}
                     onChange={(e) => handleNIP(e)}
                   />
                 </div>
@@ -190,6 +195,7 @@ const ShowTambahDataUser = (props) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                     placeholder="Masukkan No.Telp"
                     required
+                    value={NoTelepon}
                     onChange={(e) => handleNoTelepon(e)}
                   />
                 </div>
@@ -207,6 +213,7 @@ const ShowTambahDataUser = (props) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                     placeholder="Masukkan Email"
                     required
+                    value={Email}
                     onChange={(e) => handleEmail(e)}
                   />
                 </div>
@@ -242,14 +249,16 @@ const ShowTambahDataUser = (props) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                     placeholder="pilih Grup"
                     required
+                    value={Grup}
                     onChange={(e) => handleGrup(e)}
+                    //   disabled
                   >
-                    <option defaultValue>Pilih Grup</option>
+                    {/* <option defaultValue>{user.nama_grup}</option> */}
 
                     <option value="1">Administrator</option>
                     <option value="2">Pengguna BMD</option>
                     <option value="3">Verifikator</option>
-                    <option value="4">Penilai Aset</option>
+                    <option value="4">Tim Penilai Aset</option>
                   </select>
                 </div>
                 <div className="flex flex-row items-center justify-between">
@@ -266,8 +275,10 @@ const ShowTambahDataUser = (props) => {
                     placeholder="pilih Bidang"
                     required
                     onChange={(e) => handleBidang(e)}
+                    value={idBidang}
+                    disabled
                   >
-                    <option defaultValue>Pilih Bidang</option>
+                    {/* <option default>{user.nama_bidang}</option> */}
                     {Bidang.map((item) => (
                       <option value={item.kode_bidang}>
                         {item.nama_bidang}
@@ -288,10 +299,11 @@ const ShowTambahDataUser = (props) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                     placeholder="pilih Unit"
                     required
-                    // value={Unit}
+                    value={idUnit}
                     onChange={(e) => handleUnit(e)}
+                    disabled
                   >
-                    <option defaultValue>Pilih Unit</option>
+                    <option defaultValue>{user.nama_unit}</option>
                     {Unit.map((item) => (
                       <option value={item.kode_unit}>{item.nama_unit}</option>
                     ))}
@@ -310,10 +322,11 @@ const ShowTambahDataUser = (props) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                     placeholder="pilih Sub Unit"
                     required
-                    // value={SubUnit}
+                    value={idSubUnit}
                     onChange={(e) => handleSubUnit(e)}
+                    disabled
                   >
-                    <option defaultValue>Pilih Sub Unit</option>
+                    <option defaultValue>{user.nama_sub_unit}</option>
                     {SubUnit.map((item) => (
                       <option value={item.kode_sub_unit}>
                         {item.nama_sub_unit}
@@ -334,9 +347,11 @@ const ShowTambahDataUser = (props) => {
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                     placeholder="pilih UPB"
                     required
+                    value={takenUPB}
                     onChange={(e) => handleUPB(e)}
+                    disabled
                   >
-                    <option defaultValue>Pilih UPB</option>
+                    <option defaultValue>{user.nama_upb}</option>
                     {UPB.map((item) => (
                       <option value={item.kode_upb}>{item.nama_upb}</option>
                     ))}
@@ -346,18 +361,18 @@ const ShowTambahDataUser = (props) => {
             </div>
             <div className="flex flex-col items-center justify-center pt-10">
               <button
-                // type="submit"
-                onClick={(e) => createHandler(e)}
+                type="submit"
                 className="w-1/6 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                onClick={(e) => updateHandler(e)}
               >
                 Submit
               </button>
             </div>
-          </form>
+          </div>
         </div>
       </div>
     </>
   );
 };
 
-export default ShowTambahDataUser;
+export default ShowEditDataUser;

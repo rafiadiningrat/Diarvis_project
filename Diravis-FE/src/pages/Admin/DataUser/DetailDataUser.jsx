@@ -2,144 +2,100 @@ import React, { useEffect, useState } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import { AiOutlinePaperClip } from "react-icons/ai";
-import Layout from "../../layout/layout";
-import { UserContext } from "../../App";
+import Layout from "../../../layout/layout";
+import { UserContext } from "../../../App";
 
-function DetailsDataMasterE(props) {
+function ShowDetailsDataUser(props) {
   const location = useLocation();
-  const [dataBarang, setDataBarang] = useState({});
-  console.log(dataBarang);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
-    setDataBarang(location.state);
+    setUser(location.state);
   }, []);
   return (
     <>
       <Layout />
       <div className="min-h-screen">
-        <div className="flex flex-col  lg:ml-64 pt-[8.7rem] px-5 w-auto">
+        <div className="flex flex-col lg:ml-64 pt-[8.7rem] px-5 w-auto">
           <div class="block p-6 bg-white border border-gray-200 rounded-lg shadow">
             <div>
               <div className="px-4 sm:px-0">
                 <h3 className="text-base font-semibold leading-7 text-gray-900">
-                  Informasi Detail KIB-E
+                  Informasi Detail Data User
                 </h3>
               </div>
               <div className="mt-6 border-t border-gray-100">
                 <dl className="divide-y divide-gray-100">
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Nama Aset
+                      user
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.nama_aset}
+                      {user.no_pegawai}
                     </dd>
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Kode Aset
+                      Nama
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.kd_aset8}.{dataBarang.kd_aset80}.
-                      {dataBarang.kd_aset81}.{dataBarang.kd_aset82}.
-                      {dataBarang.kd_aset83}.{dataBarang.kd_aset84}.
-                      {dataBarang.kd_aset85}
+                      {user.nama_lengkap}
                     </dd>
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Nomor Register
+                      Email
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.no_reg8}
+                      {user.email}
                     </dd>
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Tanggal Perolehan
+                      Nomor Telepon
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.tgl_perolehan}
+                      {user.no_hp}
                     </dd>
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Tanggal Pembukuan
+                      Grup
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.tgl_pembukuan}
+                      {user.nama_grup}
                     </dd>
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Judul
+                      Bidang
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.judul}
+                      {user.nama_bidang}
                     </dd>
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Pencipta
+                      Unit
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.pencipta}
+                      {user.nama_unit}
                     </dd>
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Ukuran
+                      Sub Unit
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.ukuran}
+                      {user.nama_sub_unit}
                     </dd>
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Asal Usul
+                      UPB
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.asal_usul}
-                    </dd>
-                  </div>
-                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Kondisi
-                    </dt>
-                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.kondisi}
-                    </dd>
-                  </div>
-                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Harga
-                    </dt>
-                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.harga}
-                    </dd>
-                  </div>
-                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Masa Manfaat
-                    </dt>
-                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.masa_manfaat}
-                    </dd>
-                  </div>
-                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Nilai Sisa
-                    </dt>
-                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.nilai_sisa}
-                    </dd>
-                  </div>
-                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Keterangan
-                    </dt>
-                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.keterangan}
+                      {user.nama_upb}
                     </dd>
                   </div>
                 </dl>
@@ -152,4 +108,4 @@ function DetailsDataMasterE(props) {
   );
 }
 
-export default DetailsDataMasterE;
+export default ShowDetailsDataUser;

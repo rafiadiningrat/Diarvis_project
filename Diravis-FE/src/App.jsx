@@ -27,10 +27,10 @@ import BeritaAcaraE from "./pages/Laporan/BeritaAcaraE";
 import BeritaAcaraB from "./pages/Laporan/BeritaAcaraB";
 import LaporanPenghapusanB from "./pages/Laporan/LaporanPenghapusanB";
 import LaporanPenghapusanE from "./pages/Laporan/LaporanPenghapusanE";
-import ShowDataUser from "./pages/DataUser/DataUser";
-import ShowDetailsDataUser from "./pages/DataUser/DetailDataUser";
-import ShowTambahDataUser from "./pages/DataUser/TambahDataUser";
-import ShowEditDataUser from "./pages/DataUser/EditDataUser";
+import ShowDataUser from "./pages/Admin/DataUser/DataUser";
+import ShowDetailsDataUser from "./pages/Admin/DataUser/DetailDataUser";
+import ShowTambahDataUser from "./pages/Admin/DataUser/TambahDataUser";
+import ShowEditDataUser from "./pages/Admin/DataUser/EditDataUser";
 import ShowProfile from "./pages/Profile/Profile";
 import AdminPengusulanB from "./pages/Admin/AdminPengusulan/AdminPengusulanB";
 import AdminPengusulanE from "./pages/Admin/AdminPengusulan/AdminPengusulanE";
@@ -52,7 +52,7 @@ const App = () => {
     <UserContext.Provider value={{ user, setUser }}>
       <Routes>
         {/* protected Routes */}
-        {/* <Route element={<PrivateRoutes />}> */}
+        <Route element={<PrivateRoutes />}>
           <Route exact path="/" element={<Dashboard />} />
 
           {/* Data Master Routes */}
@@ -180,7 +180,7 @@ const App = () => {
           {/* TEST ROUTES */}
           <Route path="/test" element={<TestPage />} />
           <Route path="/test2" element={<TestPage2 />} />
-        {/* </Route> */}
+        </Route>
 
         <Route path="/login" element={<Login />} />
       </Routes>

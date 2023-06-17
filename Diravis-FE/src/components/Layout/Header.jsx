@@ -34,15 +34,15 @@ const Header = (props) => {
                     ></path>
                   </svg>
                 </button>
-                <img src="/images/Kabupaten Bandung.png" className="w-[4rem]" />
-                <img src="/images/diarvis-logo.png" className="w-[10rem]" />
-                <div className="invisible text-black ml-3 lg:visible">
+                {/* <img src="/images/Kabupaten Bandung.png" className="w-[4rem]" /> */}
+                <img src="/images/erase_logo_header.png" className="px-4 py-2 h-[4.15rem]" />
+                {/* <div className="invisible text-black ml-3 lg:visible">
                   Pemerintah Kabupaten Bandung / Sekwan / DPRD / Sekretariat
                   DPRD
-                </div>
+                </div> */}
               </div>
               <div className="flex items-center">
-                <div className="flex items-center ml-3 justify-end w-48 shrink">
+                <div className="flex items-center ml-3 justify-end w-72 shrink">
                   <div>
                     <button
                       type="button"
@@ -115,9 +115,9 @@ const Header = (props) => {
             </div>
           </div>
         </div>
-        <div className="flex items-center h-7 bg-amber-400">
+        <div className="flex items-center h-7 bg-cyan-500">
           <marquee width="100%">
-            <div className="text-black">Diarvis BMD</div>
+            <div className="text-white">Aplikasi Pengelolaan Penghapusan aset</div>
           </marquee>
         </div>
       </div>
