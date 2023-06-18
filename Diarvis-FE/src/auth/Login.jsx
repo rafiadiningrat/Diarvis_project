@@ -39,7 +39,7 @@ const Login = () => {
 
     if (checkLogin.success === true ){
       Swal.fire("Login Berhasil", "Selamat Datang di Leplace", "success");
-      isLoggedIn.setUser(true);
+      // isLoggedIn.setUser(true);
       sessionStorage.setItem("isLogin", JSON.stringify(checkLogin.success));
       sessionStorage.setItem("user", JSON.stringify(checkLogin.data));
       navigate("/");

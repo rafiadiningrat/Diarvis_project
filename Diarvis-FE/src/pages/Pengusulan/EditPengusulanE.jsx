@@ -1,50 +1,76 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Layout from "../../layout/layout";
-import { UserContext } from "../../App";
-import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
-import { RxDotFilled } from "react-icons/rx";
+import axios from "axios";
+import Swal from "sweetalert2";
 
-function DetailPenilaianB(props) {
+function EditPengusulanE(props) {
   const location = useLocation();
+  const navigate = useNavigate();
+  // const dataPenilaian = location.state;
+  // const dataBarang = dataBarang.kib_b;
   const [dataBarang, setDataBarang] = useState({});
+  const [alasanPenghapusan, setAlasanPenghapusan] = useState("");
+  const [file1, setFile1] = useState(null);
+  const [file2, setFile2] = useState(null);
+  const [file3, setFile3] = useState(null);
+  const [file4, setFile4] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const slides = [
-    {
-      url: dataBarang.foto_barang1,
-      caption: "Tampak Depan",
-    },
-    {
-      url: dataBarang.foto_barang2,
-      caption: "Tampak Kanan",
-    },
-    {
-      url: dataBarang.foto_barang3,
-      caption: "Tampak Belakang",
-    },
-    {
-      url: dataBarang.foto_barang4,
-      caption: "Tampak Kiri",
-    },
-  ];
-  const prevSlide = () => {
-    const isFirstSlide = currentIndex === 0;
-    const newIndex = isFirstSlide ? slides.length - 1 : currentIndex - 1;
-    setCurrentIndex(newIndex);
+  const dataUser = JSON.parse(sessionStorage.getItem("user"));
+  const formData = {
+    id_user: dataUser.id_user,
+    id_aset_e: dataBarang.id_aset_e,
+    alasan_penghapusan: alasanPenghapusan,
+    foto_barang1: file1,
+    foto_barang2: file2,
+    foto_barang3: file3,
+    foto_barang4: file4,
+  };
+  console.log(formData);
+
+  const updateHandler = async () => {
+    try {
+      const createUser = await axios
+        .post(
+          `http://localhost:8000/api/kibe/usulan/update/${dataBarang.id_usulan_e}`,
+          formData,
+          {
+            params: {
+              _method: "PUT",
+            },
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          Swal.fire({
+            icon: "success",
+            title: "Edit data pengusulan Berhasil",
+            text: "Data pengusulan berhasil diubah!",
+          }).then(function () {
+            navigate("/diusulkan/kib-e");
+          });
+          return res.data;
+        });
+    } catch (err) {
+      console.log(err);
+      Swal.fire({
+        icon: "error",
+        title: "Edit pengusulan Gagal",
+        text: "Pastikan semua kolom terisi dengan benar!",
+      });
+    }
   };
 
-  const nextSlide = () => {
-    const isLastSlide = currentIndex === slides.length - 1;
-    const newIndex = isLastSlide ? 0 : currentIndex + 1;
-    setCurrentIndex(newIndex);
-  };
-
-  const goToSlide = (slideIndex) => {
-    setCurrentIndex(slideIndex);
+  const handleAlasanPenghapusan = (e) => {
+    setAlasanPenghapusan(e.target.value);
   };
 
   useEffect(() => {
     setDataBarang(location.state);
+    setAlasanPenghapusan(location.state.alasan_penghapusan);
   }, []);
   return (
     <>
@@ -55,7 +81,7 @@ function DetailPenilaianB(props) {
             <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
               <div className="px-4 sm:px-0">
                 <h3 className="text-base font-semibold leading-7 text-gray-900">
-                  Informasi Detail Barang KIB-B
+                  Informasi Detail Barang KIB-E
                 </h3>
               </div>
               <div className="mt-6 border-t border-gray-100">
@@ -97,74 +123,34 @@ function DetailPenilaianB(props) {
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Merek
+                      Tanggal Pembukuan
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.merk}
+                      {dataBarang.tgl_pembukuan}
                     </dd>
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Tipe
+                      Judul
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.type}
+                      {dataBarang.judul}
                     </dd>
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
-                      CC
+                      Pencipta
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.cc}
+                      {dataBarang.pencipta}
                     </dd>
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                     <dt className="text-sm font-medium leading-6 text-gray-900">
-                      Bahan
+                      Ukuran
                     </dt>
                     <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.bahan}
-                    </dd>
-                  </div>
-                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="text-sm font-medium leading-6 text-gray-900">
-                      No Pabrik
-                    </dt>
-                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.nomor_pabrik}
-                    </dd>
-                  </div>
-                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="text-sm font-medium leading-6 text-gray-900">
-                      No Rangka
-                    </dt>
-                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.nomor_rangka}
-                    </dd>
-                  </div>
-                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="text-sm font-medium leading-6 text-gray-900">
-                      No Mesin
-                    </dt>
-                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.nomor_mesin}
-                    </dd>
-                  </div>
-                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="text-sm font-medium leading-6 text-gray-900">
-                      No Polisi
-                    </dt>
-                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.nomor_polisi}
-                    </dd>
-                  </div>
-                  <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                    <dt className="text-sm font-medium leading-6 text-gray-900">
-                      No BPKB
-                    </dt>
-                    <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                      {dataBarang.nomor_bpkb}
+                      {dataBarang.ukuran}
                     </dd>
                   </div>
                   <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
@@ -220,55 +206,98 @@ function DetailPenilaianB(props) {
             </div>
             <div className="block p-6 h-auto max-h-auto bg-white border border-gray-200 rounded-lg shadow">
               <div className="px-4 sm:px-0">
-                <h3 className="text-base font-semibold leading-7 text-gray-900">
-                  Informasi Detail Pengusulan KIB-B
+                <h3 className="text-base font-bold leading-7 text-gray-900">
+                  Edit Pengusulan KIB-E
                 </h3>
                 {/* <div className="h-[1px] min-w-full bg-gray-100" /> */}
                 <div className="mt-6 border-t border-gray-100">
                   <div className="divide-y divide-gray-100">
                     <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <dt className="text-sm font-medium leading-6 text-gray-900">
+                      <dt className="flex text-sm font-medium leading-6 text-gray-900 items-center">
                         Alasan Penghapusan
                       </dt>
                       <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                        {dataBarang.alasan_penghapusan}
+                        <input
+                          type="textarea"
+                          name="alasan_penghapusan"
+                          id="alasan_penghapusan"
+                          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
+                          value={alasanPenghapusan}
+                          onChange={(e) => {
+                            handleAlasanPenghapusan(e);
+                          }}
+                        />
                       </dd>
                     </div>
                     <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                      <dt className="text-sm font-medium leading-6 text-gray-900">
+                      <dt className="text-md font-semibold leading-6 text-gray-900">
                         Foto Barang
                       </dt>
                     </div>
-                  </div>
-                  {/* Carousel */}
-                  <div className="max-w-[48.125rem] h-[24.375rem] w-full m-auto py-4 px-4 relative group">
-                    <img
-                      src={slides[currentIndex].url}
-                      // src="../../../public/images/tes1.jpeg"
-                      alt=""
-                      className="w-full h-full rounded-2xl transition-all duration-300 object-cover object-center"
-                    />
-                    <span className="flex justify-center items-center pt-2 text-black">
-                      {slides[currentIndex].caption}
-                    </span>
-                    {/* Left Arrow */}
-                    <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
-                      <BsChevronCompactLeft onClick={prevSlide} size={30} />
+                    <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                      <dt className="flex items-center text-sm font-medium leading-6 text-gray-900">
+                        Tampak Depan
+                      </dt>
+                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                        <input
+                          class="w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
+                          id="file_input"
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => setFile1(e.target.files[0])}
+                        />
+                      </dd>
                     </div>
-                    {/* Right Arrow */}
-                    <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
-                      <BsChevronCompactRight onClick={nextSlide} size={30} />
+                    <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                      <dt className="flex items-center text-sm font-medium leading-6 text-gray-900">
+                        Tampak Kanan
+                      </dt>
+                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                        <input
+                          class="w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
+                          id="file_input"
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => setFile2(e.target.files[0])}
+                        />
+                      </dd>
                     </div>
-                    <div className="flex top-4 justify-center py-2">
-                      {slides.map((slide, slideIndex) => (
-                        <div
-                          key={slideIndex}
-                          onClick={() => goToSlide(slideIndex)}
-                          className="text-2xl cursor-pointer"
-                        >
-                          <RxDotFilled />
-                        </div>
-                      ))}
+                    <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                      <dt className="flex items-center text-sm font-medium leading-6 text-gray-900">
+                        Tampak Belakang
+                      </dt>
+                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                        <input
+                          class="w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
+                          id="file_input"
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => setFile3(e.target.files[0])}
+                        />
+                      </dd>
+                    </div>
+                    <div className="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                      <dt className="flex items-center text-sm font-medium leading-6 text-gray-900">
+                        Tampak Kiri
+                      </dt>
+                      <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                        <input
+                          class="w-1/2 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
+                          id="file_input"
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) => setFile4(e.target.files[0])}
+                        />
+                      </dd>
+                    </div>
+                    <div className="flex flex-col items-center justify-center pt-10">
+                      <button
+                        type="submit"
+                        className="w-2/6 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                        onClick={(e) => updateHandler(e)}
+                      >
+                        Submit
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -281,4 +310,4 @@ function DetailPenilaianB(props) {
   );
 }
 
-export default DetailPenilaianB;
+export default EditPengusulanE;

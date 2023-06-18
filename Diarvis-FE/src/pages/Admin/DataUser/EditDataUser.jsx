@@ -2,8 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Layout from "../../../layout/layout";
-import { FaRegCheckCircle, FaBookOpen, FaChartBar } from "react-icons/fa";
-import { BsCashStack } from "react-icons/bs";
 import { UserContext } from "../../../App";
 import Swal from "sweetalert2";
 

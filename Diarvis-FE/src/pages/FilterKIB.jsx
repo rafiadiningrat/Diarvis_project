@@ -21,17 +21,35 @@ const FilterKIB = (props) => {
       } else if (KIB === "E") {
         navigate("/pengusulan/kib-e");
       }
+    } else if (location.pathname === "/diusulkan/filter") {
+      if (KIB === "B") {
+        navigate("/diusulkan/kib-b");
+      } else if (KIB === "E") {
+        navigate("/diusulkan/kib-e");
+      }
     } else if (location.pathname === "/penilaian/filter") {
       if (KIB === "B") {
         navigate("/penilaian/kib-b");
       } else if (KIB === "E") {
         navigate("/penilaian/kib-e");
       }
+    } else if (location.pathname === "/dinilai/filter") {
+      if (KIB === "B") {
+        navigate("/dinilai/kib-b");
+      } else if (KIB === "E") {
+        navigate("/dinilai/kib-e");
+      }
     } else if (location.pathname === "/verifikasi/filter") {
       if (KIB === "B") {
         navigate("/verifikasi/kib-b");
       } else if (KIB === "E") {
         navigate("/verifikasi/kib-e");
+      }
+    } else if (location.pathname === "/terverifikasi/filter") {
+      if (KIB === "B") {
+        navigate("/terverifikasi/kib-b");
+      } else if (KIB === "E") {
+        navigate("/terverifikasi/kib-e");
       }
     } else if (location.pathname === "/berita-acara/filter") {
       if (KIB === "B") {
@@ -47,11 +65,11 @@ const FilterKIB = (props) => {
       }
     }
   };
-  
+
   const handleKIB = (e) => {
     setKIB(e.target.value);
     console.log(KIB);
-    };
+  };
   return (
     <>
       <Layout />

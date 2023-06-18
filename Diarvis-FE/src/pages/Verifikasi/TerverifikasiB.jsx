@@ -8,24 +8,22 @@ import {
   AiOutlineLeft,
   AiFillFileText,
 } from "react-icons/ai";
-import { BsFillClipboardPlusFill } from "react-icons/bs";
-import Layout from "../../../layout/layout";
-import MOCK_DATA from "../../../components/Table/DataMaster/MOCK_DATA.json";
-import { COLUMNS_PENILAIAN_E_API } from "../../../components/Table/DataMaster/columns";
-import { UserContext } from "../../../App";
-import { useNavigate, useLocation } from "react-router-dom";
+import Layout from "../../layout/layout";
+import { COLUMNS_PENILAIAN_B_API } from "../../components/Table/DataMaster/columns";
+import { UserContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2";
 
-const AdminVerifikasiE = () => {
+const TerverifikasiB = () => {
   const isLoggedIn = useContext(UserContext);
   const [DataTable, setDataTable] = useState([]);
-  const location = useLocation();
   const navigate = useNavigate();
+  const dataUser = JSON.parse(sessionStorage.getItem("user"));
+  const codeFilterUpb = `${dataUser.kode_bidang}/${dataUser.kode_unit}/${dataUser.kode_sub_unit}/${dataUser.kode_upb}`;
 
   const fetchData = async () => {
     const response = await axios
-      .get(`http://localhost:8000/api/kibe/all/verifikasi/${location.state}`)
+      .get(`http://localhost:8000/api/kibb/all/verifikasi/${codeFilterUpb}`)
       .catch((err) => console.log(err));
     if (response) {
       console.log("response: ", response);
@@ -35,11 +33,11 @@ const AdminVerifikasiE = () => {
   };
 
   // Table Property (using API)
-  const columns = useMemo(() => COLUMNS_PENILAIAN_E_API, []);
+  const columns = useMemo(() => COLUMNS_PENILAIAN_B_API, []);
   const data = useMemo(() => [...DataTable], [DataTable]);
 
   const openDetails = (data) => {
-    navigate(`/admin/verifikasi/detail/kib-e/${data.id_usulan_e}`, {
+    navigate(`/terverifikasi/kib-b/detail/${data.id_usulan_b}`, {
       state: data,
     });
   };
@@ -107,7 +105,7 @@ const AdminVerifikasiE = () => {
           <div className="flex flex-col  lg:ml-64 pt-[8.7rem] px-5 w-auto">
             <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
               <h5 class="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Verifikasi / KIB E
+                Verifikasi / KIB B
               </h5>
               <div className="relative overflow-x-auto border border-gray-300">
                 <table
@@ -236,4 +234,4 @@ const AdminVerifikasiE = () => {
   );
 };
 
-export default AdminVerifikasiE;
+export default TerverifikasiB;

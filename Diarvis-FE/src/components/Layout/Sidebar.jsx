@@ -6,7 +6,10 @@ import {
   AiFillFolder,
   AiOutlineLogout,
 } from "react-icons/ai";
-import { BiMessageSquareDetail, BiUserCircle } from "react-icons/bi";
+import {
+  BiMessageSquareDetail,
+  BiUserCircle,
+} from "react-icons/bi";
 import { FaUser } from "react-icons/fa";
 import { RiContactsLine } from "react-icons/ri";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -20,7 +23,12 @@ import {
   BsFillBoxFill,
   BsFillClipboardDataFill,
   BsFillClipboardCheckFill,
+  BsFillFileEarmarkBarGraphFill,
+  BsNewspaper,
+  BsFillFileBarGraphFill,
+  BsBook,
 } from "react-icons/bs";
+import { TbCircleLetterB, TbCircleLetterE } from "react-icons/tb";
 import Swal from "sweetalert2";
 
 const SidebarItem = ({ title, subItems, icon, to}) => {
@@ -118,13 +126,13 @@ const Sidebar = () => {
         subItems: [
           {
             title: "KIB B",
-            icon: RiContactsLine,
+            icon: TbCircleLetterB,
             subItems: [],
             to: "/datamaster/kib-b",
           },
           {
             title: "KIB E",
-            icon: BiMessageSquareDetail,
+            icon: TbCircleLetterE,
             subItems: [],
             to: "/datamaster/kib-e",
           },
@@ -138,18 +146,24 @@ const Sidebar = () => {
         icon: MdDriveFileMoveOutline,
       },
       {
+        title: "Lihat Pengusulan",
+        to: "/diusulkan/filter",
+        subItems: [],
+        icon: BsBook,
+      },
+      {
         title: "Laporan",
-        icon: BsFillBoxFill,
+        icon: BsFillFileEarmarkBarGraphFill,
         subItems: [
           {
             title: "Berita Acara",
-            icon: RiContactsLine,
+            icon: BsNewspaper,
             subItems: [],
             to: "/berita-acara/filter",
           },
           {
             title: "Penghapusan",
-            icon: BiMessageSquareDetail,
+            icon: BsFillFileBarGraphFill,
             subItems: [],
             to: "/laporan-penghapusan/filter",
           },
@@ -177,13 +191,13 @@ const Sidebar = () => {
         subItems: [
           {
             title: "KIB B",
-            icon: RiContactsLine,
+            icon: TbCircleLetterB,
             subItems: [],
             to: "/datamaster/kib-b",
           },
           {
             title: "KIB E",
-            icon: BiMessageSquareDetail,
+            icon: TbCircleLetterE,
             subItems: [],
             to: "/datamaster/kib-e",
           },
@@ -197,18 +211,24 @@ const Sidebar = () => {
         icon: BsFillClipboardCheckFill,
       },
       {
+        title: "Lihat Verifikasi",
+        to: "/terverifikasi/filter",
+        subItems: [],
+        icon: BsBook,
+      },
+      {
         title: "Laporan",
-        icon: BsFillBoxFill,
+        icon: BsFillFileEarmarkBarGraphFill,
         subItems: [
           {
             title: "Berita Acara",
-            icon: RiContactsLine,
+            icon: BsNewspaper,
             subItems: [],
             to: "/berita-acara/filter",
           },
           {
             title: "Penghapusan",
-            icon: BiMessageSquareDetail,
+            icon: BsFillFileBarGraphFill,
             subItems: [],
             to: "/laporan-penghapusan/filter",
           },
@@ -236,13 +256,13 @@ const Sidebar = () => {
         subItems: [
           {
             title: "KIB B",
-            icon: RiContactsLine,
+            icon: TbCircleLetterB,
             subItems: [],
             to: "/datamaster/kib-b",
           },
           {
             title: "KIB E",
-            icon: BiMessageSquareDetail,
+            icon: TbCircleLetterE,
             subItems: [],
             to: "/datamaster/kib-e",
           },
@@ -256,18 +276,24 @@ const Sidebar = () => {
         icon: BsFillClipboardDataFill,
       },
       {
+        title: "Lihat Penilaian",
+        to: "/dinilai/filter",
+        subItems: [],
+        icon: BsBook,
+      },
+      {
         title: "Laporan",
-        icon: BsFillBoxFill,
+        icon: BsFillFileEarmarkBarGraphFill,
         subItems: [
           {
             title: "Berita Acara",
-            icon: RiContactsLine,
+            icon: BsNewspaper,
             subItems: [],
             to: "/berita-acara/filter",
           },
           {
             title: "Penghapusan",
-            icon: BiMessageSquareDetail,
+            icon: BsFillFileBarGraphFill,
             subItems: [],
             to: "/laporan-penghapusan/filter",
           },
@@ -295,13 +321,13 @@ const Sidebar = () => {
       subItems: [
         {
           title: "KIB B",
-          icon: RiContactsLine,
+          icon: TbCircleLetterB,
           subItems: [],
           to: "/datamaster/kib-b/filter",
         },
         {
           title: "KIB E",
-          icon: BiMessageSquareDetail,
+          icon: TbCircleLetterE,
           subItems: [],
           to: "/datamaster/kib-e/filter",
         },
@@ -314,13 +340,13 @@ const Sidebar = () => {
       subItems: [
         {
           title: "KIB B",
-          icon: RiContactsLine,
+          icon: TbCircleLetterB,
           subItems: [],
           to: "/pengusulan/kib-b/filter",
         },
         {
           title: "KIB E",
-          icon: BiMessageSquareDetail,
+          icon: TbCircleLetterE,
           subItems: [],
           to: "/pengusulan/kib-e/filter",
         },
@@ -333,13 +359,13 @@ const Sidebar = () => {
       subItems: [
         {
           title: "KIB B",
-          icon: RiContactsLine,
+          icon: TbCircleLetterB,
           subItems: [],
           to: "/penilaian/kib-b/filter",
         },
         {
           title: "KIB E",
-          icon: BiMessageSquareDetail,
+          icon: TbCircleLetterE,
           subItems: [],
           to: "/penilaian/kib-e/filter",
         },
@@ -352,13 +378,13 @@ const Sidebar = () => {
       subItems: [
         {
           title: "KIB B",
-          icon: RiContactsLine,
+          icon: TbCircleLetterB,
           subItems: [],
           to: "/verifikasi/kib-b/filter",
         },
         {
           title: "KIB E",
-          icon: BiMessageSquareDetail,
+          icon: TbCircleLetterE,
           subItems: [],
           to: "/verifikasi/kib-e/filter",
         },
@@ -367,17 +393,17 @@ const Sidebar = () => {
     },
     {
       title: "Laporan",
-      icon: BsFillBoxFill,
+      icon: BsFillFileEarmarkBarGraphFill,
       subItems: [
         {
           title: "Berita Acara",
-          icon: RiContactsLine,
+          icon: BsNewspaper,
           subItems: [],
           to: "/berita-acara/filter",
         },
         {
           title: "Penghapusan",
-          icon: BiMessageSquareDetail,
+          icon: BsFillFileBarGraphFill,
           subItems: [],
           to: "/laporan-penghapusan/filter",
         },

@@ -57,13 +57,28 @@ const ShowDataUser = () => {
     const handleDelete = async (id) => {
         // console.log(id);
         try {
-            await axios.delete(`http://localhost:8000/api/delete/user/${id}`);
-            Swal.fire({
-              icon: "success",
-              title: "Hapus Berhasil",
-              text: "Data user berhasil dihapuskan!",
-            });
-            fetchData();
+            await Swal.fire({
+              title: "Apakah anda yakin?",
+              text: "Anda menghapus data user!",
+              icon: "warning",
+              reverseButtons: true,
+              confirmButtonText: "Ya, hapus!",
+              cancelButtonText: "Tidak",
+              showCancelButton: true,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                axios.delete(`http://localhost:8000/api/delete/user/${id}`);
+                Swal.fire({
+                  icon: "success",
+                  title: "Hapus Berhasil",
+                  text: "Data user berhasil dihapuskan!",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    fetchData();
+                  }
+                });
+              }
+            }); 
         } catch (error) {
             console.log(error);
             Swal.fire({

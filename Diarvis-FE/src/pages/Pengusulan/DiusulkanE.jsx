@@ -7,25 +7,26 @@ import {
   AiOutlineRight,
   AiOutlineLeft,
   AiFillFileText,
+  AiFillDelete,
+  AiFillEdit,
 } from "react-icons/ai";
-import { BsFillClipboardPlusFill } from "react-icons/bs";
-import Layout from "../../../layout/layout";
-import MOCK_DATA from "../../../components/Table/DataMaster/MOCK_DATA.json";
-import { COLUMNS_PENILAIAN_E_API } from "../../../components/Table/DataMaster/columns";
-import { UserContext } from "../../../App";
-import { useNavigate, useLocation } from "react-router-dom";
+import Layout from "../../layout/layout";
+import { COLUMNS_PENILAIAN_E_API } from "../../components/Table/DataMaster/columns";
+import { UserContext } from "../../App";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const AdminVerifikasiE = () => {
+const DiusulkanE = () => {
   const isLoggedIn = useContext(UserContext);
   const [DataTable, setDataTable] = useState([]);
-  const location = useLocation();
   const navigate = useNavigate();
+  const dataUser = JSON.parse(sessionStorage.getItem("user"));
+  const codeFilterUpb = `${dataUser.kode_bidang}/${dataUser.kode_unit}/${dataUser.kode_sub_unit}/${dataUser.kode_upb}`;
 
   const fetchData = async () => {
     const response = await axios
-      .get(`http://localhost:8000/api/kibe/all/verifikasi/${location.state}`)
+      .get(`http://localhost:8000/api/kibe/penilaian/${codeFilterUpb}`)
       .catch((err) => console.log(err));
     if (response) {
       console.log("response: ", response);
@@ -39,9 +40,50 @@ const AdminVerifikasiE = () => {
   const data = useMemo(() => [...DataTable], [DataTable]);
 
   const openDetails = (data) => {
-    navigate(`/admin/verifikasi/detail/kib-e/${data.id_usulan_e}`, {
+    navigate(`/diusulkan/kib-e/detail/${data.id_usulan_e}`, {
       state: data,
     });
+  };
+
+  const handleEdit = (data) => {
+    navigate(`/diusulkan/kib-e/edit/${data.id_usulan_e}`, {
+      state: data,
+    });
+  };
+
+  const handleDelete = async (id) => {
+    // console.log(id);
+    try {
+      await Swal.fire({
+        title: "Apakah anda yakin?",
+        text: "Anda menghapus data usulan!",
+        icon: "warning",
+        reverseButtons: true,
+        confirmButtonText: "Ya, hapus!",
+        cancelButtonText: "Tidak",
+        showCancelButton: true,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.delete(`http://localhost:8000/api/kibe/usulan/${id}`);
+          Swal.fire({
+            icon: "success",
+            title: "Hapus Berhasil",
+            text: "Data usulan berhasil dihapuskan!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              fetchData();
+            }
+          });
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Hapus Gagal",
+        text: "Gagal menghapuskan pengusulan!",
+      });
+    }
   };
 
   const tableHooks = (hooks) => {
@@ -51,7 +93,7 @@ const AdminVerifikasiE = () => {
         id: "Aksi",
         Header: "Aksi",
         sticky: "right",
-        width: 100,
+        width: 150,
         Cell: ({ row }) => (
           <div className="flex justify-center ml-2">
             <button
@@ -60,6 +102,20 @@ const AdminVerifikasiE = () => {
               onClick={() => openDetails(row.original)}
             >
               <AiFillFileText />
+            </button>
+            <button
+              title="Edit"
+              className="px-3 py-2 text-xs mr-2 font-medium text-center rounded-md text-white bg-blue-600 hover:bg-blue-700"
+              onClick={() => handleEdit(row.original)}
+            >
+              <AiFillEdit />
+            </button>
+            <button
+              title="Delete"
+              className="px-3 py-2 text-xs mr-2 font-medium text-center rounded-md text-white bg-red-600 hover:bg-red-800"
+              onClick={() => handleDelete(row.original.id_usulan_e)}
+            >
+              <AiFillDelete />
             </button>
           </div>
         ),
@@ -107,7 +163,7 @@ const AdminVerifikasiE = () => {
           <div className="flex flex-col  lg:ml-64 pt-[8.7rem] px-5 w-auto">
             <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
               <h5 class="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Verifikasi / KIB E
+                Diusulkan / KIB E
               </h5>
               <div className="relative overflow-x-auto border border-gray-300">
                 <table
@@ -236,4 +292,4 @@ const AdminVerifikasiE = () => {
   );
 };
 
-export default AdminVerifikasiE;
+export default DiusulkanE;

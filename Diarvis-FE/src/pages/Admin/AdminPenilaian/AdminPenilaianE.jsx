@@ -107,7 +107,7 @@ const AdminPenilaianE = () => {
           <div className="flex flex-col  lg:ml-64 pt-[8.7rem] px-5 w-auto">
             <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
               <h5 class="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                Penilaian / KIB B
+                Penilaian / KIB E
               </h5>
               <div className="relative overflow-x-auto border border-gray-300">
                 <table
