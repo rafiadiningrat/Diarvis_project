@@ -55,10 +55,12 @@ class PenilaianPenghapusanAsetBController extends Controller
     public function approve(Request $request, $id_usulan_b)
     {
 
+
         $request->validate([
-            'dokumen_penilaian' => 'mimetypes:application/pdf|max:2048',
+            'dokumen_penilaian' => 'required|mimetypes:application/pdf|max:2048',
             'keterangan_penilaian' => 'required|string',
         ]);
+
 
         $penilaianB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
 
@@ -66,6 +68,11 @@ class PenilaianPenghapusanAsetBController extends Controller
         $penilaianB->keterangan_penilaian = $request->input('keterangan_penilaian');
         $penilaianB->penilaian_at = now();
 
+    
+        // $media = $penilaianB->addMedia($request->file('dokumen_penilaian'))
+        //     ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+    
+        // $penilaianB->dokumen_penilaian = $media->getUrl();
 
         if ($request->hasFile('dokumen_penilaian')) {
                  $media = $penilaianB->addMedia($request->file('dokumen_penilaian'))

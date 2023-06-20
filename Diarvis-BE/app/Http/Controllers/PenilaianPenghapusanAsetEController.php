@@ -46,7 +46,7 @@ class PenilaianPenghapusanAsetEController extends Controller
     {
 
         $request->validate([
-            'dokumen_penilaian' => 'mimetypes:application/pdf|max:2048',
+            'dokumen_penilaian' => 'required|mimetypes:application/pdf|max:2048',
             'keterangan_penilaian' => 'required|string',
         ]);
 
