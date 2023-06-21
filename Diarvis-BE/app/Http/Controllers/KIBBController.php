@@ -25,7 +25,7 @@ use Illuminate\Support\Facades\File;
 class KIBBController extends Controller
 {
     //
-    public function exportToExcel($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
+    public function getExportToExcel($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
     //     $export = new KibBExport();
     // $fileName = 'kib_b_data.xlsx';
@@ -59,7 +59,7 @@ class KIBBController extends Controller
     ])->deleteFileAfterSend();
 }
 
-public function exportData($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
+public function getExportData($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 {
     $data = PengusulanPenghapusanAsetBModel::whereNotNull('status_penghapusan')
     ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
@@ -103,7 +103,7 @@ return Excel::download($export, 'penghapusan_aset_b_report.xlsx');
 }
 
 
-public function generatePDF($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
+public function getExportDataToPDF($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
 
         // Query untuk mendapatkan saldo akhir KIB_B
@@ -179,7 +179,7 @@ public function getAllKibB()
     return $kibB;
 }
 
-public function detail($id_aset_b)
+public function getDetailKibB($id_aset_b)
 {
     $kibB = KIBBModel::where('id_aset_b', $id_aset_b)->first();
 

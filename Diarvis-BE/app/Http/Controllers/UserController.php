@@ -219,7 +219,7 @@ class UserController extends Controller
     ], 201);
 }
 
-public function updateUser(Request $request, $id_user)
+public function editUser(Request $request, $id_user)
 {
     $user = UserModel::find($id_user);
 
@@ -312,7 +312,7 @@ public function deleteUser($id_user)
 
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
-            'password' => 'required',
+            'password' => 'required|string',
         ]);
     
         if ($validator->fails()) {
@@ -323,7 +323,10 @@ public function deleteUser($id_user)
             ], 422);
         }
     
-        $user = UserModel::with('grups', 'bidang', 'unit', 'subUnit', 'upb')->where('email', $request->email)->first();
+        $user = UserModel::with('grups', 'bidang', 'unit', 'subUnit', 'upb')
+        ->where('email', $request->email)
+        ->where('password', $request->email)
+        ->first();
         if (!$user) {
             return response()->json([
                 'success' => false,

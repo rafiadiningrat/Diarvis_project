@@ -76,13 +76,13 @@ Route::get('/user', [UserController::class, 'getAllUser']); // get seluruh data 
 Route::get('/user/{id}', [UserController::class, 'getUser']); // get seluruh data user berdasarkan grup yang dipilih 
 Route::post('/create/user', [UserController::class, 'addUser']);
 Route::get('/detail/user/{id}', [UserController::class, 'detail']);
-Route::put('/update/user/{id}', [UserController::class, 'updateUser']);
+Route::put('/update/user/{id}', [UserController::class, 'editUser']);
 Route::delete('/delete/user/{id}', [UserController::class, 'deleteUser']);
 
 // KIB B
 Route::get('/kib-b', [KIBBController::class, 'getAllKibB']); // get seluruh data kib b
 Route::get('/kib-b/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'getKibB']); // get seluruh data kib b berdasarkan upb yang dipilih
-Route::get('/kib-b/detail/{id}', [KIBBController::class, 'detail']);
+Route::get('/kib-b/detail/{id}', [KIBBController::class, 'getDetailKibB']);
 
 // KIB E
 Route::get('/kib-e', [KIBEController::class, 'getAllKibE']); // get seluruh data kib b
@@ -94,37 +94,37 @@ Route::get('/kib-e/detail/{id}', [KIBEController::class, 'detail']);
 //Route::post('/', [PengusulanPenghapusanAsetBController::class, 'store']);
 //Route::get('/kibb/usulanB/{id}', [PengusulanPenghapusanAsetBController::class, 'getListUsulanB']); // get seluruh data pengusulan berdasarkan user yang mengusulkan
 Route::get('/kibb/semua', [PengusulanPenghapusanAsetBController::class, 'index']); // get seluruh data pengusulan
-Route::post('/kibb/usulan', [PengusulanPenghapusanAsetBController::class, 'store']); // membuat pengusulan penghapusan barang
+Route::post('/kibb/usulan', [PengusulanPenghapusanAsetBController::class, 'addUsulanB']); // membuat pengusulan penghapusan barang
 Route::put('/kibb/usulan/update/{id}', [PengusulanPenghapusanAsetBController::class, 'update']); // melakukan update terhadap penghapusan barang
 Route::delete('/kibb/usulan/{id}', [PengusulanPenghapusanAsetBController::class, 'destroy']); // melakukan penghapusan terhadap penghapusan barang
-Route::get('/kibb/usulan/detail/{id}', [PengusulanPenghapusanAsetBController::class, 'detail']);
+Route::get('/kibb/usulan/detail/{id}', [PengusulanPenghapusanAsetBController::class, 'getDetailUsulanB']);
 Route::get('/kibb/belumUsulan/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [PengusulanPenghapusanAsetBController::class, 'getBarangBelumUsulan']);
 
 
 //Penilaian B
 Route::get('/kibb/all/penilaian/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [PenilaianPenghapusanAsetBController::class, 'index']);
-Route::get('/kibb/penilaian/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [PenilaianPenghapusanAsetBController::class, 'getPenilaianByUpb']);
+Route::get('/kibb/penilaian/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [PenilaianPenghapusanAsetBController::class, 'getPenilaianbyUpbB']);
 Route::put('/kibb/usulanb/update-penilaian/{id}', [PenilaianPenghapusanAsetBController::class, 'updatePenilaianB']);
-Route::post('/kibb/penilaian/diterima/{id}', [PenilaianPenghapusanAsetBController::class, 'approve']);
-Route::post('/kibb/penilaian/ditolak/{id}', [PenilaianPenghapusanAsetBController::class, 'decline']);
-Route::get('/kibb/penilaian/detail/{id}', [PenilaianPenghapusanAsetBController::class, 'detailPenilaian']);
+Route::post('/kibb/penilaian/diterima/{id}', [PenilaianPenghapusanAsetBController::class, 'addApprovePenilaianB']);
+Route::post('/kibb/penilaian/ditolak/{id}', [PenilaianPenghapusanAsetBController::class, 'addDeclinePenilaianB']);
+Route::get('/kibb/penilaian/detail/{id}', [PenilaianPenghapusanAsetBController::class, 'getDetailPenilaianB']);
 
 // verifikator B
 Route::get('/kibb/all/verifikasi/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [VerifikasiPenghapusanAsetBController::class, 'index']);
 Route::get('/kibb/verifikasi/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [VerifikasiPenghapusanAsetBController::class, 'getVerifikasiByUpb']);
-Route::post('/kibb/verifikasi/diterima/{id}', [VerifikasiPenghapusanAsetBController::class, 'approve']); // proses verifikasi
-Route::post('/kibb/verifikasi/ditolak/{id}', [VerifikasiPenghapusanAsetBController::class, 'decline']); // proses verifikasi
-Route::get('/kibb/verifikasi/detail/{id}', [VerifikasiPenghapusanAsetBController::class, 'detailVerifikasi']);
+Route::post('/kibb/verifikasi/diterima/{id}', [VerifikasiPenghapusanAsetBController::class, 'addApproveVerifikasiB']); // proses verifikasi
+Route::post('/kibb/verifikasi/ditolak/{id}', [VerifikasiPenghapusanAsetBController::class, 'addDeclineVerifikasiB']); // proses verifikasi
+Route::get('/kibb/verifikasi/detail/{id}', [VerifikasiPenghapusanAsetBController::class, 'getDetailVerifikasiB']);
 
 // Usulan E
 //Route::get('/', [PengusulanPenghapusanAsetBModel::class, 'getAllUsulanB']);
 //Route::post('/', [PengusulanPenghapusanAsetBController::class, 'store']);
 Route::get('/kibe/semua', [PengusulanPenghapusanAsetEController::class, 'index']); // get seluruh data pengusulan
 Route::get('/kibe/usulanE/{id}', [PengusulanPenghapusanAsetEController::class, 'getListUsulanE']); // get seluruh data pengusulan berdasarkan user yang mengusulkan
-Route::post('/kibe/usulan', [PengusulanPenghapusanAsetEController::class, 'store']); // membuat pengusulan penghapusan barang
+Route::post('/kibe/usulan', [PengusulanPenghapusanAsetEController::class, 'addUsulanE']); // membuat pengusulan penghapusan barang
 Route::put('/kibe/usulan/update/{id}', [PengusulanPenghapusanAsetEController::class, 'update']); // melakukan update terhadap penghapusan barang
 Route::delete('/kibe/usulan/{id}', [PengusulanPenghapusanAsetEController::class, 'destroy']); // melakukan penghapusan terhadap penghapusan barang
-Route::get('/kibe/detail/{id}', [PengusulanPenghapusanAsetEController::class, 'detail']);
+Route::get('/kibe/detail/{id}', [PengusulanPenghapusanAsetEController::class, 'getDetailUsulanE']);
 Route::get('/kibe/belumUsulan/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [PengusulanPenghapusanAsetEController::class, 'getBarangBelumUsulan']);
 
 //Penilaian E
@@ -149,11 +149,11 @@ Route::get('/kibb/dashboard/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}
 Route::get('/kibe/dashboard/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [DashboardController::class, 'dashboardE']);
 
 // Generate
-Route::get('/kibb/excel/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'exportToExcel']);
+Route::get('/kibb/excel/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'getExportToExcel']);
 Route::get('/kibe/excel/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBEController::class, 'exportToExcel']);
-Route::get('/kibb/laporan-penghapusan/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'exportData']);
+Route::get('/kibb/laporan-penghapusan/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'getExportData']);
 Route::get('/kibe/laporan-penghapusan/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBEController::class, 'exportData']);
-Route::get('/berita-acara/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'generatePDF']);
+Route::get('/berita-acara/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'getExportDataToPDFe']);
 
 // Pemilik
 Route::get('/pemilik', [PemilikModel::class, 'getPemilik']);

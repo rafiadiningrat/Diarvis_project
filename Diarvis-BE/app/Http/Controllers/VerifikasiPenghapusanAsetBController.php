@@ -42,7 +42,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
     return response()->json($penilaian);
     }
 
-    public function approve(Request $request, $id_usulan_b)
+    public function addApproveVerifikasiB(Request $request, $id_usulan_b)
     {
 
         $request->validate([
@@ -64,7 +64,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
             ], 201);
     } 
 
-    public function decline(Request $request, $id_usulan_b)
+    public function addDeclineVerifikasiB(Request $request, $id_usulan_b)
     {
 
         $request->validate([
@@ -102,7 +102,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
         // }
     } 
 
-    public function detailVerifikasi($id_usulan_b)
+    public function getDetailVerifikasiB($id_usulan_b)
 {
     $verifikasi = PengusulanPenghapusanAsetBModel::where('id_usulan_b', $id_usulan_b)
                         ->with('kibB')

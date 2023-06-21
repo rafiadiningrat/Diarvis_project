@@ -23,7 +23,7 @@ class PengusulanPenghapusanAsetEController extends Controller
     return response()->json($pengusulan);
 }
 
-public function store(Request $request)
+public function addUsulanE(Request $request)
 {
     $validatedData = $request->validate([
         'id_user' => 'required|exists:USER,id_user',
@@ -148,7 +148,7 @@ public function destroy($id_usulan_e)
     ], 200);
 }
 
-public function detail($id_usulan_e)
+public function getDetailUsulanE($id_usulan_e)
 {
     $usulanE = PengusulanPenghapusanAsetEModel::where('id_usulan_e', $id_usulan_e)->first();
 

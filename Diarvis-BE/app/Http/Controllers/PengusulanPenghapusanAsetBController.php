@@ -52,7 +52,7 @@ public function index()
     return response()->json($pengusulan);
 }
 
-    public function store(Request $request)
+    public function addUsulanB(Request $request)
 {
 
     $idAsetB = $request->input('id_aset_b');
@@ -295,7 +295,7 @@ public function destroy($id_usulan_b)
     ], 200);
 }
 
-public function detail($id_usulan_b)
+public function getDetailUsulanB($id_usulan_b)
 {
     $usulanB = PengusulanPenghapusanAsetBModel::where('id_usulan_b', $id_usulan_b)->first();
 

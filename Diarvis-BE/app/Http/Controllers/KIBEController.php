@@ -18,7 +18,7 @@ class KIBEController extends Controller
     return $kib;
 }
 
-public function detail($id_aset_e)
+public function getDetailKibE($id_aset_e)
 {
     $kibE = KIBEModel::where('id_aset_e', $id_aset_e)->first();
 
@@ -137,7 +137,7 @@ public function getKibE($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     
 
 
-public function exportToExcel($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
+public function getExportToExcel($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
     //     $export = new KibBExport();
     // $fileName = 'kib_b_data.xlsx';
@@ -177,7 +177,7 @@ public function exportToExcel($kode_bidang, $kode_unit, $kode_sub_unit, $kode_up
     // ]);
 }
 
-public function exportData($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
+public function getExportData($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 {
     $data = PengusulanPenghapusanAsetEModel::whereNotNull('status_penghapusan')
     ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')

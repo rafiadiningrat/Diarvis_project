@@ -36,7 +36,7 @@ class PenilaianPenghapusanAsetBController extends Controller
         return response()->json($penilaian);
     }
 
-    public function getPenilaianByUpb($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
+    public function getPenilaianbyUpbB($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
         $penilaian = PengusulanPenghapusanAsetBModel::whereNull('status_verifikasi')
                             ->whereNull('status_penilaian')
@@ -52,7 +52,7 @@ class PenilaianPenghapusanAsetBController extends Controller
     return response()->json($penilaian);
     }
 
-    public function approve(Request $request, $id_usulan_b)
+    public function addApprovePenilaianB(Request $request, $id_usulan_b)
     {
 
 
@@ -91,7 +91,7 @@ class PenilaianPenghapusanAsetBController extends Controller
         
     }
 
-    public function decline(Request $request, $id)
+    public function addDeclinePenilaianB(Request $request, $id)
     {
 
         $request->validate([
@@ -157,7 +157,7 @@ class PenilaianPenghapusanAsetBController extends Controller
 //         ], 400);
 //     }
 // }
-public function detailPenilaian($id_usulan_b)
+public function getDetailPenilaianB($id_usulan_b)
 {
     $penilaian = PengusulanPenghapusanAsetBModel::where('id_usulan_b', $id_usulan_b)
                         ->with('kibB')
