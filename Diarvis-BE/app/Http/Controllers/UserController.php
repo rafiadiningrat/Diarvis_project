@@ -325,7 +325,7 @@ public function deleteUser($id_user)
     
         $user = UserModel::with('grups', 'bidang', 'unit', 'subUnit', 'upb')
         ->where('email', $request->email)
-        ->where('password', $request->email)
+        ->where('password', $request->password)
         ->first();
         if (!$user) {
             return response()->json([
