@@ -153,7 +153,7 @@ Route::get('/kibb/excel/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [
 Route::get('/kibe/excel/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBEController::class, 'exportToExcel']);
 Route::get('/kibb/laporan-penghapusan/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'getExportData']);
 Route::get('/kibe/laporan-penghapusan/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBEController::class, 'exportData']);
-Route::get('/berita-acara/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'getExportDataToPDFe']);
+Route::get('/berita-acara/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [KIBBController::class, 'getExportDataToPDF']);
 
 // Pemilik
 Route::get('/pemilik', [PemilikModel::class, 'getPemilik']);
