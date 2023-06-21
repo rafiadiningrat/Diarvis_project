@@ -6,6 +6,7 @@ import { FaRegCheckCircle, FaBookOpen, FaChartBar } from "react-icons/fa";
 import { BsCashStack } from "react-icons/bs";
 import { UserContext } from "../../../App";
 import Swal from "sweetalert2";
+import Footer from "../../../components/Layout/Footer";
 
 const ShowTambahDataUser = (props) => {
   const isLoggedIn = useContext(UserContext);
@@ -358,6 +359,7 @@ const ShowTambahDataUser = (props) => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

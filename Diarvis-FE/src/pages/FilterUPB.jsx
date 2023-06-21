@@ -5,6 +5,7 @@ import Layout from "../layout/layout";
 import { FaRegCheckCircle, FaBookOpen, FaChartBar } from "react-icons/fa";
 import { BsCashStack } from "react-icons/bs";
 import { UserContext } from "../App";
+import Footer from "../components/Layout/Footer";
 
 const FilterUPB = (props) => {
   const isLoggedIn = useContext(UserContext);
@@ -220,6 +221,7 @@ const FilterUPB = (props) => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

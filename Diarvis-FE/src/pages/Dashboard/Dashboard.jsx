@@ -4,6 +4,7 @@ import Layout from "../../layout/layout";
 import { FaRegCheckCircle, FaBookOpen, FaChartBar } from "react-icons/fa";
 import { BsCashStack } from "react-icons/bs";
 import { UserContext } from "../../App";
+import Footer from "../../components/Layout/Footer";
 
 const Dashboard = () => {
   const isLoggedIn = useContext(UserContext);
@@ -11,7 +12,7 @@ const Dashboard = () => {
   const [dataDashboardE, setDataDashboardE] = useState({});
   const dataUser = JSON.parse(sessionStorage.getItem("user"));
   const codeFilterUpb = `${dataUser.kode_bidang}/${dataUser.kode_unit}/${dataUser.kode_sub_unit}/${dataUser.kode_upb}`;
-  
+
   const getDataDashboardB = async () => {
     try {
       const resDashboard = await axios.get(
@@ -21,7 +22,7 @@ const Dashboard = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   const getDataDashboardE = async () => {
     try {
       const resDashboard = await axios.get(
@@ -31,7 +32,7 @@ const Dashboard = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   useEffect(() => {
     getDataDashboardB();
     getDataDashboardE();
@@ -39,7 +40,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="min-h-screen">
-      <Layout />
+        <Layout />
         <div className="flex flex-col lg:ml-64 pt-[8.7rem] px-5 w-auto">
           <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -194,6 +195,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

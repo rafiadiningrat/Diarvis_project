@@ -5,6 +5,7 @@ import Layout from "../layout/layout";
 import { FaRegCheckCircle, FaBookOpen, FaChartBar } from "react-icons/fa";
 import { BsCashStack } from "react-icons/bs";
 import { UserContext } from "../App";
+import Footer from "../components/Layout/Footer";
 
 function FilterPenghapusan(props) {
   const isLoggedIn = useContext(UserContext);
@@ -20,14 +21,25 @@ function FilterPenghapusan(props) {
   const [idUPB, setIdUPB] = useState();
   const [takenUPB, setTakenUPB] = useState();
   const [KIB, setKIB] = useState();
-  let filterURL = `${idBidang}/${idUnit}/${idSubUnit}/${takenUPB}`;
-  console.log(location.pathname);
+  let filterURL;
+  console.log(filterURL);
+  const dataUser = JSON.parse(sessionStorage.getItem("user"));
 
   const navigateToDirectedPage = () => {
-    if (KIB === "B") {
-      navigate("/laporan-penghapusan/kib-b", { state: filterURL });
-    } else if (KIB === "E") {
-      navigate("/laporan-penghapusan/kib-e", { state: filterURL });
+    if (dataUser.kode_group === 1) {
+      filterURL = `${idBidang}/${idUnit}/${idSubUnit}/${takenUPB}`;
+      if (KIB === "B") {
+        navigate("/laporan-penghapusan/kib-b", { state: filterURL });
+      } else if (KIB === "E") {
+        navigate("/laporan-penghapusan/kib-e", { state: filterURL });
+      }
+    } else {
+      filterURL = `${dataUser.kode_bidang}/${dataUser.kode_unit}/${dataUser.kode_sub_unit}/${dataUser.kode_upb}`;
+      if (KIB === "B") {
+        navigate("/laporan-penghapusan/kib-b", { state: filterURL });
+      } else if (KIB === "E") {
+        navigate("/laporan-penghapusan/kib-e", { state: filterURL });
+      }
     }
   };
 
@@ -105,94 +117,102 @@ function FilterPenghapusan(props) {
                   <option value="E">KIB E</option>
                 </select>
               </div>
-              <div className="flex flex-row items-center justify-between">
-                <label
-                  htmlFor="Sub Unit"
-                  className="text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Sub Unit
-                </label>
-                <select
-                  id="SubUnit"
-                  name="SubUnit"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
-                  placeholder="pilih Sub Unit"
-                  required
-                  // value={SubUnit}
-                  onChange={(e) => handleSubUnit(e)}
-                >
-                  <option defaultValue>Pilih Sub Unit</option>
-                  {SubUnit.map((item) => (
-                    <option value={item.kode_sub_unit}>
-                      {item.nama_sub_unit}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex flex-row items-center justify-between">
-                <label
-                  htmlFor="Bidang"
-                  className="text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Bidang
-                </label>
-                <select
-                  id="Bidang"
-                  name="Bidang"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
-                  placeholder="pilih Bidang"
-                  required
-                  onChange={(e) => handleBidang(e)}
-                >
-                  <option defaultValue>Pilih Bidang</option>
-                  {Bidang.map((item) => (
-                    <option value={item.kode_bidang}>{item.nama_bidang}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex flex-row items-center justify-between">
-                <label
-                  htmlFor="UPB"
-                  className="text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  UPB
-                </label>
-                <select
-                  id="UPB"
-                  name="UPB"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
-                  placeholder="pilih UPB"
-                  required
-                  onChange={(e) => handleUPB(e)}
-                >
-                  <option defaultValue>Pilih UPB</option>
-                  {UPB.map((item) => (
-                    <option value={item.kode_upb}>{item.nama_upb}</option>
-                  ))}
-                </select>
-              </div>
-              <div className="flex flex-row items-center justify-between">
-                <label
-                  htmlFor="Unit"
-                  className="text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Unit
-                </label>
-                <select
-                  id="Unit"
-                  name="Unit"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
-                  placeholder="pilih Unit"
-                  required
-                  // value={Unit}
-                  onChange={(e) => handleUnit(e)}
-                >
-                  <option defaultValue>Pilih Unit</option>
-                  {Unit.map((item) => (
-                    <option value={item.kode_unit}>{item.nama_unit}</option>
-                  ))}
-                </select>
-              </div>
+              {dataUser.kode_group === 1 ? (
+                <>
+                  <div className="flex flex-row items-center justify-between">
+                    <label
+                      htmlFor="Sub Unit"
+                      className="text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Sub Unit
+                    </label>
+                    <select
+                      id="SubUnit"
+                      name="SubUnit"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
+                      placeholder="pilih Sub Unit"
+                      required
+                      // value={SubUnit}
+                      onChange={(e) => handleSubUnit(e)}
+                    >
+                      <option defaultValue>Pilih Sub Unit</option>
+                      {SubUnit.map((item) => (
+                        <option value={item.kode_sub_unit}>
+                          {item.nama_sub_unit}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex flex-row items-center justify-between">
+                    <label
+                      htmlFor="Bidang"
+                      className="text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Bidang
+                    </label>
+                    <select
+                      id="Bidang"
+                      name="Bidang"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
+                      placeholder="pilih Bidang"
+                      required
+                      onChange={(e) => handleBidang(e)}
+                    >
+                      <option defaultValue>Pilih Bidang</option>
+                      {Bidang.map((item) => (
+                        <option value={item.kode_bidang}>
+                          {item.nama_bidang}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex flex-row items-center justify-between">
+                    <label
+                      htmlFor="UPB"
+                      className="text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      UPB
+                    </label>
+                    <select
+                      id="UPB"
+                      name="UPB"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
+                      placeholder="pilih UPB"
+                      required
+                      onChange={(e) => handleUPB(e)}
+                    >
+                      <option defaultValue>Pilih UPB</option>
+                      {UPB.map((item) => (
+                        <option value={item.kode_upb}>{item.nama_upb}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="flex flex-row items-center justify-between">
+                    <label
+                      htmlFor="Unit"
+                      className="text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Unit
+                    </label>
+                    <select
+                      id="Unit"
+                      name="Unit"
+                      className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
+                      placeholder="pilih Unit"
+                      required
+                      // value={Unit}
+                      onChange={(e) => handleUnit(e)}
+                    >
+                      <option defaultValue>Pilih Unit</option>
+                      {Unit.map((item) => (
+                        <option value={item.kode_unit}>{item.nama_unit}</option>
+                      ))}
+                    </select>
+                  </div>
+                </>
+              ) : (
+                <></>
+              )}
             </div>
             <div className="flex flex-col items-center justify-center pt-10">
               <button
@@ -206,6 +226,7 @@ function FilterPenghapusan(props) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

@@ -4,6 +4,7 @@ import axios from "axios";
 import Layout from "../../../layout/layout";
 import { UserContext } from "../../../App";
 import Swal from "sweetalert2";
+import Footer from "../../../components/Layout/Footer";
 
 const ShowEditDataUser = (props) => {
   const isLoggedIn = useContext(UserContext);
@@ -139,7 +140,7 @@ const ShowEditDataUser = (props) => {
         <div className="lg:ml-64 pt-[8.7rem] px-5 w-auto">
           <div className="block p-6 bg-white border border-gray-200 rounded-lg shadow">
             <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-              Tambah Data User
+              Edit Data User
             </h5>
             <div className="grid grid-cols-2 gap-10">
               <div className="grid grid-rows-5 gap-5">
@@ -369,6 +370,7 @@ const ShowEditDataUser = (props) => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

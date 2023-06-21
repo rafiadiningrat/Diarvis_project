@@ -15,6 +15,7 @@ import { COLUMNS_E_API } from "../../components/Table/DataMaster/columns";
 import { UserContext } from "../../App";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import Footer from "../../components/Layout/Footer";
 
 const DataMasterE = () => {
   const isLoggedIn = useContext(UserContext);
@@ -261,6 +262,7 @@ const DataMasterE = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

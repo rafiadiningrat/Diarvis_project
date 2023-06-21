@@ -5,6 +5,7 @@ import Layout from "../layout/layout";
 import { FaRegCheckCircle, FaBookOpen, FaChartBar } from "react-icons/fa";
 import { BsCashStack } from "react-icons/bs";
 import { UserContext } from "../App";
+import Footer from "../components/Layout/Footer";
 
 const FilterKIB = (props) => {
   const isLoggedIn = useContext(UserContext);
@@ -104,22 +105,29 @@ const FilterKIB = (props) => {
                   </div>
                   <div className="flex flex-row items-center justify-between">
                     <label
-                      htmlFor="Kondisi Barang"
+                      htmlFor="Jenis Aset"
                       className="text-sm font-medium text-gray-900 dark:text-white"
                     >
-                      Kondisi Barang
+                      Jenis Aset
                     </label>
                     <select
-                      id="Kondisi Barang"
-                      name="Kondisi Barang"
+                      id="Jenis Aset"
+                      name="Jenis Aset"
                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-2/4 p-2.5"
                       placeholder="pilih Bidang"
                       required
                       value={kondisi}
                     >
                       <option defaultValue>{kondisi}</option>
-                      <option value="">Baik</option>
-                      <option value="">Rusak Ringan</option>
+                      <option value="">
+                        Tidak dapat dipindahtangankan/dimanfaatkan
+                      </option>
+                      <option value="">
+                        Mengganggu kualitas laporan Keuangan
+                      </option>
+                      <option value="">
+                        Membahayakan kepentingan sosial
+                      </option>
                     </select>
                   </div>
                 </>
@@ -158,6 +166,7 @@ const FilterKIB = (props) => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

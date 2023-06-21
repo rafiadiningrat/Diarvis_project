@@ -16,6 +16,7 @@ import { UserContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Footer from "../../components/Layout/Footer";
 
 const DiusulkanB = () => {
   const isLoggedIn = useContext(UserContext);
@@ -288,6 +289,7 @@ const DiusulkanB = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

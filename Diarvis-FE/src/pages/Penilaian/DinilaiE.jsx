@@ -13,6 +13,7 @@ import { COLUMNS_PENILAIAN_E_API } from "../../components/Table/DataMaster/colum
 import { UserContext } from "../../App";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Footer from "../../components/Layout/Footer";
 
 const DinilaiE = () => {
   const isLoggedIn = useContext(UserContext);
@@ -230,6 +231,7 @@ const DinilaiE = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

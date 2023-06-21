@@ -17,6 +17,7 @@ import { UserContext } from "../../App";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import Footer from "../../components/Layout/Footer";
 
 const LaporanPenghapusanE = () => {
   const isLoggedIn = useContext(UserContext);
@@ -251,6 +252,7 @@ const LaporanPenghapusanE = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
