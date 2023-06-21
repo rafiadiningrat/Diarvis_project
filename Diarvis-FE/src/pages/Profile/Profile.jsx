@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import Layout from '../../layout/layout';
+import Footer from '../../components/Layout/Footer';
 
 function ShowProfile() {
     const [User, setUser] = useState([]);
@@ -24,7 +25,7 @@ function ShowProfile() {
     // /detail/user/{id}
 
     return (
-      <div>
+      <>
         <Layout />
         <div className="min-h-screen">
           <div className="flex flex-col lg:ml-64 pt-[8.7rem] px-5 w-auto">
@@ -115,7 +116,8 @@ function ShowProfile() {
             </div>
           </div>
         </div>
-      </div>
+        <Footer />
+      </>
     );
 }
 

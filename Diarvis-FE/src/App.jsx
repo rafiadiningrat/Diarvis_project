@@ -53,6 +53,8 @@ import AdminVerifikasiE from "./pages/Admin/AdminVerifikasi/AdminVerifikasiE";
 import AdminVerifikasiDetailB from "./pages/Admin/AdminVerifikasi/AdminVerifikasiDetailB";
 import AdminVerifikasiDetailE from "./pages/Admin/AdminVerifikasi/AdminVerifikasiDetailE";
 
+// import * from "./pages/Routes";
+
 export const UserContext = createContext(null);
 const App = () => {
   const [user, setUser] = useState(false);

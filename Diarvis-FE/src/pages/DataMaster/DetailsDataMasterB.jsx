@@ -1,6 +1,7 @@
 import React, { useEffect, useState, createContext, useContext } from "react";
 import { useLocation } from "react-router-dom";
 import Layout from "../../layout/layout";
+import Footer from "../../components/Layout/Footer";
 
 
 
@@ -187,6 +188,7 @@ function DetailsDataMasterB(props) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

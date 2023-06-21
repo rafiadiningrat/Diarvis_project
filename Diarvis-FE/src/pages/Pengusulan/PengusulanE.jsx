@@ -17,10 +17,13 @@ import { UserContext } from "../../App";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Spinner } from "flowbite-react";
+import Footer from "../../components/Layout/Footer";
 
 const PengusulanB = () => {
   // const location = useLocation();
   //   const isLoggedIn = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(false);
   const [DataTable, setDataTable] = useState([]);
   const [dataByUPB, setDataByUPB] = useState([]);
   const [selectedData, setSelectedData] = useState([]);
@@ -207,6 +210,7 @@ const PengusulanB = () => {
 
   const handleSubmitUsulan = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const config = {
         headers: {
@@ -217,6 +221,7 @@ const PengusulanB = () => {
         .post("http://localhost:8000/api/kibe/usulan", formData, config)
         .then((res) => {
           console.log(res);
+          setIsLoading(false);
           Swal.fire({
             icon: "success",
             title: "Pengusulan Berhasil",
@@ -227,6 +232,7 @@ const PengusulanB = () => {
         });
     } catch (error) {
       console.log(error);
+      setIsLoading(false);
       Swal.fire({
         icon: "error",
         title: "Pengusulan Gagal",
@@ -375,7 +381,7 @@ const PengusulanB = () => {
                 </ul>
               </nav>
             </div>
-            <div className="block p-6 mt-8 bg-white border border-gray-200 rounded-lg shadow">
+            <div className="block p-6 pb-10 mt-8 bg-white border border-gray-200 rounded-lg shadow">
               <h5 class="mb-5 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                 Ditandai
               </h5>
@@ -428,6 +434,16 @@ const PengusulanB = () => {
           {showModal && (
             <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-[60]">
               <div className="bg-white lg:w-auto xl:w-10/12 2xl:w-8/12  rounded p-8">
+                {isLoading && (
+                  <>
+                    <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-[60]">
+                      <Spinner
+                        aria-label="Extra large spinner example"
+                        size="xl"
+                      />
+                    </div>
+                  </>
+                )}
                 <form>
                   <div class="mb-6">
                     <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -539,6 +555,7 @@ const PengusulanB = () => {
           )}
         </div>
       </div>
+      <Footer />
     </>
   );
 };

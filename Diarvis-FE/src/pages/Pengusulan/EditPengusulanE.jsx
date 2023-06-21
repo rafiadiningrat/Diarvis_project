@@ -3,12 +3,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Layout from "../../layout/layout";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { Spinner } from "flowbite-react";
+import Footer from "../../components/Layout/Footer";
 
 function EditPengusulanE(props) {
   const location = useLocation();
   const navigate = useNavigate();
   // const dataPenilaian = location.state;
   // const dataBarang = dataBarang.kib_b;
+  const [isLoading, setIsLoading] = useState(false);
   const [dataBarang, setDataBarang] = useState({});
   const [alasanPenghapusan, setAlasanPenghapusan] = useState("");
   const [file1, setFile1] = useState(null);
@@ -29,6 +32,7 @@ function EditPengusulanE(props) {
   console.log(formData);
 
   const updateHandler = async () => {
+    setIsLoading(true);
     try {
       const createUser = await axios
         .post(
@@ -45,6 +49,7 @@ function EditPengusulanE(props) {
         )
         .then((res) => {
           console.log(res);
+          setIsLoading(false);
           Swal.fire({
             icon: "success",
             title: "Edit data pengusulan Berhasil",
@@ -56,6 +61,7 @@ function EditPengusulanE(props) {
         });
     } catch (err) {
       console.log(err);
+      setIsLoading(false);
       Swal.fire({
         icon: "error",
         title: "Edit pengusulan Gagal",
@@ -304,8 +310,16 @@ function EditPengusulanE(props) {
               </div>
             </div>
           </div>
+          {isLoading && (
+            <>
+              <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-75 z-[60]">
+                <Spinner aria-label="Extra large spinner example" size="xl" />
+              </div>
+            </>
+          )}
         </div>
       </div>
+      <Footer />
     </>
   );
 }

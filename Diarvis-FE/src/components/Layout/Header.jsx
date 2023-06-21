@@ -5,6 +5,9 @@ const Header = (props) => {
   const navigate = useNavigate();
   const dataUser = JSON.parse(sessionStorage.getItem("user"));
   // console.log(dataUser);
+  const logoHandler = () => {
+    navigate("/");
+  };
   return (
     <>
       <div className="fixed top-0 z-50 w-full">
@@ -34,8 +37,12 @@ const Header = (props) => {
                     ></path>
                   </svg>
                 </button>
-                {/* <img src="/images/Kabupaten Bandung.png" className="w-[4rem]" /> */}
-                <img src="/images/erase_logo_header.png" className="px-4 py-2 h-[4.15rem]" />
+                <button onClick={() => logoHandler()}>
+                  <img
+                    src="/images/erase_logo_header.png"
+                    className="px-4 py-2 h-[4.15rem]"
+                  />
+                </button>
                 {/* <div className="invisible text-black ml-3 lg:visible">
                   Pemerintah Kabupaten Bandung / Sekwan / DPRD / Sekretariat
                   DPRD
@@ -50,7 +57,9 @@ const Header = (props) => {
                       aria-expanded="false"
                       data-dropdown-toggle="dropdown-user"
                     >
-                      <div className="text-black">{dataUser.nama} | {dataUser.grups}</div>
+                      <div className="text-black">
+                        {dataUser.nama} | {dataUser.grups}
+                      </div>
                     </button>
                   </div>
                   <div
@@ -117,7 +126,9 @@ const Header = (props) => {
         </div>
         <div className="flex items-center h-7 bg-cyan-500">
           <marquee width="100%">
-            <div className="text-white">Aplikasi Pengelolaan Penghapusan aset</div>
+            <div className="text-white">
+              Aplikasi Pengelolaan Penghapusan aset
+            </div>
           </marquee>
         </div>
       </div>

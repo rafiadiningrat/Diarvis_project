@@ -17,6 +17,7 @@ import {
 import { UserContext } from "../../App";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import Footer from "../../components/Layout/Footer";
 
 const DataMasterB = () => {
   const isLoggedIn = useContext(UserContext);
@@ -263,6 +264,7 @@ const DataMasterB = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

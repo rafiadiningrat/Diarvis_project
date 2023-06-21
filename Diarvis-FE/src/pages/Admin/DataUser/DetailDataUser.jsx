@@ -4,6 +4,7 @@ import axios from "axios";
 import { AiOutlinePaperClip } from "react-icons/ai";
 import Layout from "../../../layout/layout";
 import { UserContext } from "../../../App";
+import Footer from "../../../components/Layout/Footer";
 
 function ShowDetailsDataUser(props) {
   const location = useLocation();
@@ -104,6 +105,7 @@ function ShowDetailsDataUser(props) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

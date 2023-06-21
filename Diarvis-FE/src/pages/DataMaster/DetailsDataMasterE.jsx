@@ -4,6 +4,7 @@ import axios from "axios";
 import { AiOutlinePaperClip } from "react-icons/ai";
 import Layout from "../../layout/layout";
 import { UserContext } from "../../App";
+import Footer from "../../components/Layout/Footer";
 
 function DetailsDataMasterE(props) {
   const location = useLocation();
@@ -148,6 +149,7 @@ function DetailsDataMasterE(props) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

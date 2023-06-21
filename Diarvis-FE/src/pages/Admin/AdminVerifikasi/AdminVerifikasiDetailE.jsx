@@ -4,6 +4,7 @@ import Layout from "../../../layout/layout";
 import { UserContext } from "../../../App";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
+import Footer from "../../../components/Layout/Footer";
 
 function AdminVerifikasiDetailE(props) {
   const location = useLocation();
@@ -301,6 +302,7 @@ function AdminVerifikasiDetailE(props) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

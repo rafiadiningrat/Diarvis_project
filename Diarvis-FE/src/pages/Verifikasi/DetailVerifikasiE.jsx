@@ -4,6 +4,7 @@ import Layout from "../../layout/layout";
 import { UserContext } from "../../App";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
+import Footer from "../../components/Layout/Footer";
 
 function DetailVerifikasiE(props) {
   const location = useLocation();
@@ -283,6 +284,7 @@ function DetailVerifikasiE(props) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

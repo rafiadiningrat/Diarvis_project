@@ -3,6 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 import Layout from "../../../layout/layout";
 import { BsChevronCompactLeft, BsChevronCompactRight } from "react-icons/bs";
 import { RxDotFilled } from "react-icons/rx";
+import Footer from "../../../components/Layout/Footer";
 
 function AdminPengusulanDetailE(props) {
   const location = useLocation();
@@ -238,6 +239,7 @@ function AdminPengusulanDetailE(props) {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
