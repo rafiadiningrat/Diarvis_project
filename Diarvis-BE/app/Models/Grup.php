@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class GrupModel extends Model
+class Grup extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class GrupModel extends Model
 
     public function getGrup()
     {
-        $grup = GrupModel::all();
+        $grup = Grup::all();
         return $grup;
     }
 
