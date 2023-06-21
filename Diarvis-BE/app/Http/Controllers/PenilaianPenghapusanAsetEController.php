@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PengusulanPenghapusanAsetEModel;
+use App\Models\PengusulanPenghapusanAsetE;
 use App\Http\Resources\PengusulanPenghapusanAsetEResource;
 
 class PenilaianPenghapusanAsetEController extends Controller
@@ -12,7 +12,7 @@ class PenilaianPenghapusanAsetEController extends Controller
 
     public function index($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
-        $penilaian = PengusulanPenghapusanAsetEModel::whereNull('status_verifikasi')
+        $penilaian = PengusulanPenghapusanAsetE::whereNull('status_verifikasi')
         ->whereNotNull('status_penilaian')
         ->whereNull('status_penghapusan')
         ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
@@ -28,7 +28,7 @@ class PenilaianPenghapusanAsetEController extends Controller
 
     public function getPenilaianByUpb($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
-        $penilaian = PengusulanPenghapusanAsetEModel::whereNull('status_verifikasi')
+        $penilaian = PengusulanPenghapusanAsetE::whereNull('status_verifikasi')
                             ->whereNull('status_penilaian')
                             ->whereNull('status_penghapusan')
                             ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
@@ -42,7 +42,7 @@ class PenilaianPenghapusanAsetEController extends Controller
     return response()->json($penilaian);
     }
 
-    public function approve(Request $request, $id_usulan_e)
+    public function addApprovePenilaianE(Request $request, $id_usulan_e)
     {
 
         $request->validate([
@@ -50,7 +50,7 @@ class PenilaianPenghapusanAsetEController extends Controller
             'keterangan_penilaian' => 'required|string',
         ]);
 
-        $penilaianE = PengusulanPenghapusanAsetEModel::findOrFail($id_usulan_e);
+        $penilaianE = PengusulanPenghapusanAsetE::findOrFail($id_usulan_e);
 
         $penilaianE->status_penilaian = true;
         $penilaianE->keterangan_penilaian = $request->input('keterangan_penilaian');
@@ -59,7 +59,7 @@ class PenilaianPenghapusanAsetEController extends Controller
 
         if ($request->hasFile('dokumen_penilaian')) {
                  $media = $penilaianE->addMedia($request->file('dokumen_penilaian'))
-                     ->toMediaCollection(PengusulanPenghapusanAsetEModel::IMAGE_COLLECTION);
+                     ->toMediaCollection(PengusulanPenghapusanAsetE::IMAGE_COLLECTION);
         
                  $penilaianE->dokumen_penilaian = $media->getUrl();
              }
@@ -73,7 +73,7 @@ class PenilaianPenghapusanAsetEController extends Controller
              ]);
 }
 
-public function decline(Request $request, $id_usulan_e)
+public function addDeclinePenilaianE(Request $request, $id_usulan_e)
     {
 
         $request->validate([
@@ -81,7 +81,7 @@ public function decline(Request $request, $id_usulan_e)
             'keterangan_penilaian' => 'required|string',
         ]);
 
-        $penilaianE = PengusulanPenghapusanAsetEModel::findOrFail($id_usulan_e);
+        $penilaianE = PengusulanPenghapusanAsetE::findOrFail($id_usulan_e);
 
         $penilaianE->status_penilaian = false;
         $penilaianE->keterangan_penilaian = $request->input('keterangan_penilaian');
@@ -90,7 +90,7 @@ public function decline(Request $request, $id_usulan_e)
 
         if ($request->hasFile('dokumen_penilaian')) {
                  $media = $penilaianE->addMedia($request->file('dokumen_penilaian'))
-                     ->toMediaCollection(PengusulanPenghapusanAsetEModel::IMAGE_COLLECTION);
+                     ->toMediaCollection(PengusulanPenghapusanAsetE::IMAGE_COLLECTION);
         
                  $penilaianE->dokumen_penilaian = $media->getUrl();
              }
@@ -104,9 +104,9 @@ public function decline(Request $request, $id_usulan_e)
              ]);
 }
 
-public function detailPenilaian($id_usulan_e)
+public function getDetailPenilaianE($id_usulan_e)
 {
-    $penilaian = PengusulanPenghapusanAsetEModel::where('id_usulan_e', $id_usulan_e)
+    $penilaian = PengusulanPenghapusanAsetE::where('id_usulan_e', $id_usulan_e)
                         ->with('kibE')
                         ->first();
 
@@ -131,7 +131,7 @@ public function updatePenilaianE(Request $request, $id_usulan_e)
         'dokumen_penilaian' => 'mimetypes:application/pdf|max:2048',
     ]);
 
-    $usulanB = PengusulanPenghapusanAsetEModel::findOrFail($id_usulan_e);
+    $usulanB = PengusulanPenghapusanAsetE::findOrFail($id_usulan_e);
 
     $usulanB->id_user = $request->input('id_user');
     $usulanB->id_aset_e = $request->input('id_aset_e');
@@ -139,7 +139,7 @@ public function updatePenilaianE(Request $request, $id_usulan_e)
     if ($request->hasFile('dokumen_penilaian')) {
         //$usulanB->clearMediaCollection(PengusulanPenghapusanAsetEModel::IMAGE_COLLECTION);
         $file1 = $request->file('dokumen_penilaian');
-        $media1 = $usulanB->addMedia($file1)->toMediaCollection(PengusulanPenghapusanAsetEModel::IMAGE_COLLECTION);
+        $media1 = $usulanB->addMedia($file1)->toMediaCollection(PengusulanPenghapusanAsetE::IMAGE_COLLECTION);
         $usulanB->dokumen_penilaian = $media1->getUrl();
     }
 

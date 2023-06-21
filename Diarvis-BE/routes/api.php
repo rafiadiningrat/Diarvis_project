@@ -130,17 +130,17 @@ Route::get('/kibe/belumUsulan/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_up
 //Penilaian E
 Route::get('/kibe/all/penilaian/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [PenilaianPenghapusanAsetEController::class, 'index']);
 Route::put('/kibe/update-penilaian/{id}', [PenilaianPenghapusanAsetEController::class, 'updatePenilaianE']);
-Route::post('/kibe/penilaian/diterima/{id}', [PenilaianPenghapusanAsetEController::class, 'approve']);
-Route::post('/kibe/penilaian/ditolak/{id}', [PenilaianPenghapusanAsetEController::class, 'decline']);
-Route::get('/kibe/penilaian/detail/{id}', [PenilaianPenghapusanAsetEController::class, 'detailPenilaian']);
+Route::post('/kibe/penilaian/diterima/{id}', [PenilaianPenghapusanAsetEController::class, 'addApprovePenilaianE']);
+Route::post('/kibe/penilaian/ditolak/{id}', [PenilaianPenghapusanAsetEController::class, 'addDeclinePenilaianE']);
+Route::get('/kibe/penilaian/detail/{id}', [PenilaianPenghapusanAsetEController::class, 'getDetailPenilaianE']);
 Route::get('/kibe/penilaian/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [PenilaianPenghapusanAsetEController::class, 'getPenilaianByUpb']);
 
 // verifikator E
 Route::get('/kibe/all/verifikasi/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [VerifikasiPenghapusanAsetEController::class, 'index']);
 Route::get('/kibe/verifikasi/{kode_bidang}/{kode_unit}/{kode_sub_unit}/{kode_upb}', [VerifikasiPenghapusanAsetEController::class, 'getVerifikasiByUpb']);
-Route::post('/kibe/verifikasi/diterima/{id}', [VerifikasiPenghapusanAsetEController::class, 'approve']); // proses verifikasi
-Route::post('/kibe/verifikasi/ditolak/{id}', [VerifikasiPenghapusanAsetEController::class, 'decline']); // proses verifikasi
-Route::get('/kibe/verifikasi/detail/{id}', [VerifikasiPenghapusanAsetBController::class, 'detailVerifikasi']);
+Route::post('/kibe/verifikasi/diterima/{id}', [VerifikasiPenghapusanAsetEController::class, 'addApproveVerifikasiE']); // proses verifikasi
+Route::post('/kibe/verifikasi/ditolak/{id}', [VerifikasiPenghapusanAsetEController::class, 'addDeclineVerifikasiE']); // proses verifikasi
+Route::get('/kibe/verifikasi/detail/{id}', [VerifikasiPenghapusanAsetBController::class, 'getdetailVerifikasiE']);
 
 
 // Dashboard

@@ -2,7 +2,7 @@
 
 namespace App\Exports;
 
-use App\Models\KIBBModel;
+use App\Models\KIBB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -32,7 +32,7 @@ class KIBBExport implements FromCollection, WithHeadings, ShouldAutoSize
          */
         public function collection()
         {
-            return KIBBModel::where('kode_bidang', $this->kode_bidang)
+            return KIBB::where('kode_bidang', $this->kode_bidang)
                 ->where('kode_unit', $this->kode_unit)
                 ->where('kode_sub_unit', $this->kode_sub_unit)
                 ->where('kode_upb', $this->kode_upb)

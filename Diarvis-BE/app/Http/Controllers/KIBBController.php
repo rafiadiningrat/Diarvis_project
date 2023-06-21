@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Exports\KIBBExport;
-use App\Models\PengusulanPenghapusanAsetBModel;
+use App\Models\PengusulanPenghapusanAsetB;
 use App\Exports\KIBBCustomExport;
-use App\Models\KIBBModel;
-use App\Models\KIBEModel;
+use App\Models\KIBB;
+use App\Models\KIBE;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Maatwebsite\Excel\Facades\Excel;
@@ -61,7 +61,7 @@ class KIBBController extends Controller
 
 public function getExportData($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 {
-    $data = PengusulanPenghapusanAsetBModel::whereNotNull('status_penghapusan')
+    $data = PengusulanPenghapusanAsetB::whereNotNull('status_penghapusan')
     ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
     ->where('kib_b.kode_bidang', $kode_bidang)
     ->where('kib_b.kode_unit', $kode_unit)
@@ -107,7 +107,7 @@ public function getExportDataToPDF($kode_bidang, $kode_unit, $kode_sub_unit, $ko
     {
 
         // Query untuk mendapatkan saldo akhir KIB_B
-    $saldoAkhirKIBB = KIBBModel::join('pengusulan_penghapusan_aset_b', 'kib_b.id_aset_b', '=', 'pengusulan_penghapusan_aset_b.id_aset_b')
+    $saldoAkhirKIBB = KIBB::join('pengusulan_penghapusan_aset_b', 'kib_b.id_aset_b', '=', 'pengusulan_penghapusan_aset_b.id_aset_b')
     ->where('pengusulan_penghapusan_aset_b.status_penghapusan', true)
     ->where('kib_b.kode_bidang', $kode_bidang)
     ->where('kib_b.kode_unit', $kode_unit)
@@ -116,7 +116,7 @@ public function getExportDataToPDF($kode_bidang, $kode_unit, $kode_sub_unit, $ko
     ->sum('kib_b.harga');
 
 // Query untuk mendapatkan saldo akhir KIB_E
-$saldoAkhirKIBE = KIBEModel::join('pengusulan_penghapusan_aset_e', 'kib_e.id_aset_e', '=', 'pengusulan_penghapusan_aset_e.id_aset_e')
+$saldoAkhirKIBE = KIBE::join('pengusulan_penghapusan_aset_e', 'kib_e.id_aset_e', '=', 'pengusulan_penghapusan_aset_e.id_aset_e')
     ->where('pengusulan_penghapusan_aset_e.status_penghapusan', true)
     ->where('kib_e.kode_bidang', $kode_bidang)
     ->where('kib_e.kode_unit', $kode_unit)
@@ -175,13 +175,13 @@ return response($pdf->output(), Response::HTTP_OK, $headers)->header('Content-Di
 
 public function getAllKibB()
 {
-    $kibB = KIBBModel::get();
+    $kibB = KIBB::get();
     return $kibB;
 }
 
 public function getDetailKibB($id_aset_b)
 {
-    $kibB = KIBBModel::where('id_aset_b', $id_aset_b)->first();
+    $kibB = KIBB::where('id_aset_b', $id_aset_b)->first();
 
     if (!$kibB) {
         return response()->json([
@@ -199,7 +199,7 @@ public function getDetailKibB($id_aset_b)
 public function getKibB($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 {
 
-    $kib =KIBBModel::join('bidang', 'kib_b.kode_bidang', '=', 'bidang.kode_bidang')
+    $kib =KIBB::join('bidang', 'kib_b.kode_bidang', '=', 'bidang.kode_bidang')
     ->join('unit', function ($join) {
         $join->on('kib_b.kode_bidang', '=', 'unit.kode_bidang')
             ->on('kib_b.kode_unit', '=', 'unit.kode_unit');

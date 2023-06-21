@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\UPBModel;
+use App\Models\UPB;
 use Illuminate\Support\Facades\DB;
 
 class UpbController extends Controller
 {
     public function getAllUpb()
     {
-        $upb = UPBModel::get()->all();
+        $upb = UPB::get()->all();
         return $upb;
     }
 

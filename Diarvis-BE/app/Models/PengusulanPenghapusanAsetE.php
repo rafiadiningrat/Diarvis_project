@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\UserModel;
-use App\Models\KIBEModel;
+use App\Models\KIBE;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -13,7 +13,7 @@ use App\Http\Resources\PengusulanPenghapusanAsetBResource;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
-class PengusulanPenghapusanAsetEModel extends Model implements HasMedia
+class PengusulanPenghapusanAsetE extends Model implements HasMedia
 {
     use HasFactory, HasTimestamps, InteractsWithMedia;
 
@@ -397,6 +397,6 @@ class PengusulanPenghapusanAsetEModel extends Model implements HasMedia
 
     public function kibE()
     {
-        return $this->belongsTo(KIBEModel::class, 'id_aset_e', 'id_aset_e');
+        return $this->belongsTo(KIBE::class, 'id_aset_e', 'id_aset_e');
     }
 }

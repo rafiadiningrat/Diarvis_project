@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 
-class BidangModel extends Model
+class Bidang extends Model
 {
     use HasFactory;
 
@@ -16,6 +16,6 @@ class BidangModel extends Model
 
     public function units()
     {
-        return $this->hasMany(UnitModel::class);
+        return $this->hasMany(Unit::class);
     }
 }

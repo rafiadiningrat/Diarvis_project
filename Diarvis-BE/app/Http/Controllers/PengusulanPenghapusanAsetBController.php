@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\PengusulanPenghapusanAsetBModel;
-use App\Models\KIBBModel;
+use App\Models\PengusulanPenghapusanAsetB;
+use App\Models\KIBB;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
@@ -47,7 +47,7 @@ class PengusulanPenghapusanAsetBController extends Controller
 
 public function index()
 {
-    $pengusulan = PengusulanPenghapusanAsetBResource::collection(PengusulanPenghapusanAsetBModel::with('user', 'kibB')->get());
+    $pengusulan = PengusulanPenghapusanAsetBResource::collection(PengusulanPenghapusanAsetB::with('user', 'kibB')->get());
 
     return response()->json($pengusulan);
 }
@@ -56,7 +56,7 @@ public function index()
 {
 
     $idAsetB = $request->input('id_aset_b');
-    $isAsetEUsed = PengusulanPenghapusanAsetBModel::where('id_aset_b', $idAsetB)->exists();
+    $isAsetEUsed = PengusulanPenghapusanAsetB::where('id_aset_b', $idAsetB)->exists();
 
     if ($isAsetEUsed) {
         return response()->json([
@@ -74,7 +74,7 @@ public function index()
         'alasan_penghapusan' => 'required|string',
     ]);
 
-    $usulanB = PengusulanPenghapusanAsetBModel::create([
+    $usulanB = PengusulanPenghapusanAsetB::create([
         'id_user' => $validatedData['id_user'],
         'id_aset_b' => $validatedData['id_aset_b'],
         'alasan_penghapusan' => $validatedData['alasan_penghapusan'],
@@ -88,7 +88,7 @@ public function index()
     if ($request->hasFile('foto_barang1')) {
         $media = $usulanB->addMedia($request->file('foto_barang1'))
             // ->usingFileName(Str::random(40))
-            ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+            ->toMediaCollection(PengusulanPenghapusanAsetB::IMAGE_COLLECTION);
 
         $usulanB->foto_barang1 = $media->getUrl();
     }
@@ -97,7 +97,7 @@ public function index()
     if ($request->hasFile('foto_barang2')) {
         $media = $usulanB->addMedia($request->file('foto_barang2'))
             // ->usingFileName(Str::random(40))
-            ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+            ->toMediaCollection(PengusulanPenghapusanAsetB::IMAGE_COLLECTION);
 
         $usulanB->foto_barang2 = $media->getUrl();
     }
@@ -105,7 +105,7 @@ public function index()
     if ($request->hasFile('foto_barang3')) {
         $media = $usulanB->addMedia($request->file('foto_barang3'))
             // ->usingFileName(Str::random(40))
-            ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+            ->toMediaCollection(PengusulanPenghapusanAsetB::IMAGE_COLLECTION);
 
         $usulanB->foto_barang3 = $media->getUrl();
     }
@@ -113,7 +113,7 @@ public function index()
     if ($request->hasFile('foto_barang4')) {
         $media = $usulanB->addMedia($request->file('foto_barang4'))
             // ->usingFileName(Str::random(40))
-            ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+            ->toMediaCollection(PengusulanPenghapusanAsetB::IMAGE_COLLECTION);
 
         $usulanB->foto_barang4 = $media->getUrl();
     }
@@ -212,35 +212,35 @@ public function update(Request $request, $id_usulan_b)
         'alasan_penghapusan' => 'required|string',
     ]);
 
-    $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
+    $usulanB = PengusulanPenghapusanAsetB::findOrFail($id_usulan_b);
 
     $usulanB->id_user = $request->input('id_user');
     $usulanB->id_aset_b = $request->input('id_aset_b');
     $usulanB->alasan_penghapusan = $request->input('alasan_penghapusan');
 
-    $usulanB->clearMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+    $usulanB->clearMediaCollection(PengusulanPenghapusanAsetB::IMAGE_COLLECTION);
 
     if ($request->hasFile('foto_barang1')) {
         $file1 = $request->file('foto_barang1');
-        $media1 = $usulanB->addMedia($file1)->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+        $media1 = $usulanB->addMedia($file1)->toMediaCollection(PengusulanPenghapusanAsetB::IMAGE_COLLECTION);
         $usulanB->foto_barang1 = $media1->getUrl();
     }
 
     if ($request->hasFile('foto_barang2')) {
         $file2 = $request->file('foto_barang2');
-        $media2 = $usulanB->addMedia($file2)->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+        $media2 = $usulanB->addMedia($file2)->toMediaCollection(PengusulanPenghapusanAsetB::IMAGE_COLLECTION);
         $usulanB->foto_barang2 = $media2->getUrl();
     }
 
     if ($request->hasFile('foto_barang3')) {
         $file3 = $request->file('foto_barang3');
-        $media3 = $usulanB->addMedia($file3)->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+        $media3 = $usulanB->addMedia($file3)->toMediaCollection(PengusulanPenghapusanAsetB::IMAGE_COLLECTION);
         $usulanB->foto_barang3 = $media3->getUrl();
     }
 
     if ($request->hasFile('foto_barang4')) {
         $file4 = $request->file('foto_barang4');
-        $media4 = $usulanB->addMedia($file4)->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+        $media4 = $usulanB->addMedia($file4)->toMediaCollection(PengusulanPenghapusanAsetB::IMAGE_COLLECTION);
         $usulanB->foto_barang4 = $media4->getUrl();
     }
 
@@ -286,7 +286,7 @@ public function update(Request $request, $id_usulan_b)
     
 public function destroy($id_usulan_b)
 {
-    $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
+    $usulanB = PengusulanPenghapusanAsetB::findOrFail($id_usulan_b);
 
     $usulanB->delete();
 
@@ -297,7 +297,7 @@ public function destroy($id_usulan_b)
 
 public function getDetailUsulanB($id_usulan_b)
 {
-    $usulanB = PengusulanPenghapusanAsetBModel::where('id_usulan_b', $id_usulan_b)->first();
+    $usulanB = PengusulanPenghapusanAsetB::where('id_usulan_b', $id_usulan_b)->first();
 
     if (!$usulanB) {
         return response()->json([
@@ -314,7 +314,7 @@ public function getDetailUsulanB($id_usulan_b)
 
 public function getBarangBelumUsulan($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 {
-    $barangBelumUsulan = KIBBModel::whereNotExists(function ($query) {
+    $barangBelumUsulan = KIBB::whereNotExists(function ($query) {
         $query->select(DB::raw(1))
             ->from('pengusulan_penghapusan_aset_b')
             ->whereRaw('pengusulan_penghapusan_aset_b.id_aset_b = kib_b.id_aset_b');
@@ -357,13 +357,13 @@ public function getBarangBelumUsulan($kode_bidang, $kode_unit, $kode_sub_unit, $
 
 public function getAllUsulanB()
     {
-        $usulanB = PengusulanPenghapusanAsetBModel::get();
+        $usulanB = PengusulanPenghapusanAsetB::get();
         return $usulanB;
     }
 
     public function getListUsulanB($id_user)
     {
-        $usulanB = PengusulanPenghapusanAsetBModel::where('id_user',$id_user)->get();
+        $usulanB = PengusulanPenghapusanAsetB::where('id_user',$id_user)->get();
         return response()->json([
             'success' => true,
             'data' => $usulanB,

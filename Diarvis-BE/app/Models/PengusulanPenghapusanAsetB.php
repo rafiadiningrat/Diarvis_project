@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\UserModel;
-use App\Models\KIBBModel;
+use App\Models\KIBB;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -14,7 +14,7 @@ use App\Http\Resources\PengusulanPenghapusanAsetBResource;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 
-class PengusulanPenghapusanAsetBModel extends Model implements HasMedia
+class PengusulanPenghapusanAsetB extends Model implements HasMedia
 {
     use HasFactory, HasTimestamps, InteractsWithMedia;
 
@@ -186,7 +186,7 @@ class PengusulanPenghapusanAsetBModel extends Model implements HasMedia
 
     public function kibB()
     {
-        return $this->belongsTo(KIBBModel::class, 'id_aset_b', 'id_aset_b');
+        return $this->belongsTo(KIBB::class, 'id_aset_b', 'id_aset_b');
     }
 
     // public function createdBy()

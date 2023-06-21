@@ -5,7 +5,7 @@ namespace App\Exports;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use App\Models\KIBEModel;
+use App\Models\KIBE;
 
 class KIBEExport implements FromCollection, WithHeadings, ShouldAutoSize
 {
@@ -30,7 +30,7 @@ class KIBEExport implements FromCollection, WithHeadings, ShouldAutoSize
          */
         public function collection()
         {
-            return KIBEModel::where('kode_bidang', $this->kode_bidang)
+            return KIBE::where('kode_bidang', $this->kode_bidang)
                 ->where('kode_unit', $this->kode_unit)
                 ->where('kode_sub_unit', $this->kode_sub_unit)
                 ->where('kode_upb', $this->kode_upb)

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PengusulanPenghapusanAsetBModel;
+use App\Models\PengusulanPenghapusanAsetB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Concerns\HasTimestamps;
@@ -12,7 +12,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
 {
     public function index($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
-        $verifikasi = PengusulanPenghapusanAsetBModel::whereNotNull('status_penilaian')
+        $verifikasi = PengusulanPenghapusanAsetB::whereNotNull('status_penilaian')
                                  ->whereNotNull('status_verifikasi')
                                  ->whereNotNull('status_penghapusan')
                                  ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
@@ -28,7 +28,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
 
     public function getVerifikasiByUpb($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
-        $penilaian = PengusulanPenghapusanAsetBModel::whereNull('status_verifikasi')
+        $penilaian = PengusulanPenghapusanAsetB::whereNull('status_verifikasi')
                             ->whereNotNull('status_penilaian')
                             ->whereNull('status_penghapusan')
                             ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
@@ -49,7 +49,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
             'keterangan_verifikasi' => 'required|string',
         ]);
 
-        $verifikasiB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
+        $verifikasiB = PengusulanPenghapusanAsetB::findOrFail($id_usulan_b);
 
         $verifikasiB->status_verifikasi = true;
         $verifikasiB->status_penghapusan = true;
@@ -71,7 +71,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
             'keterangan_verifikasi' => 'required|string',
         ]);
 
-        $verifikasiB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
+        $verifikasiB = PengusulanPenghapusanAsetB::findOrFail($id_usulan_b);
 
         $verifikasiB->status_verifikasi = false;
         $verifikasiB->status_penghapusan = false;
@@ -104,7 +104,7 @@ class VerifikasiPenghapusanAsetBController extends Controller
 
     public function getDetailVerifikasiB($id_usulan_b)
 {
-    $verifikasi = PengusulanPenghapusanAsetBModel::where('id_usulan_b', $id_usulan_b)
+    $verifikasi = PengusulanPenghapusanAsetB::where('id_usulan_b', $id_usulan_b)
                         ->with('kibB')
                         ->first();
 

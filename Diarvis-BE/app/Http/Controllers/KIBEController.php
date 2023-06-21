@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\KIBEModel;
-use App\Models\PengusulanPenghapusanAsetEModel;
+use App\Models\KIBE;
+use App\Models\PengusulanPenghapusanAsetE;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\KIBEExport;
 use App\Exports\KIBECustomExport;
@@ -14,13 +14,13 @@ class KIBEController extends Controller
     //
     public function getAllKibE()
 {
-    $kib = KIBEModel::get();
+    $kib = KIBE::get();
     return $kib;
 }
 
 public function getDetailKibE($id_aset_e)
 {
-    $kibE = KIBEModel::where('id_aset_e', $id_aset_e)->first();
+    $kibE = KIBE::where('id_aset_e', $id_aset_e)->first();
 
     if (!$kibE) {
         return response()->json([
@@ -37,7 +37,7 @@ public function getDetailKibE($id_aset_e)
 
 public function getKibE($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 {
-    $kib =KIBEModel::join('bidang', 'kib_e.kode_bidang', '=', 'bidang.kode_bidang')
+    $kib =KIBE::join('bidang', 'kib_e.kode_bidang', '=', 'bidang.kode_bidang')
     ->join('unit', function ($join) {
         $join->on('kib_e.kode_bidang', '=', 'unit.kode_bidang')
             ->on('kib_e.kode_unit', '=', 'unit.kode_unit');
@@ -179,7 +179,7 @@ public function getExportToExcel($kode_bidang, $kode_unit, $kode_sub_unit, $kode
 
 public function getExportData($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
 {
-    $data = PengusulanPenghapusanAsetEModel::whereNotNull('status_penghapusan')
+    $data = PengusulanPenghapusanAsetE::whereNotNull('status_penghapusan')
     ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
     ->where('kib_e.kode_bidang', $kode_bidang)
     ->where('kib_e.kode_unit', $kode_unit)

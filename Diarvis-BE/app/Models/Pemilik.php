@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PemilikModel extends Model
+class Pemilik extends Model
 {
     use HasFactory;
 
@@ -15,12 +15,12 @@ class PemilikModel extends Model
 
     public function getPemilik()
     {
-        $pemilik = PemilikModel::all();
+        $pemilik = Pemilik::all();
         return $pemilik;
     }
 
     public function kibB()
     {
-        return $this->hasMany(KIBBModel::class);
+        return $this->hasMany(KIBB::class);
     }
 }

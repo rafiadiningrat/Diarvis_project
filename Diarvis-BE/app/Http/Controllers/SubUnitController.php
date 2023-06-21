@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\SubUnitModel;
+use App\Models\SubUnit;
 use Illuminate\Support\Facades\DB;
 
 class SubUnitController extends Controller
 {
     public function getAllSubUnit()
     {
-        $sub_unit = SubUnitModel::all();
+        $sub_unit = SubUnit::all();
         return $sub_unit;
     }
 

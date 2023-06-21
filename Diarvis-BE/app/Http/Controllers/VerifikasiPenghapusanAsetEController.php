@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PengusulanPenghapusanAsetEModel;
+use App\Models\PengusulanPenghapusanAsetE;
 
 class VerifikasiPenghapusanAsetEController extends Controller
 {
     //
     public function index($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
-        $verifikasi = PengusulanPenghapusanAsetEModel::whereNotNull('status_verifikasi')
+        $verifikasi = PengusulanPenghapusanAsetE::whereNotNull('status_verifikasi')
                                 ->whereNotNull('status_penilaian')
                                 ->whereNotNull('status_penghapusan')
                                 ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
@@ -26,7 +26,7 @@ class VerifikasiPenghapusanAsetEController extends Controller
 
     public function getVerifikasiByUpb($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
-        $penilaian = PengusulanPenghapusanAsetEModel::whereNull('status_verifikasi')
+        $penilaian = PengusulanPenghapusanAsetE::whereNull('status_verifikasi')
                             ->whereNotNull('status_penilaian')
                             ->whereNull('status_penghapusan')
                             ->join('kib_e', 'pengusulan_penghapusan_aset_e.id_aset_e', '=', 'kib_e.id_aset_e')
@@ -40,14 +40,14 @@ class VerifikasiPenghapusanAsetEController extends Controller
     return response()->json($penilaian);
     }
 
-    public function approve(Request $request, $id_usulan_e)
+    public function addApproveVerifikasiE(Request $request, $id_usulan_e)
     {
 
         $request->validate([
             'keterangan_verifikasi' => 'required|string',
         ]);
 
-        $verifikasiE = PengusulanPenghapusanAsetEModel::findOrFail($id_usulan_e);
+        $verifikasiE = PengusulanPenghapusanAsetE::findOrFail($id_usulan_e);
 
         $verifikasiE->status_verifikasi = true;
         $verifikasiE->status_penghapusan = true;
@@ -62,14 +62,14 @@ class VerifikasiPenghapusanAsetEController extends Controller
             ], 201);
     } 
 
-    public function decline(Request $request, $id_usulan_e)
+    public function addDeclineVerifikasiE(Request $request, $id_usulan_e)
     {
 
         $request->validate([
             'keterangan_verifikasi' => 'required|string',
         ]);
 
-        $verifikasiE = PengusulanPenghapusanAsetEModel::findOrFail($id_usulan_e);
+        $verifikasiE = PengusulanPenghapusanAsetE::findOrFail($id_usulan_e);
 
         $verifikasiE->status_verifikasi = false;
         $verifikasiE->status_penghapusan = false;
@@ -84,9 +84,9 @@ class VerifikasiPenghapusanAsetEController extends Controller
             ], 201);
     } 
 
-    public function detailVerifikasi($id_usulan_e)
+    public function getDetailVerifikasiE($id_usulan_e)
 {
-    $verifikasi = PengusulanPenghapusanAsetEModel::where('id_usulan_e', $id_usulan_e)
+    $verifikasi = PengusulanPenghapusanAsetE::where('id_usulan_e', $id_usulan_e)
                         ->with('kibE')
                         ->first();
 

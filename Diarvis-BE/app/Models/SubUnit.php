@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\BidangModel;
-use App\Models\UnitModel;
+use App\Models\Bidang;
+use App\Models\Unit;
 
-class SubUnitModel extends Model
+class SubUnit extends Model
 {
     use HasFactory;
 
@@ -17,17 +17,17 @@ class SubUnitModel extends Model
 
     public function unit()
     {
-        return $this->belongsTo(UnitModel::class, 'kode_unit', 'kode_unit');
+        return $this->belongsTo(Unit::class, 'kode_unit', 'kode_unit');
     }
 
     public function bidang()
     {
-        return $this->belongsTo(BidangModel::class, 'kode_bidang', 'kode_bidang');
+        return $this->belongsTo(Bidang::class, 'kode_bidang', 'kode_bidang');
     }
 
     public function upb()
     {
-        return $this->hasMany(UPBModel::class);
+        return $this->hasMany(UPB::class);
     }
 }
 

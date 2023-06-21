@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class KIBEModel extends Model
+class KIBE extends Model
 {
     use HasFactory;
 
@@ -16,27 +16,27 @@ class KIBEModel extends Model
 
     public function unit()
     {
-        return $this->belongsTo(UnitModel::class, 'kode_unit', 'kode_unit');
+        return $this->belongsTo(Unit::class, 'kode_unit', 'kode_unit');
     }
 
     public function bidang()
     {
-        return $this->belongsTo(BidangModel::class, 'kode_bidang', 'kode_bidang');
+        return $this->belongsTo(Bidang::class, 'kode_bidang', 'kode_bidang');
     }
 
     public function subUnit()
     {
-        return $this->belongsTo(SubUnitModel::class, 'kode_sub_unit', 'kode_sub_unit');
+        return $this->belongsTo(SubUnit::class, 'kode_sub_unit', 'kode_sub_unit');
     }
 
     public function upb()
     {
-        return $this->belongsTo(UPBModel::class, 'kode_upb', 'kode_upb');
+        return $this->belongsTo(UPB::class, 'kode_upb', 'kode_upb');
     }
 
     public function pemilik()
     {
-        return $this->belongsTo(PemilikModel::class, 'kode_pemilik', 'kode_pemilik');
+        return $this->belongsTo(Pemilik::class, 'kode_pemilik', 'kode_pemilik');
     }
 
     public function pengusulanE()

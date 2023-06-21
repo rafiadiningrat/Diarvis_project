@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\PengusulanPenghapusanAsetBModel;
+use App\Models\PengusulanPenghapusanAsetB;
 use App\Http\Resources\PengusulanPenghapusanAsetBResource;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,7 +22,7 @@ class PenilaianPenghapusanAsetBController extends Controller
 
     public function index($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
-        $penilaian = PengusulanPenghapusanAsetBModel::whereNull('status_verifikasi')
+        $penilaian = PengusulanPenghapusanAsetB::whereNull('status_verifikasi')
                                 ->whereNotNull('status_penilaian')
                                 ->whereNull('status_penghapusan')
                                 ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
@@ -38,7 +38,7 @@ class PenilaianPenghapusanAsetBController extends Controller
 
     public function getPenilaianbyUpbB($kode_bidang, $kode_unit, $kode_sub_unit, $kode_upb)
     {
-        $penilaian = PengusulanPenghapusanAsetBModel::whereNull('status_verifikasi')
+        $penilaian = PengusulanPenghapusanAsetB::whereNull('status_verifikasi')
                             ->whereNull('status_penilaian')
                             ->whereNull('status_penghapusan')
                             ->join('kib_b', 'pengusulan_penghapusan_aset_b.id_aset_b', '=', 'kib_b.id_aset_b')
@@ -62,7 +62,7 @@ class PenilaianPenghapusanAsetBController extends Controller
         ]);
 
 
-        $penilaianB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
+        $penilaianB = PengusulanPenghapusanAsetB::findOrFail($id_usulan_b);
 
         $penilaianB->status_penilaian = true;
         $penilaianB->keterangan_penilaian = $request->input('keterangan_penilaian');
@@ -76,7 +76,7 @@ class PenilaianPenghapusanAsetBController extends Controller
 
         if ($request->hasFile('dokumen_penilaian')) {
                  $media = $penilaianB->addMedia($request->file('dokumen_penilaian'))
-                     ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+                     ->toMediaCollection(PengusulanPenghapusanAsetB::IMAGE_COLLECTION);
         
                  $penilaianB->dokumen_penilaian = $media->getUrl();
              }
@@ -99,7 +99,7 @@ class PenilaianPenghapusanAsetBController extends Controller
             'keterangan_penilaian' => 'required|string',
         ]);
 
-        $penilaianB = PengusulanPenghapusanAsetBModel::findOrFail($id);
+        $penilaianB = PengusulanPenghapusanAsetB::findOrFail($id);
 
         $penilaianB->status_penilaian = false;
         $penilaianB->keterangan_penilaian = $request->input('keterangan_penilaian');
@@ -108,7 +108,7 @@ class PenilaianPenghapusanAsetBController extends Controller
 
         if ($request->hasFile('dokumen_penilaian')) {
                  $media = $penilaianB->addMedia($request->file('dokumen_penilaian'))
-                     ->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+                     ->toMediaCollection(PengusulanPenghapusanAsetB::IMAGE_COLLECTION);
         
                  $penilaianB->dokumen_penilaian = $media->getUrl();
              }
@@ -159,7 +159,7 @@ class PenilaianPenghapusanAsetBController extends Controller
 // }
 public function getDetailPenilaianB($id_usulan_b)
 {
-    $penilaian = PengusulanPenghapusanAsetBModel::where('id_usulan_b', $id_usulan_b)
+    $penilaian = PengusulanPenghapusanAsetB::where('id_usulan_b', $id_usulan_b)
                         ->with('kibB')
                         ->first();
 
@@ -184,7 +184,7 @@ public function getDetailPenilaianB($id_usulan_b)
         'dokumen_penilaian' => 'mimetypes:application/pdf|max:2048',
     ]);
 
-    $usulanB = PengusulanPenghapusanAsetBModel::findOrFail($id_usulan_b);
+    $usulanB = PengusulanPenghapusanAsetB::findOrFail($id_usulan_b);
 
     $usulanB->id_user = $request->input('id_user');
     $usulanB->id_aset_b = $request->input('id_aset_b');
@@ -192,7 +192,7 @@ public function getDetailPenilaianB($id_usulan_b)
     if ($request->hasFile('dokumen_penilaian')) {
         //$usulanB->clearMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
         $file1 = $request->file('dokumen_penilaian');
-        $media1 = $usulanB->addMedia($file1)->toMediaCollection(PengusulanPenghapusanAsetBModel::IMAGE_COLLECTION);
+        $media1 = $usulanB->addMedia($file1)->toMediaCollection(PengusulanPenghapusanAsetB::IMAGE_COLLECTION);
         $usulanB->dokumen_penilaian = $media1->getUrl();
     }
 

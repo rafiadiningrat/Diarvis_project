@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\BidangModel;
+use App\Models\Bidang;
 use Faker\Provider\ar_JO\Address;
 use Illuminate\Http\Request;
 
-class UnitModel extends Model
+class Unit extends Model
 {
     use HasFactory;
 
@@ -18,12 +18,12 @@ class UnitModel extends Model
 
     public function bidang()
     {
-        return $this->belongsTo(BidangModel::class, 'kode_bidang', 'kode_bidang');
+        return $this->belongsTo(Bidang::class, 'kode_bidang', 'kode_bidang');
     }
 
     public function subUnit()
     {
-        return $this->hasMany(SubUnitModel::class);
+        return $this->hasMany(SubUnit::class);
     }
 
     
